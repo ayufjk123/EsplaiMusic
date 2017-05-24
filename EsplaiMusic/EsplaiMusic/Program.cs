@@ -16,7 +16,6 @@ namespace EsplaiMusic
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
             Application.Run(new ReproductorIgnacio());
             Application.Run(new Form2Sam());
         }
