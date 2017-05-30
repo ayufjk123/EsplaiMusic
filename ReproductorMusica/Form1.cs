@@ -56,8 +56,7 @@ namespace ReproductorMusica
             reproducirMP3();
 
             //Obtener el tiempo de duracion de la cancion en segundos
-            string duracion = wmp.controls.currentItem.duration.ToString();
-            int duracionSegundos = Int32.Parse(duracion.Substring(0, duracion.IndexOf(",")));
+            int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
 
             string duracionFormateada = wmp.controls.currentItem.durationString;
             MessageBox.Show(duracionFormateada + " segundos");
@@ -86,6 +85,7 @@ namespace ReproductorMusica
             sb.Append(segundos);
             MessageBox.Show(sb.ToString());*/
         }
+
 
         private void reproducirMP3()
         {
