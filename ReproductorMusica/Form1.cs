@@ -92,11 +92,7 @@ namespace ReproductorMusica
             this.play.Visible = false;
             this.pause.Visible = true;
             //Obtener el tiempo de duracion de la cancion en segundos
-            int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
-            duracionCancion.Maximum = duracionSegundos;
-
-            string duracionFormateada = wmp.controls.currentItem.durationString;
-            MessageBox.Show(duracionFormateada + " segundos");
+            obtenerDuracion();
         }
 
         private void stopMusic()
@@ -104,6 +100,7 @@ namespace ReproductorMusica
             wmp.controls.stop();
             this.pause.Visible = false;
             this.play.Visible = true;
+            resetDuracion();
         }
 
         private void stop_Click(object sender, EventArgs e)
@@ -131,11 +128,13 @@ namespace ReproductorMusica
         private void siguiente_Click(object sender, EventArgs e)
         {
             wmp.controls.next();
+            obtenerDuracion();
         }
 
         private void anterior_Click(object sender, EventArgs e)
         {
             wmp.controls.previous();
+            obtenerDuracion();
         }
 
         private void mute_Click(object sender, EventArgs e)
@@ -172,6 +171,18 @@ namespace ReproductorMusica
             this.repeat.Visible = false;
             this.norepeat.Visible = true;
             wmp.settings.autoStart = false;
+        }
+        private void obtenerDuracion()
+        {
+            int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
+            duracionCancion.Maximum = duracionSegundos;
+
+            string duracionFormateada = wmp.controls.currentItem.durationString;
+            label1.Text=duracionFormateada;
+        }
+        private void resetDuracion()
+        {
+            label1.Text = "00:00";
         }
     }
 }

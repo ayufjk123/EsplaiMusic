@@ -43,6 +43,7 @@
             this.norepeat = new System.Windows.Forms.PictureBox();
             this.repeat = new System.Windows.Forms.PictureBox();
             this.duracionCancion = new XComponent.SliderBar.MACTrackBar();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             this.SuspendLayout();
@@ -237,11 +238,21 @@
             this.duracionCancion.TrackLineSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
             this.duracionCancion.Value = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(742, 331);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "00:00";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1181, 511);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.duracionCancion);
             this.Controls.Add(this.repeat);
             this.Controls.Add(this.norepeat);
@@ -261,6 +272,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -280,6 +292,7 @@
         private System.Windows.Forms.PictureBox norepeat;
         private System.Windows.Forms.PictureBox repeat;
         private XComponent.SliderBar.MACTrackBar duracionCancion;
+        private System.Windows.Forms.Label label1;
     }
 }
 
