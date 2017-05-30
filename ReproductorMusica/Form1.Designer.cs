@@ -72,7 +72,6 @@
             this.play.TabIndex = 1;
             this.play.Text = "Play";
             this.play.UseVisualStyleBackColor = true;
-            this.play.Visible = false;
             this.play.Click += new System.EventHandler(this.play_Click);
             // 
             // stop
@@ -97,6 +96,7 @@
             this.pause.TabIndex = 3;
             this.pause.Text = "Pause";
             this.pause.UseVisualStyleBackColor = true;
+            this.pause.Visible = false;
             this.pause.Click += new System.EventHandler(this.pause_Click);
             // 
             // siguiente
@@ -113,7 +113,7 @@
             // 
             // lista
             // 
-            this.lista.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.lista.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lista.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lista.FormattingEnabled = true;
