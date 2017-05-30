@@ -53,14 +53,14 @@ namespace ReproductorMusica
             }
 
             wmp.currentPlaylist = playlist;
-            reproducirMP3();
+            //reproducirMP3();
 
-            //Obtener el tiempo de duracion de la cancion en segundos
-            int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
+            ////Obtener el tiempo de duracion de la cancion en segundos
+            //int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
 
-            string duracionFormateada = wmp.controls.currentItem.durationString;
-            MessageBox.Show(duracionFormateada + " segundos");
-            MessageBox.Show(duracionFormateada);
+            //string duracionFormateada = wmp.controls.currentItem.durationString;
+            //MessageBox.Show(duracionFormateada + " segundos");
+            //MessageBox.Show(duracionFormateada);
 
             // Calculo del tiempo  en minutos:segundos
             /*StringBuilder sb = new StringBuilder();
@@ -86,10 +86,17 @@ namespace ReproductorMusica
             MessageBox.Show(sb.ToString());*/
         }
 
-
         private void reproducirMP3()
         {
             wmp.controls.play();
+            this.play.Visible = false;
+            this.pause.Visible = true;
+            //Obtener el tiempo de duracion de la cancion en segundos
+            int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
+            duracionCancion.Maximum = duracionSegundos;
+
+            string duracionFormateada = wmp.controls.currentItem.durationString;
+            MessageBox.Show(duracionFormateada + " segundos");
         }
 
         private void stopMusic()
@@ -106,10 +113,7 @@ namespace ReproductorMusica
 
         private void play_Click(object sender, EventArgs e)
         {
-            wmp.controls.play();
-            this.play.Visible = false;
-            this.pause.Visible = true;
-            duracionCancion.Maximum = 5;
+            reproducirMP3();
         }
 
         private void pause_Click(object sender, EventArgs e)
