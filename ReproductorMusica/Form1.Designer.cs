@@ -274,8 +274,9 @@
             this.Controls.Add(this.lista);
             this.Controls.Add(this.browse);
             this.Cursor = System.Windows.Forms.Cursors.Default;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Esplai Music";
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).EndInit();

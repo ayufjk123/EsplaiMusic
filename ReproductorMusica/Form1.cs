@@ -142,6 +142,7 @@ namespace ReproductorMusica
             }
             // Asociamos la lista de reproducción al objeto que reproduce la musica
             wmp.currentPlaylist = playlist;
+            seleccionarCancionLista();
         }
 
         // Método para reproducir la música
@@ -149,8 +150,10 @@ namespace ReproductorMusica
         {
             wmp.controls.play();
             this.play.Visible = false;
-            this.pause.Visible = true;            
-            obtenerDuracion();
+            this.pause.Visible = true;
+            actualizarDuracionSegundosBarra();
+            actualizarDuracionLabel();
+            seleccionarCancionLista();
         }
 
         // Método para parar la música
@@ -167,21 +170,25 @@ namespace ReproductorMusica
         {
             wmp.controls.pause();
             this.pause.Visible = false;
-            this.play.Visible = true;
+            this.play.Visible = true;            
         }
 
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
             wmp.controls.next();
-            obtenerDuracion();
+            actualizarDuracionSegundosBarra();
+            actualizarDuracionLabel();
+            seleccionarCancionLista();
         }
 
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
             wmp.controls.previous();
-            obtenerDuracion();
+            actualizarDuracionSegundosBarra();
+            actualizarDuracionLabel();
+            seleccionarCancionLista();
         }
 
         // Método para silenciar el reproductor
@@ -227,12 +234,18 @@ namespace ReproductorMusica
             }
         }
 
-        // Método para obtener el tiempo de duracion de la cancion en formato MM:SS
-        private void obtenerDuracion()
+        /* Método para obtener el tiempo de duracion de la cancion en segundos 
+           y darle valor Maximum a la barra de duración */
+        private void actualizarDuracionSegundosBarra()
         {
             int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
             duracionCancion.Maximum = duracionSegundos;
+        }
 
+        /* Método para obtener el tiempo de duracion de la cancion en formato MM:SS 
+           y guardarlo en el Label de duracion */
+        private void actualizarDuracionLabel()
+        {
             string duracionFormateada = wmp.controls.currentItem.durationString;
             label1.Text = duracionFormateada;
         }
@@ -241,6 +254,16 @@ namespace ReproductorMusica
         private void resetDuracion()
         {
             label1.Text = "00:00";
+        }
+
+        // Método para seleccionar la cancion actual en la lista ListBox
+        private void seleccionarCancionLista() {
+            int index = lista.FindString(wmp.currentMedia.name);
+
+            if (index != -1)
+            {
+                lista.SetSelected(index, true);
+            }
         }
     }
 }
