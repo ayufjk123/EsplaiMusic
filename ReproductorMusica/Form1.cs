@@ -140,7 +140,7 @@ namespace ReproductorMusica
         // Evento que controla cuando una canción termina. No está terminado
         private void wmp_PlayStateChange(int NewState)
         {
-            if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+            if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
             {
                 //wmp.controls.currentPosition = 0;
                 // contador = 0, reset de la barra a 0 y max value = segundos
@@ -152,7 +152,7 @@ namespace ReproductorMusica
                 // resetea a 00:00 el label del progreso. el otro label está comentado
                 resetLabels();
                 // comprueba si está activo o no el modo repeticion
-                checkRepeat();
+                //checkRepeat();
             }
         }
 
@@ -190,14 +190,18 @@ namespace ReproductorMusica
         }
 
         // Método para reproducir la música
-        private void playMusic()
+        private void playMusic(bool noplay=false)
         {
-            checkRepeat();
-            wmp.controls.play();
+           // checkRepeat();
+           if (!noplay)
+            {
+                wmp.controls.play();
+
+            }
             this.play.Visible = false;
             this.pause.Visible = true;
             updateDurationLabel();
-            selectSongOfList();
+            selectSongOfList();            
         }        
 
         // Método para parar la música
@@ -223,23 +227,23 @@ namespace ReproductorMusica
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
-            checkRepeat();
+            //checkRepeat();
             wmp.controls.next();
-            updateDurationLabel();
-            resetProgress();
+            updateDurationLabel();            
             selectSongOfList();
             resetProgress();
+            progress();
         }
 
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
-            checkRepeat();
+            //checkRepeat();
             wmp.controls.previous();
             updateDurationLabel();
-            resetProgress();
             selectSongOfList();
             resetProgress();
+            progress();
         }
 
         // Método para silenciar el reproductor
@@ -327,10 +331,9 @@ namespace ReproductorMusica
         private void selectSongOfList() {
             int index = lista.FindString(wmp.currentMedia.name);
 
-            if (index != -1)
-            {
+            if (index != System.Windows.Forms.ListBox.NoMatches) {
                 lista.SetSelected(index, true);
-            }
+            }            
         }
 
         //Metodo para la barra de progreso
@@ -395,10 +398,7 @@ namespace ReproductorMusica
         // Método para resetar los valores de la barra y del contador de segundos
         private void resetProgress()
         {
-            //MessageBox.Show(wmp.currentMedia.name);
             contador = 0;
-            int segundos = getDurationInSeconds();
-            duracionCancion.Maximum = segundos;
             duracionCancion.Value = 0;
         }
 
@@ -409,11 +409,12 @@ namespace ReproductorMusica
             int index = this.lista.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
-                MessageBox.Show(index.ToString());
-            }
-            wmp.currentMedia = wmp.currentPlaylist.Item[index];
-            wmp.controls.play();
-            MessageBox.Show(lista.SelectedItems[0].ToString());
+                wmp.controls.currentItem = playlist.Item[index];
+                resetProgress();
+                playMusic();
+                progress();
+                resetProgress();
+            }       
         }
     }
 }
