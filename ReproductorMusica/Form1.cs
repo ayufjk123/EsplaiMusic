@@ -19,8 +19,10 @@ namespace ReproductorMusica
 {
     public partial class Form1 : Form
     {
+        private static int contador = 0;
+
         // Objeto para trabajar con el reproductor de musica y sus métodos
-        private static WindowsMediaPlayer wmp = new WindowsMediaPlayer();
+        private static WindowsMediaPlayer wmp = new WindowsMediaPlayer();        
 
         // Este objeto es la lista de reproduccion. Lo creamos para agregarle las canciones elegidas
         private static IWMPPlaylist playlist = wmp.playlistCollection.newPlaylist("listaReproduccion");
@@ -34,6 +36,7 @@ namespace ReproductorMusica
         public Form1()
         {
             InitializeComponent();
+            this.timer1.Interval = 1000;
 
             /* Configuramos el objeto para el explorador de archivos 
             para que permita seleccionar más de una canción a la vez */
@@ -69,6 +72,7 @@ namespace ReproductorMusica
         private void play_Click(object sender, EventArgs e)
         {
             playMusic();
+            progress();
         }
 
         // Evento click del boton pause
@@ -81,12 +85,14 @@ namespace ReproductorMusica
         private void siguiente_Click(object sender, EventArgs e)
         {
             nextMusic();
+            //resetbarra();
         }
 
         // Evento click del boton anterior canción
         private void anterior_Click(object sender, EventArgs e)
         {
             previousMusic();
+            //resetbarra();
         }
 
         // Evento click del boton para silenciar el reproductor
@@ -104,7 +110,7 @@ namespace ReproductorMusica
         // Evento para gestionar el cambio de volumen de la barra de volumen
         private void volumen_ValueChanged(object sender, decimal value)
         {
-            changeVolume();                       
+            changeVolume();
         }
 
         // Evento click del boton para activar la repeticón de la canción (NOTA: de momento no funciona)
@@ -117,6 +123,46 @@ namespace ReproductorMusica
         private void repeat_Click(object sender, EventArgs e)
         {
             repeatMusic();
+        }
+
+        /* Evento del temporizador. Por cada "tick" de éste, ejecuta el método temporizador 
+           que contiene el código correspondiente */
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer();
+        }
+
+        /* Evento que controla cuando el usuario elige con doble clic 
+           la canción a reproducir de la lista de reproducción */
+        private void lista_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            playListSelected(e);
+        }
+
+        // Evento que controla cuando una canción termina. No está terminado
+        private void wmp_PlayStateChange(int NewState)
+        {
+            if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+            {
+                //wmp.controls.currentPosition = 0;
+                // contador = 0, reset de la barra a 0 y max value = segundos
+                resetProgress();
+                // selecciona la siguiente cancion
+                selectSongOfList();
+                // actualiza la duracion total
+                updateDurationLabel();
+                // resetea a 00:00 el label del progreso. el otro label está comentado
+                resetLabels();
+                // comprueba si está activo o no el modo repeticion
+                checkRepeat();
+            }
+        }
+
+        /* Evento que sincroniza la cancion con la barra de progreso 
+           cuando el usuario la desplaza */
+        private void duracionCancion_Scroll(object sender, EventArgs e)
+        {
+            updateProgressBar();
         }
 
         /* #####################
@@ -142,19 +188,19 @@ namespace ReproductorMusica
             }
             // Asociamos la lista de reproducción al objeto que reproduce la musica
             wmp.currentPlaylist = playlist;
-            seleccionarCancionLista();
+            selectSongOfList();
         }
 
         // Método para reproducir la música
         private void playMusic()
         {
+            checkRepeat();
             wmp.controls.play();
             this.play.Visible = false;
             this.pause.Visible = true;
-            actualizarDuracionSegundosBarra();
-            actualizarDuracionLabel();
-            seleccionarCancionLista();
-        }
+            updateDurationLabel();
+            selectSongOfList();
+        }        
 
         // Método para parar la música
         private void stopMusic()
@@ -162,7 +208,9 @@ namespace ReproductorMusica
             wmp.controls.stop();
             this.pause.Visible = false;
             this.play.Visible = true;
-            resetDuracion();
+            resetLabels();
+            this.timer1.Stop();
+            resetProgress();
         }
 
         // Método para pausar la música
@@ -170,31 +218,36 @@ namespace ReproductorMusica
         {
             wmp.controls.pause();
             this.pause.Visible = false;
-            this.play.Visible = true;            
+            this.play.Visible = true;
+            this.timer1.Stop();
         }
 
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
+            checkRepeat();
             wmp.controls.next();
-            actualizarDuracionSegundosBarra();
-            actualizarDuracionLabel();
-            seleccionarCancionLista();
+            updateDurationLabel();
+            resetProgress();
+            selectSongOfList();
+            resetProgress();
         }
 
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
+            checkRepeat();
             wmp.controls.previous();
-            actualizarDuracionSegundosBarra();
-            actualizarDuracionLabel();
-            seleccionarCancionLista();
+            updateDurationLabel();
+            resetProgress();
+            selectSongOfList();
+            resetProgress();
         }
 
         // Método para silenciar el reproductor
         private void muteMusic()
-        {
-            wmp.settings.volume = 0;
+        {            
+            wmp.settings.volume = volumen.Value;
             this.mute.Visible = false;
             this.unmute.Visible = true;
         }
@@ -202,7 +255,7 @@ namespace ReproductorMusica
         // Método des-silenciar el reproductor
         private void unmuteMusic()
         {
-            wmp.settings.volume = volumen.Value;
+            wmp.settings.volume = 0;
             this.unmute.Visible = false;
             this.mute.Visible = true;
         }
@@ -211,7 +264,7 @@ namespace ReproductorMusica
         (NOTA: música o de la canción aún no se sabe) */
         private void repeatMusic()
         {
-            wmp.settings.volume = volumen.Value;
+            wmp.settings.autoStart = false;
             this.repeat.Visible = false;
             this.norepeat.Visible = true;
         }
@@ -220,15 +273,29 @@ namespace ReproductorMusica
         (NOTA: música o de la canción aún no se sabe) */
         private void noRepeatMusic()
         {
-            wmp.settings.volume = volumen.Value;
+            wmp.settings.autoStart = true;
             this.norepeat.Visible = false;
             this.repeat.Visible = true;
+        }
+
+        /* Método para verificar si está activado el modo repetición o no.
+           Single lo está, lo activa, si no lo está, lo desactiva */
+        private void checkRepeat()
+        {
+            if (wmp.settings.autoStart == true)
+            {
+                wmp.settings.setMode("loop", true);
+            }
+            else
+            {
+                wmp.settings.setMode("loop", false);
+            }
         }
 
         // Método cambiar el volumen del reproductor cuando se ajusta a través de la barra de volumen
         private void changeVolume()
         {
-            if (this.unmute.Visible == false)
+            if (this.mute.Visible == false)
             {
                 wmp.settings.volume = volumen.Value;
             }
@@ -236,34 +303,119 @@ namespace ReproductorMusica
 
         /* Método para obtener el tiempo de duracion de la cancion en segundos 
            y darle valor Maximum a la barra de duración */
-        private void actualizarDuracionSegundosBarra()
+        private int getDurationInSeconds()
         {
             int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
-            duracionCancion.Maximum = duracionSegundos;
+
+            return duracionSegundos;
         }
 
         /* Método para obtener el tiempo de duracion de la cancion en formato MM:SS 
            y guardarlo en el Label de duracion */
-        private void actualizarDuracionLabel()
+        private void updateDurationLabel()
         {
             string duracionFormateada = wmp.controls.currentItem.durationString;
             label1.Text = duracionFormateada;
         }
 
         // Método para devolver el valor del label de la duracion total de la cancion a su valor por defecto
-        private void resetDuracion()
+        private void resetLabels()
         {
-            label1.Text = "00:00";
+            //label1.Text = "00:00";
+            this.playedTimeLabel.Text = "00:00";
         }
 
         // Método para seleccionar la cancion actual en la lista ListBox
-        private void seleccionarCancionLista() {
+        private void selectSongOfList() {
             int index = lista.FindString(wmp.currentMedia.name);
 
             if (index != -1)
             {
                 lista.SetSelected(index, true);
             }
+        }
+
+        //Metodo para la barra de progreso
+        private void progress()
+        {
+            this.timer1.Start();
+            int segundos = getDurationInSeconds();
+            this.duracionCancion.Maximum = segundos;
+
+            //prueba de asignacion del evento de cambio de estado (cuando finaliza la canción)
+            wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
+        }        
+
+        /* Método del temporizador que aumenta el contador y guarda su valor 
+           en la barra de progreso para que ésta incremente */
+        private void timer()
+        {
+            contador++;
+            this.duracionCancion.Value = contador;
+            updateElapsedTimeLabel();
+        }
+
+        // Método que actualiza el label del tiempo reproducido
+        private void updateElapsedTimeLabel()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            int min = 0;
+            int sec = contador;
+
+            while (sec >= 60)
+            {
+                min++;
+                sec -= 60;
+            }
+
+            if (min < 10)
+            {
+                sb.Append("0");
+            }
+
+            sb.Append(min + ":");
+
+            if (sec < 10)
+            {
+                sb.Append("0");
+            }
+
+            sb.Append(sec);
+
+            playedTimeLabel.Text = sb.ToString();
+        }
+
+        /* Método que sincroniza la canción con la barra de progreso 
+           cuando el usuario elige en qué segundo quiere reproducir */
+        private void updateProgressBar()
+        {
+            contador = this.duracionCancion.Value;
+            wmp.controls.currentPosition = contador;
+        }
+
+        // Método para resetar los valores de la barra y del contador de segundos
+        private void resetProgress()
+        {
+            //MessageBox.Show(wmp.currentMedia.name);
+            contador = 0;
+            int segundos = getDurationInSeconds();
+            duracionCancion.Maximum = segundos;
+            duracionCancion.Value = 0;
+        }
+
+        /* Método que reproduce la canción elegida por el usuario 
+           con doble clic de la lista de reproducción */
+        private void playListSelected(MouseEventArgs e)
+        {
+            int index = this.lista.IndexFromPoint(e.Location);
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                MessageBox.Show(index.ToString());
+            }
+            wmp.currentMedia = wmp.currentPlaylist.Item[index];
+            wmp.controls.play();
+            MessageBox.Show(lista.SelectedItems[0].ToString());
         }
     }
 }

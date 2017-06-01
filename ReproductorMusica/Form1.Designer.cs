@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.browse = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.lista = new System.Windows.Forms.ListBox();
-            this.volumen = new XComponent.SliderBar.MACTrackBar();
             this.norepeat = new System.Windows.Forms.PictureBox();
             this.repeat = new System.Windows.Forms.PictureBox();
             this.duracionCancion = new XComponent.SliderBar.MACTrackBar();
@@ -44,6 +44,9 @@
             this.siguiente = new System.Windows.Forms.PictureBox();
             this.mute = new System.Windows.Forms.PictureBox();
             this.unmute = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.volumen = new XComponent.SliderBar.MACTrackBar();
+            this.playedTimeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -80,33 +83,7 @@
             this.lista.Name = "lista";
             this.lista.Size = new System.Drawing.Size(345, 472);
             this.lista.TabIndex = 6;
-            // 
-            // volumen
-            // 
-            this.volumen.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.volumen.BackColor = System.Drawing.Color.Transparent;
-            this.volumen.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.volumen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.volumen.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.volumen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
-            this.volumen.IndentHeight = 6;
-            this.volumen.Location = new System.Drawing.Point(614, 423);
-            this.volumen.Maximum = 100;
-            this.volumen.Minimum = 0;
-            this.volumen.Name = "volumen";
-            this.volumen.Size = new System.Drawing.Size(109, 28);
-            this.volumen.TabIndex = 12;
-            this.volumen.TextTickStyle = System.Windows.Forms.TickStyle.None;
-            this.volumen.TickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(146)))), ((int)(((byte)(148)))));
-            this.volumen.TickHeight = 4;
-            this.volumen.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.volumen.TrackerColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(130)))), ((int)(((byte)(198)))));
-            this.volumen.TrackerSize = new System.Drawing.Size(16, 16);
-            this.volumen.TrackLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
-            this.volumen.TrackLineHeight = 3;
-            this.volumen.TrackLineSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
-            this.volumen.Value = 50;
-            this.volumen.ValueChanged += new XComponent.SliderBar.ValueChangedHandler(this.volumen_ValueChanged);
+            this.lista.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lista_MouseDoubleClick);
             // 
             // norepeat
             // 
@@ -158,6 +135,7 @@
             this.duracionCancion.TrackLineHeight = 3;
             this.duracionCancion.TrackLineSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
             this.duracionCancion.Value = 0;
+            this.duracionCancion.Scroll += new System.EventHandler(this.duracionCancion_Scroll);
             // 
             // label1
             // 
@@ -239,6 +217,7 @@
             this.mute.Size = new System.Drawing.Size(32, 32);
             this.mute.TabIndex = 22;
             this.mute.TabStop = false;
+            this.mute.Visible = false;
             this.mute.Click += new System.EventHandler(this.mute_Click);
             // 
             // unmute
@@ -251,14 +230,55 @@
             this.unmute.Size = new System.Drawing.Size(32, 32);
             this.unmute.TabIndex = 23;
             this.unmute.TabStop = false;
-            this.unmute.Visible = false;
             this.unmute.Click += new System.EventHandler(this.unmute_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // volumen
+            // 
+            this.volumen.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.volumen.BackColor = System.Drawing.Color.Transparent;
+            this.volumen.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.volumen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.volumen.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.volumen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
+            this.volumen.IndentHeight = 6;
+            this.volumen.Location = new System.Drawing.Point(614, 423);
+            this.volumen.Maximum = 100;
+            this.volumen.Minimum = 0;
+            this.volumen.Name = "volumen";
+            this.volumen.Size = new System.Drawing.Size(109, 28);
+            this.volumen.TabIndex = 12;
+            this.volumen.TextTickStyle = System.Windows.Forms.TickStyle.None;
+            this.volumen.TickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(146)))), ((int)(((byte)(148)))));
+            this.volumen.TickHeight = 4;
+            this.volumen.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.volumen.TrackerColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(130)))), ((int)(((byte)(198)))));
+            this.volumen.TrackerSize = new System.Drawing.Size(16, 16);
+            this.volumen.TrackLineColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
+            this.volumen.TrackLineHeight = 3;
+            this.volumen.TrackLineSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(93)))), ((int)(((byte)(90)))));
+            this.volumen.Value = 50;
+            this.volumen.ValueChanged += new XComponent.SliderBar.ValueChangedHandler(this.volumen_ValueChanged);
+            // 
+            // playedTimeLabel
+            // 
+            this.playedTimeLabel.AutoSize = true;
+            this.playedTimeLabel.Location = new System.Drawing.Point(40, 376);
+            this.playedTimeLabel.Name = "playedTimeLabel";
+            this.playedTimeLabel.Size = new System.Drawing.Size(34, 13);
+            this.playedTimeLabel.TabIndex = 24;
+            this.playedTimeLabel.Text = "00:00";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1181, 511);
+            this.Controls.Add(this.playedTimeLabel);
+            this.Controls.Add(this.volumen);
             this.Controls.Add(this.unmute);
             this.Controls.Add(this.mute);
             this.Controls.Add(this.siguiente);
@@ -270,7 +290,6 @@
             this.Controls.Add(this.duracionCancion);
             this.Controls.Add(this.repeat);
             this.Controls.Add(this.norepeat);
-            this.Controls.Add(this.volumen);
             this.Controls.Add(this.lista);
             this.Controls.Add(this.browse);
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -296,7 +315,6 @@
         private System.Windows.Forms.Button browse;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ListBox lista;
-        private XComponent.SliderBar.MACTrackBar volumen;
         private System.Windows.Forms.PictureBox norepeat;
         private System.Windows.Forms.PictureBox repeat;
         private XComponent.SliderBar.MACTrackBar duracionCancion;
@@ -308,6 +326,9 @@
         private System.Windows.Forms.PictureBox siguiente;
         private System.Windows.Forms.PictureBox mute;
         private System.Windows.Forms.PictureBox unmute;
+        private System.Windows.Forms.Timer timer1;
+        private XComponent.SliderBar.MACTrackBar volumen;
+        private System.Windows.Forms.Label playedTimeLabel;
     }
 }
 
