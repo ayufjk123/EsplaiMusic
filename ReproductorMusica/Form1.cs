@@ -136,7 +136,7 @@ namespace ReproductorMusica
            la canción a reproducir de la lista de reproducción */
         private void lista_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            playListSelected(e);
+            playListDoubleClickSelected(e);
         }
 
         // Evento que controla cuando una canción termina. No está terminado
@@ -343,7 +343,7 @@ namespace ReproductorMusica
             this.duracionCancion.Maximum = segundos;
 
             //prueba de asignacion del evento de cambio de estado (cuando finaliza la canción)
-            wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
+            //wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
         }        
 
         /* Método del temporizador que aumenta el contador y guarda su valor 
@@ -406,7 +406,7 @@ namespace ReproductorMusica
 
         /* Método que reproduce la canción elegida por el usuario 
            con doble clic de la lista de reproducción */
-        private void playListSelected(MouseEventArgs e)
+        private void playListDoubleClickSelected(MouseEventArgs e)
         {
             int index = this.lista.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
