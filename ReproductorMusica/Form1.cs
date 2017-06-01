@@ -85,14 +85,12 @@ namespace ReproductorMusica
         private void siguiente_Click(object sender, EventArgs e)
         {
             nextMusic();
-            //resetbarra();
         }
 
         // Evento click del boton anterior canción
         private void anterior_Click(object sender, EventArgs e)
         {
             previousMusic();
-            //resetbarra();
         }
 
         // Evento click del boton para silenciar el reproductor
@@ -343,7 +341,7 @@ namespace ReproductorMusica
             this.duracionCancion.Maximum = segundos;
 
             //prueba de asignacion del evento de cambio de estado (cuando finaliza la canción)
-            //wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
+            wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
         }        
 
         /* Método del temporizador que aumenta el contador y guarda su valor 
