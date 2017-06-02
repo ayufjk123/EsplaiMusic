@@ -81,6 +81,8 @@
             // 
             // lista
             // 
+            this.lista.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lista.BackColor = System.Drawing.Color.Black;
             this.lista.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lista.Cursor = System.Windows.Forms.Cursors.Hand;
