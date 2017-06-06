@@ -74,6 +74,9 @@ namespace ReproductorMusica
             // Coloca el label movil a la derecha del todo y le pone 1 milisegundo de intervalo a su timer
             labelMovil.Left = this.ClientSize.Width;
             this.timerLabel.Interval = 1;
+
+            // Ponemos el color de fondo del panel de botones transparente
+            this.panelButtons.BackColor = Color.Transparent;
         }
 
         /* #####################
@@ -190,7 +193,6 @@ namespace ReproductorMusica
                 updateDurationLabel();
                 // resetea a 00:00 el label del progreso. el otro label está comentado
                 resetLabels();
-                // comprueba si está activo o no el modo repeticion
             }
         }
 

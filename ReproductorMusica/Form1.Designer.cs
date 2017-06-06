@@ -51,6 +51,7 @@
             this.timerLabel = new System.Windows.Forms.Timer(this.components);
             this.randomOn = new System.Windows.Forms.PictureBox();
             this.randomOff = new System.Windows.Forms.PictureBox();
+            this.panelButtons = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -62,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.unmute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.randomOn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.randomOff)).BeginInit();
+            this.panelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // browse
@@ -73,7 +75,7 @@
             this.browse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.browse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.browse.ForeColor = System.Drawing.Color.Black;
-            this.browse.Location = new System.Drawing.Point(61, 22);
+            this.browse.Location = new System.Drawing.Point(144, 12);
             this.browse.Name = "browse";
             this.browse.Size = new System.Drawing.Size(118, 23);
             this.browse.TabIndex = 0;
@@ -106,7 +108,7 @@
             this.norepeat.BackColor = System.Drawing.Color.Transparent;
             this.norepeat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.norepeat.Image = ((System.Drawing.Image)(resources.GetObject("norepeat.Image")));
-            this.norepeat.Location = new System.Drawing.Point(157, 320);
+            this.norepeat.Location = new System.Drawing.Point(203, 66);
             this.norepeat.Name = "norepeat";
             this.norepeat.Size = new System.Drawing.Size(32, 32);
             this.norepeat.TabIndex = 13;
@@ -119,7 +121,7 @@
             this.repeat.BackColor = System.Drawing.Color.Transparent;
             this.repeat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.repeat.Image = global::ReproductorMusica.Properties.Resources.Play_Mode_Repeat_All_Hot_icon;
-            this.repeat.Location = new System.Drawing.Point(157, 320);
+            this.repeat.Location = new System.Drawing.Point(203, 66);
             this.repeat.Name = "repeat";
             this.repeat.Size = new System.Drawing.Size(32, 32);
             this.repeat.TabIndex = 14;
@@ -137,7 +139,7 @@
             this.duracionCancion.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.duracionCancion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
             this.duracionCancion.IndentHeight = 6;
-            this.duracionCancion.Location = new System.Drawing.Point(54, 272);
+            this.duracionCancion.Location = new System.Drawing.Point(61, 18);
             this.duracionCancion.Maximum = 10;
             this.duracionCancion.Minimum = 0;
             this.duracionCancion.Name = "duracionCancion";
@@ -161,7 +163,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(712, 272);
+            this.label1.Location = new System.Drawing.Point(719, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 16;
@@ -173,7 +175,7 @@
             this.stop.BackColor = System.Drawing.Color.Transparent;
             this.stop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.stop.Image = global::ReproductorMusica.Properties.Resources.Stop_icon;
-            this.stop.Location = new System.Drawing.Point(222, 320);
+            this.stop.Location = new System.Drawing.Point(241, 66);
             this.stop.Name = "stop";
             this.stop.Size = new System.Drawing.Size(32, 32);
             this.stop.TabIndex = 17;
@@ -186,7 +188,7 @@
             this.anterior.BackColor = System.Drawing.Color.Transparent;
             this.anterior.Cursor = System.Windows.Forms.Cursors.Hand;
             this.anterior.Image = global::ReproductorMusica.Properties.Resources.Skip_backward_icon;
-            this.anterior.Location = new System.Drawing.Point(289, 320);
+            this.anterior.Location = new System.Drawing.Point(279, 66);
             this.anterior.Name = "anterior";
             this.anterior.Size = new System.Drawing.Size(32, 32);
             this.anterior.TabIndex = 18;
@@ -199,7 +201,7 @@
             this.pause.BackColor = System.Drawing.Color.Transparent;
             this.pause.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pause.Image = global::ReproductorMusica.Properties.Resources.Pause_icon;
-            this.pause.Location = new System.Drawing.Point(327, 320);
+            this.pause.Location = new System.Drawing.Point(317, 66);
             this.pause.Name = "pause";
             this.pause.Size = new System.Drawing.Size(32, 32);
             this.pause.TabIndex = 19;
@@ -213,7 +215,7 @@
             this.play.BackColor = System.Drawing.Color.Transparent;
             this.play.Cursor = System.Windows.Forms.Cursors.Hand;
             this.play.Image = global::ReproductorMusica.Properties.Resources.Play_icon;
-            this.play.Location = new System.Drawing.Point(327, 320);
+            this.play.Location = new System.Drawing.Point(317, 66);
             this.play.Name = "play";
             this.play.Size = new System.Drawing.Size(32, 32);
             this.play.TabIndex = 20;
@@ -226,7 +228,7 @@
             this.siguiente.BackColor = System.Drawing.Color.Transparent;
             this.siguiente.Cursor = System.Windows.Forms.Cursors.Hand;
             this.siguiente.Image = global::ReproductorMusica.Properties.Resources.Skip_forward_icon;
-            this.siguiente.Location = new System.Drawing.Point(365, 320);
+            this.siguiente.Location = new System.Drawing.Point(355, 66);
             this.siguiente.Name = "siguiente";
             this.siguiente.Size = new System.Drawing.Size(32, 32);
             this.siguiente.TabIndex = 21;
@@ -239,7 +241,7 @@
             this.mute.BackColor = System.Drawing.Color.Transparent;
             this.mute.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mute.Image = global::ReproductorMusica.Properties.Resources.Sound_off_icon;
-            this.mute.Location = new System.Drawing.Point(403, 320);
+            this.mute.Location = new System.Drawing.Point(393, 66);
             this.mute.Name = "mute";
             this.mute.Size = new System.Drawing.Size(32, 32);
             this.mute.TabIndex = 22;
@@ -253,7 +255,7 @@
             this.unmute.BackColor = System.Drawing.Color.Transparent;
             this.unmute.Cursor = System.Windows.Forms.Cursors.Hand;
             this.unmute.Image = global::ReproductorMusica.Properties.Resources.Sound_on_icon;
-            this.unmute.Location = new System.Drawing.Point(403, 320);
+            this.unmute.Location = new System.Drawing.Point(393, 66);
             this.unmute.Name = "unmute";
             this.unmute.Size = new System.Drawing.Size(32, 32);
             this.unmute.TabIndex = 23;
@@ -274,7 +276,7 @@
             this.volumen.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.volumen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
             this.volumen.IndentHeight = 6;
-            this.volumen.Location = new System.Drawing.Point(441, 324);
+            this.volumen.Location = new System.Drawing.Point(431, 70);
             this.volumen.Maximum = 100;
             this.volumen.Minimum = 0;
             this.volumen.Name = "volumen";
@@ -299,7 +301,7 @@
             this.playedTimeLabel.AutoSize = true;
             this.playedTimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.playedTimeLabel.ForeColor = System.Drawing.Color.White;
-            this.playedTimeLabel.Location = new System.Drawing.Point(12, 272);
+            this.playedTimeLabel.Location = new System.Drawing.Point(19, 18);
             this.playedTimeLabel.Name = "playedTimeLabel";
             this.playedTimeLabel.Size = new System.Drawing.Size(34, 13);
             this.playedTimeLabel.TabIndex = 24;
@@ -309,10 +311,11 @@
             // 
             this.labelMovil.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.labelMovil.AutoSize = true;
-            this.labelMovil.Location = new System.Drawing.Point(336, 380);
+            this.labelMovil.Location = new System.Drawing.Point(379, 255);
             this.labelMovil.Name = "labelMovil";
-            this.labelMovil.Size = new System.Drawing.Size(0, 13);
+            this.labelMovil.Size = new System.Drawing.Size(29, 13);
             this.labelMovil.TabIndex = 25;
+            this.labelMovil.Text = "label";
             // 
             // timerLabel
             // 
@@ -324,7 +327,7 @@
             this.randomOn.BackColor = System.Drawing.Color.Transparent;
             this.randomOn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.randomOn.Image = ((System.Drawing.Image)(resources.GetObject("randomOn.Image")));
-            this.randomOn.Location = new System.Drawing.Point(110, 320);
+            this.randomOn.Location = new System.Drawing.Point(165, 66);
             this.randomOn.Name = "randomOn";
             this.randomOn.Size = new System.Drawing.Size(32, 32);
             this.randomOn.TabIndex = 26;
@@ -338,12 +341,36 @@
             this.randomOff.BackColor = System.Drawing.Color.Transparent;
             this.randomOff.Cursor = System.Windows.Forms.Cursors.Hand;
             this.randomOff.Image = ((System.Drawing.Image)(resources.GetObject("randomOff.Image")));
-            this.randomOff.Location = new System.Drawing.Point(110, 320);
+            this.randomOff.Location = new System.Drawing.Point(165, 66);
             this.randomOff.Name = "randomOff";
             this.randomOff.Size = new System.Drawing.Size(32, 32);
             this.randomOff.TabIndex = 27;
             this.randomOff.TabStop = false;
             this.randomOff.Click += new System.EventHandler(this.randomOff_Click);
+            // 
+            // panelButtons
+            // 
+            this.panelButtons.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.panelButtons.BackColor = System.Drawing.Color.Silver;
+            this.panelButtons.Controls.Add(this.randomOff);
+            this.panelButtons.Controls.Add(this.randomOn);
+            this.panelButtons.Controls.Add(this.playedTimeLabel);
+            this.panelButtons.Controls.Add(this.volumen);
+            this.panelButtons.Controls.Add(this.unmute);
+            this.panelButtons.Controls.Add(this.mute);
+            this.panelButtons.Controls.Add(this.siguiente);
+            this.panelButtons.Controls.Add(this.play);
+            this.panelButtons.Controls.Add(this.pause);
+            this.panelButtons.Controls.Add(this.anterior);
+            this.panelButtons.Controls.Add(this.stop);
+            this.panelButtons.Controls.Add(this.label1);
+            this.panelButtons.Controls.Add(this.duracionCancion);
+            this.panelButtons.Controls.Add(this.repeat);
+            this.panelButtons.Controls.Add(this.norepeat);
+            this.panelButtons.Location = new System.Drawing.Point(27, 281);
+            this.panelButtons.Name = "panelButtons";
+            this.panelButtons.Size = new System.Drawing.Size(770, 112);
+            this.panelButtons.TabIndex = 28;
             // 
             // Form1
             // 
@@ -353,26 +380,13 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(824, 411);
-            this.Controls.Add(this.randomOff);
-            this.Controls.Add(this.randomOn);
+            this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.labelMovil);
-            this.Controls.Add(this.playedTimeLabel);
-            this.Controls.Add(this.volumen);
-            this.Controls.Add(this.unmute);
-            this.Controls.Add(this.mute);
-            this.Controls.Add(this.siguiente);
-            this.Controls.Add(this.play);
-            this.Controls.Add(this.pause);
-            this.Controls.Add(this.anterior);
-            this.Controls.Add(this.stop);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.duracionCancion);
-            this.Controls.Add(this.repeat);
-            this.Controls.Add(this.norepeat);
             this.Controls.Add(this.lista);
             this.Controls.Add(this.browse);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Esplai Music";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
@@ -387,6 +401,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.unmute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.randomOn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.randomOff)).EndInit();
+            this.panelButtons.ResumeLayout(false);
+            this.panelButtons.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,6 +431,7 @@
         private System.Windows.Forms.Timer timerLabel;
         private System.Windows.Forms.PictureBox randomOn;
         private System.Windows.Forms.PictureBox randomOff;
+        private System.Windows.Forms.Panel panelButtons;
     }
 }
 
