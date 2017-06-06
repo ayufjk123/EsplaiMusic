@@ -19,6 +19,7 @@ namespace ReproductorMusica
 {
     public partial class Form1 : Form
     {
+        // Contador que se utiliza para saber en qué segundo de la canción nos encontramos
         private static int contador = 0;
 
         // Objeto para trabajar con el reproductor de musica y sus métodos
@@ -26,12 +27,19 @@ namespace ReproductorMusica
 
         // Este objeto es la lista de reproduccion. Lo creamos para agregarle las canciones elegidas
         private static IWMPPlaylist playlist = wmp.playlistCollection.newPlaylist("listaReproduccion");
+        private static IWMPPlaylist playlistAux = wmp.playlistCollection.newPlaylist("listaAuxiliar");
 
         // Objeto utilizado para buscar y seleccionar la musica a través del explorador de windows
         private OpenFileDialog opf = new OpenFileDialog();
 
         // Objeto media utilizado para referirse a la cancion actual y trabajar con ella
         private IWMPMedia media;
+
+        // Objeto etiqueta que sirve para establecer la etiqueta de cada controlador del reproductor
+        private System.Windows.Forms.ToolTip tooltip1 = new System.Windows.Forms.ToolTip();
+
+        // flag para activar o no la repetición de la canción (aún por implementar método alternativo)
+        private bool repetir = false;
 
         public Form1()
         {
@@ -48,8 +56,24 @@ namespace ReproductorMusica
             
             // Ajustamos el valor de la barra de volumen por defecto en 50 (la mitad)
             wmp.settings.volume = 50;
-            // Configuramos que la reproducción automática (repetición) para que esté desactivada por defecto
-            wmp.settings.autoStart = false;
+
+            toolTip(this.play, "Play");
+            toolTip(this.stop, "Stop");
+            toolTip(this.pause, "Pause");
+            toolTip(this.mute, "Unmute");
+            toolTip(this.unmute, "Mute");
+            toolTip(this.anterior, "Previous");
+            toolTip(this.siguiente, "Next");
+            toolTip(this.volumen, "Volume");
+            toolTip(this.duracionCancion, "Progress");
+            toolTip(this.repeat, "Turn Off Repeat");
+            toolTip(this.norepeat, "Turn On  Repeat");
+            toolTip(this.randomOn, "Turn Off Random");
+            toolTip(this.randomOff, "Turn On Random");
+
+            // Coloca el label movil a la derecha del todo y le pone 1 milisegundo de intervalo a su timer
+            labelMovil.Left = this.ClientSize.Width;
+            this.timerLabel.Interval = 1;
         }
 
         /* #####################
@@ -123,6 +147,22 @@ namespace ReproductorMusica
             repeatMusic();
         }
 
+        // Evento click del botón que hace que la música no se reproduzca de forma aleatoria        
+        private void randomOn_Click(object sender, EventArgs e)
+        {
+            desactivateRandomMusic();            
+            this.randomOn.Visible = false;
+            this.randomOff.Visible = true;
+        }
+
+        // Evento click del botón que hace que se reproduzca la música de forma aleatoria
+        private void randomOff_Click(object sender, EventArgs e)
+        {
+            activateRandomMusic();
+            this.randomOff.Visible = false;
+            this.randomOn.Visible = true;
+        }
+
         /* Evento del temporizador. Por cada "tick" de éste, ejecuta el método temporizador 
            que contiene el código correspondiente */
         private void timer1_Tick(object sender, EventArgs e)
@@ -142,7 +182,6 @@ namespace ReproductorMusica
         {
             if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
             {
-                //wmp.controls.currentPosition = 0;
                 // contador = 0, reset de la barra a 0 y max value = segundos
                 resetProgress();
                 // selecciona la siguiente cancion
@@ -152,7 +191,6 @@ namespace ReproductorMusica
                 // resetea a 00:00 el label del progreso. el otro label está comentado
                 resetLabels();
                 // comprueba si está activo o no el modo repeticion
-                //checkRepeat();
             }
         }
 
@@ -161,6 +199,12 @@ namespace ReproductorMusica
         private void duracionCancion_Scroll(object sender, EventArgs e)
         {
             updateProgressBar();
+        }
+
+        // Evento que ejecuta el metodo que mueve el label con el nombre de la cancion actual
+        private void timerLabel_Tick(object sender, EventArgs e)
+        {
+            moveLabelMovil();
         }
 
         /* #####################
@@ -192,7 +236,6 @@ namespace ReproductorMusica
         // Método para reproducir la música
         private void playMusic(bool noplay=false)
         {
-           // checkRepeat();
            if (!noplay)
             {
                 wmp.controls.play();
@@ -201,7 +244,9 @@ namespace ReproductorMusica
             this.play.Visible = false;
             this.pause.Visible = true;
             updateDurationLabel();
-            selectSongOfList();            
+            selectSongOfList();
+            labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+            timerLabel.Start();
         }        
 
         // Método para parar la música
@@ -221,29 +266,29 @@ namespace ReproductorMusica
             wmp.controls.pause();
             this.pause.Visible = false;
             this.play.Visible = true;
-            this.timer1.Stop();
+            this.timer1.Stop();            
         }
 
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
-            //checkRepeat();
             wmp.controls.next();
             updateDurationLabel();            
             selectSongOfList();
             resetProgress();
             progress();
+            labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
         }
 
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
-            //checkRepeat();
             wmp.controls.previous();
             updateDurationLabel();
             selectSongOfList();
             resetProgress();
             progress();
+            labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
         }
 
         // Método para silenciar el reproductor
@@ -266,32 +311,34 @@ namespace ReproductorMusica
         (NOTA: música o de la canción aún no se sabe) */
         private void repeatMusic()
         {
-            wmp.settings.autoStart = false;
             this.repeat.Visible = false;
             this.norepeat.Visible = true;
+            //wmp.settings.setMode("loop", false);
+            /*repetir = false;
+            playlist = playlistAux;*/
         }
 
         /* Método para dejar de repetir la música de la lista una vez se termina de reproducir 
         (NOTA: música o de la canción aún no se sabe) */
         private void noRepeatMusic()
         {
-            wmp.settings.autoStart = true;
             this.norepeat.Visible = false;
             this.repeat.Visible = true;
+            //wmp.settings.setMode("loop", true);
+            /*repetir = true;
+            playlistAux = playlist;*/
         }
 
-        /* Método para verificar si está activado el modo repetición o no.
-           Single lo está, lo activa, si no lo está, lo desactiva */
-        private void checkRepeat()
+        // Método para activar la reproducción de música aleatoria
+        private void activateRandomMusic()
         {
-            if (wmp.settings.autoStart == true)
-            {
-                wmp.settings.setMode("loop", true);
-            }
-            else
-            {
-                wmp.settings.setMode("loop", false);
-            }
+            wmp.settings.setMode("shuffle", true);
+        }
+
+        // Método para desactivar la reproducción de música aleatoria
+        private void desactivateRandomMusic()
+        {
+            wmp.settings.setMode("shuffle", false);
         }
 
         // Método cambiar el volumen del reproductor cuando se ajusta a través de la barra de volumen
@@ -417,205 +464,23 @@ namespace ReproductorMusica
             }       
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        // Método para actualizar / mover el label movil con el nombre de la canción actual
+        private void moveLabelMovil()
         {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            if (labelMovil.Left > (0 - labelMovil.Width))
+            {
+                labelMovil.Left--;
+            }
+            else
+            {
+                labelMovil.Left = ClientSize.Width;
+            }
+        }
+
+        // Método para asignar etiqueta a un botón/controlador del reproductor
+        private void toolTip(Control boton, string etiqueta)
+        {
+            tooltip1.SetToolTip(boton, etiqueta);
         }
     }
 }

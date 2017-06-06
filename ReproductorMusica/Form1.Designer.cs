@@ -47,6 +47,10 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.volumen = new XComponent.SliderBar.MACTrackBar();
             this.playedTimeLabel = new System.Windows.Forms.Label();
+            this.labelMovil = new System.Windows.Forms.Label();
+            this.timerLabel = new System.Windows.Forms.Timer(this.components);
+            this.randomOn = new System.Windows.Forms.PictureBox();
+            this.randomOff = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -56,6 +60,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.siguiente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.unmute)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.randomOn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.randomOff)).BeginInit();
             this.SuspendLayout();
             // 
             // browse
@@ -299,6 +305,46 @@
             this.playedTimeLabel.TabIndex = 24;
             this.playedTimeLabel.Text = "00:00";
             // 
+            // labelMovil
+            // 
+            this.labelMovil.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.labelMovil.AutoSize = true;
+            this.labelMovil.Location = new System.Drawing.Point(336, 380);
+            this.labelMovil.Name = "labelMovil";
+            this.labelMovil.Size = new System.Drawing.Size(0, 13);
+            this.labelMovil.TabIndex = 25;
+            // 
+            // timerLabel
+            // 
+            this.timerLabel.Tick += new System.EventHandler(this.timerLabel_Tick);
+            // 
+            // randomOn
+            // 
+            this.randomOn.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.randomOn.BackColor = System.Drawing.Color.Transparent;
+            this.randomOn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.randomOn.Image = ((System.Drawing.Image)(resources.GetObject("randomOn.Image")));
+            this.randomOn.Location = new System.Drawing.Point(110, 320);
+            this.randomOn.Name = "randomOn";
+            this.randomOn.Size = new System.Drawing.Size(32, 32);
+            this.randomOn.TabIndex = 26;
+            this.randomOn.TabStop = false;
+            this.randomOn.Visible = false;
+            this.randomOn.Click += new System.EventHandler(this.randomOn_Click);
+            // 
+            // randomOff
+            // 
+            this.randomOff.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.randomOff.BackColor = System.Drawing.Color.Transparent;
+            this.randomOff.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.randomOff.Image = ((System.Drawing.Image)(resources.GetObject("randomOff.Image")));
+            this.randomOff.Location = new System.Drawing.Point(110, 320);
+            this.randomOff.Name = "randomOff";
+            this.randomOff.Size = new System.Drawing.Size(32, 32);
+            this.randomOff.TabIndex = 27;
+            this.randomOff.TabStop = false;
+            this.randomOff.Click += new System.EventHandler(this.randomOff_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,6 +353,9 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(824, 411);
+            this.Controls.Add(this.randomOff);
+            this.Controls.Add(this.randomOn);
+            this.Controls.Add(this.labelMovil);
             this.Controls.Add(this.playedTimeLabel);
             this.Controls.Add(this.volumen);
             this.Controls.Add(this.unmute);
@@ -326,6 +375,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Esplai Music";
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).EndInit();
@@ -335,6 +385,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.siguiente)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mute)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.unmute)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.randomOn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.randomOff)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -359,6 +411,10 @@
         private System.Windows.Forms.Timer timer1;
         private XComponent.SliderBar.MACTrackBar volumen;
         private System.Windows.Forms.Label playedTimeLabel;
+        private System.Windows.Forms.Label labelMovil;
+        private System.Windows.Forms.Timer timerLabel;
+        private System.Windows.Forms.PictureBox randomOn;
+        private System.Windows.Forms.PictureBox randomOff;
     }
 }
 
