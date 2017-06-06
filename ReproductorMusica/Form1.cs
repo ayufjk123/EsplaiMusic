@@ -77,12 +77,17 @@ namespace EsplaiMusic
 
             // Ponemos el color de fondo del panel de botones transparente
             this.panelButtons.BackColor = Color.Transparent;
+
+            int h = Screen.PrimaryScreen.WorkingArea.Height;
+            int w = Screen.PrimaryScreen.WorkingArea.Width;
+            this.ClientSize = new Size(w, h);
+
         }
 
         /* #####################
            ##     Eventos     ##
            ##################### */
-        
+
         // Evento click del boton para buscar las canciones con el explorador de archivos
         private void browse_Click(object sender, EventArgs e)
         {
