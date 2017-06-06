@@ -1,4 +1,4 @@
-﻿namespace ReproductorMusica
+﻿namespace EsplaiMusic
 {
     partial class Form1
     {
@@ -131,7 +131,7 @@
             this.repeat.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.repeat.BackColor = System.Drawing.Color.Transparent;
             this.repeat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.repeat.Image = global::ReproductorMusica.Properties.Resources.Play_Mode_Repeat_All_Hot_icon;
+            this.repeat.Image = EsplaiMusic.Properties.Resources.Play_Mode_Repeat_All_Hot_icon;
             this.repeat.Location = new System.Drawing.Point(406, 127);
             this.repeat.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.repeat.Name = "repeat";
@@ -188,7 +188,7 @@
             this.stop.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.stop.BackColor = System.Drawing.Color.Transparent;
             this.stop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.stop.Image = global::ReproductorMusica.Properties.Resources.Stop_icon;
+            this.stop.Image = EsplaiMusic.Properties.Resources.Stop_icon;
             this.stop.Location = new System.Drawing.Point(482, 127);
             this.stop.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.stop.Name = "stop";
@@ -202,7 +202,7 @@
             this.anterior.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.anterior.BackColor = System.Drawing.Color.Transparent;
             this.anterior.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.anterior.Image = global::ReproductorMusica.Properties.Resources.Skip_backward_icon;
+            this.anterior.Image = EsplaiMusic.Properties.Resources.Skip_backward_icon;
             this.anterior.Location = new System.Drawing.Point(558, 127);
             this.anterior.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.anterior.Name = "anterior";
@@ -216,7 +216,7 @@
             this.pause.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pause.BackColor = System.Drawing.Color.Transparent;
             this.pause.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pause.Image = global::ReproductorMusica.Properties.Resources.Pause_icon;
+            this.pause.Image = EsplaiMusic.Properties.Resources.Pause_icon;
             this.pause.Location = new System.Drawing.Point(634, 127);
             this.pause.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.pause.Name = "pause";
@@ -231,7 +231,7 @@
             this.play.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.play.BackColor = System.Drawing.Color.Transparent;
             this.play.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.play.Image = global::ReproductorMusica.Properties.Resources.Play_icon;
+            this.play.Image = EsplaiMusic.Properties.Resources.Play_icon;
             this.play.Location = new System.Drawing.Point(634, 127);
             this.play.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.play.Name = "play";
@@ -245,7 +245,7 @@
             this.siguiente.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.siguiente.BackColor = System.Drawing.Color.Transparent;
             this.siguiente.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.siguiente.Image = global::ReproductorMusica.Properties.Resources.Skip_forward_icon;
+            this.siguiente.Image = EsplaiMusic.Properties.Resources.Skip_forward_icon;
             this.siguiente.Location = new System.Drawing.Point(710, 127);
             this.siguiente.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.siguiente.Name = "siguiente";
@@ -259,7 +259,7 @@
             this.mute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.mute.BackColor = System.Drawing.Color.Transparent;
             this.mute.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mute.Image = global::ReproductorMusica.Properties.Resources.Sound_off_icon;
+            this.mute.Image = EsplaiMusic.Properties.Resources.Sound_off_icon;
             this.mute.Location = new System.Drawing.Point(786, 127);
             this.mute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.mute.Name = "mute";
@@ -274,7 +274,7 @@
             this.unmute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.unmute.BackColor = System.Drawing.Color.Transparent;
             this.unmute.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.unmute.Image = global::ReproductorMusica.Properties.Resources.Sound_on_icon;
+            this.unmute.Image = EsplaiMusic.Properties.Resources.Sound_on_icon;
             this.unmute.Location = new System.Drawing.Point(786, 127);
             this.unmute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.unmute.Name = "unmute";

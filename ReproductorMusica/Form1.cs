@@ -15,7 +15,7 @@ using WMPLib;
 using System.Media;
 
 
-namespace ReproductorMusica
+namespace EsplaiMusic
 {
     public partial class Form1 : Form
     {
