@@ -484,5 +484,82 @@ namespace ReproductorMusica
         {
             tooltip1.SetToolTip(boton, etiqueta);
         }
+
+        // Método para antes de cerrar la ventana
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // El razón es porque usuario ha clicado el boton de "cerrar" o Alt+F4
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // Cancelar cerrar la ventana
+                e.Cancel = true;
+                // Ocultar ventana
+                this.Hide();
+            }
+        }
+
+        // Método para mostrar la ventana
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // Mostrar la ventana
+            this.Show();
+            // El estado de la ventana es Normal
+            this.WindowState = FormWindowState.Normal;
+            // Activa la ventana y dar el focos
+            this.Activate();
+        }
+
+        // Método para ocultar la ventana
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            // Ocultar la ventana
+            this.Hide();
+        }
+
+        //Método para salir el programa
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            // Comprobar si el usuario clica "si" salimos el programa
+            if (MessageBox.Show("Estas seguro que salir?", "Alarma de seguridad",
+                        System.Windows.Forms.MessageBoxButtons.YesNo,
+                        System.Windows.Forms.MessageBoxIcon.Warning)
+                == System.Windows.Forms.DialogResult.Yes)
+            {
+                // Icono esta ocultado
+                notifyIcon1.Visible = false;
+                // Cerrar ventana
+                this.Close();
+                this.Dispose();
+                Application.Exit();
+            }
+        }
+
+        // Método para clicar el icono con el boton izquierda
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            // Comprobar si el usuario ha clicado el boton izquierda
+            if (e.Button == MouseButtons.Left)
+            {
+                // Mostrar ventana
+                this.Visible = true;
+                // El estado de la ventana es Normal
+                this.WindowState = FormWindowState.Normal;
+                // Mostrar el icono
+                this.notifyIcon1.Visible = true;
+            }
+        }
+
+        // Método para minimizar la ventana
+        private void frmMain_Resize(object sender, EventArgs e)
+        {
+            // Comprobar si la ventana esta minimizado
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                // Ocultar la ventana
+                this.Visible = false;
+                // Mostrar el icono
+                this.notifyIcon1.Visible = true;
+            }
+        }
     }
 }
