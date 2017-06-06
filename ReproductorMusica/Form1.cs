@@ -77,11 +77,6 @@ namespace EsplaiMusic
 
             // Ponemos el color de fondo del panel de botones transparente
             this.panelButtons.BackColor = Color.Transparent;
-
-            int h = Screen.PrimaryScreen.WorkingArea.Height;
-            int w = Screen.PrimaryScreen.WorkingArea.Width;
-            this.ClientSize = new Size(w, h);
-
         }
 
         /* #####################
