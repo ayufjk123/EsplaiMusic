@@ -82,10 +82,9 @@
             this.browse.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.browse.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.browse.ForeColor = System.Drawing.Color.Black;
-            this.browse.Location = new System.Drawing.Point(288, 23);
-            this.browse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.browse.Location = new System.Drawing.Point(144, 12);
             this.browse.Name = "browse";
-            this.browse.Size = new System.Drawing.Size(236, 44);
+            this.browse.Size = new System.Drawing.Size(118, 23);
             this.browse.TabIndex = 0;
             this.browse.Text = "Agregar a la Lista";
             this.browse.UseVisualStyleBackColor = false;
@@ -97,18 +96,14 @@
             // 
             // lista
             // 
-            this.lista.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.lista.BackColor = System.Drawing.Color.Black;
             this.lista.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lista.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lista.ForeColor = System.Drawing.Color.White;
             this.lista.FormattingEnabled = true;
-            this.lista.ItemHeight = 25;
-            this.lista.Location = new System.Drawing.Point(122, 98);
-            this.lista.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.lista.Location = new System.Drawing.Point(53, 51);
             this.lista.Name = "lista";
-            this.lista.Size = new System.Drawing.Size(480, 350);
+            this.lista.Size = new System.Drawing.Size(240, 208);
             this.lista.TabIndex = 6;
             this.lista.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lista_MouseDoubleClick);
             // 
@@ -118,10 +113,9 @@
             this.norepeat.BackColor = System.Drawing.Color.Transparent;
             this.norepeat.Cursor = System.Windows.Forms.Cursors.Hand;
             this.norepeat.Image = ((System.Drawing.Image)(resources.GetObject("norepeat.Image")));
-            this.norepeat.Location = new System.Drawing.Point(406, 127);
-            this.norepeat.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.norepeat.Location = new System.Drawing.Point(230, 66);
             this.norepeat.Name = "norepeat";
-            this.norepeat.Size = new System.Drawing.Size(64, 62);
+            this.norepeat.Size = new System.Drawing.Size(32, 32);
             this.norepeat.TabIndex = 13;
             this.norepeat.TabStop = false;
             this.norepeat.Click += new System.EventHandler(this.unrepeat_Click);
@@ -131,11 +125,10 @@
             this.repeat.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.repeat.BackColor = System.Drawing.Color.Transparent;
             this.repeat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.repeat.Image = EsplaiMusic.Properties.Resources.Play_Mode_Repeat_All_Hot_icon;
-            this.repeat.Location = new System.Drawing.Point(406, 127);
-            this.repeat.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.repeat.Image = global::EsplaiMusic.Properties.Resources.Play_Mode_Repeat_All_Hot_icon;
+            this.repeat.Location = new System.Drawing.Point(230, 66);
             this.repeat.Name = "repeat";
-            this.repeat.Size = new System.Drawing.Size(64, 62);
+            this.repeat.Size = new System.Drawing.Size(32, 32);
             this.repeat.TabIndex = 14;
             this.repeat.TabStop = false;
             this.repeat.Visible = false;
@@ -151,12 +144,11 @@
             this.duracionCancion.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.duracionCancion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
             this.duracionCancion.IndentHeight = 6;
-            this.duracionCancion.Location = new System.Drawing.Point(122, 35);
-            this.duracionCancion.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.duracionCancion.Location = new System.Drawing.Point(61, 18);
             this.duracionCancion.Maximum = 10;
             this.duracionCancion.Minimum = 0;
             this.duracionCancion.Name = "duracionCancion";
-            this.duracionCancion.Size = new System.Drawing.Size(1304, 28);
+            this.duracionCancion.Size = new System.Drawing.Size(706, 28);
             this.duracionCancion.TabIndex = 15;
             this.duracionCancion.TextTickStyle = System.Windows.Forms.TickStyle.None;
             this.duracionCancion.TickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(146)))), ((int)(((byte)(148)))));
@@ -176,10 +168,9 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(1438, 35);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(773, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 25);
+            this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 16;
             this.label1.Text = "00:00";
             // 
@@ -188,11 +179,10 @@
             this.stop.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.stop.BackColor = System.Drawing.Color.Transparent;
             this.stop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.stop.Image = EsplaiMusic.Properties.Resources.Stop_icon;
-            this.stop.Location = new System.Drawing.Point(482, 127);
-            this.stop.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.stop.Image = global::EsplaiMusic.Properties.Resources.Stop_icon;
+            this.stop.Location = new System.Drawing.Point(268, 66);
             this.stop.Name = "stop";
-            this.stop.Size = new System.Drawing.Size(64, 62);
+            this.stop.Size = new System.Drawing.Size(32, 32);
             this.stop.TabIndex = 17;
             this.stop.TabStop = false;
             this.stop.Click += new System.EventHandler(this.stop_Click);
@@ -202,11 +192,10 @@
             this.anterior.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.anterior.BackColor = System.Drawing.Color.Transparent;
             this.anterior.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.anterior.Image = EsplaiMusic.Properties.Resources.Skip_backward_icon;
-            this.anterior.Location = new System.Drawing.Point(558, 127);
-            this.anterior.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.anterior.Image = global::EsplaiMusic.Properties.Resources.Skip_backward_icon;
+            this.anterior.Location = new System.Drawing.Point(306, 66);
             this.anterior.Name = "anterior";
-            this.anterior.Size = new System.Drawing.Size(64, 62);
+            this.anterior.Size = new System.Drawing.Size(32, 32);
             this.anterior.TabIndex = 18;
             this.anterior.TabStop = false;
             this.anterior.Click += new System.EventHandler(this.anterior_Click);
@@ -216,11 +205,10 @@
             this.pause.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pause.BackColor = System.Drawing.Color.Transparent;
             this.pause.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pause.Image = EsplaiMusic.Properties.Resources.Pause_icon;
-            this.pause.Location = new System.Drawing.Point(634, 127);
-            this.pause.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pause.Image = global::EsplaiMusic.Properties.Resources.Pause_icon;
+            this.pause.Location = new System.Drawing.Point(344, 66);
             this.pause.Name = "pause";
-            this.pause.Size = new System.Drawing.Size(64, 62);
+            this.pause.Size = new System.Drawing.Size(32, 32);
             this.pause.TabIndex = 19;
             this.pause.TabStop = false;
             this.pause.Visible = false;
@@ -231,11 +219,10 @@
             this.play.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.play.BackColor = System.Drawing.Color.Transparent;
             this.play.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.play.Image = EsplaiMusic.Properties.Resources.Play_icon;
-            this.play.Location = new System.Drawing.Point(634, 127);
-            this.play.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.play.Image = global::EsplaiMusic.Properties.Resources.Play_icon;
+            this.play.Location = new System.Drawing.Point(344, 66);
             this.play.Name = "play";
-            this.play.Size = new System.Drawing.Size(64, 62);
+            this.play.Size = new System.Drawing.Size(32, 32);
             this.play.TabIndex = 20;
             this.play.TabStop = false;
             this.play.Click += new System.EventHandler(this.play_Click);
@@ -245,11 +232,10 @@
             this.siguiente.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.siguiente.BackColor = System.Drawing.Color.Transparent;
             this.siguiente.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.siguiente.Image = EsplaiMusic.Properties.Resources.Skip_forward_icon;
-            this.siguiente.Location = new System.Drawing.Point(710, 127);
-            this.siguiente.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.siguiente.Image = global::EsplaiMusic.Properties.Resources.Skip_forward_icon;
+            this.siguiente.Location = new System.Drawing.Point(382, 66);
             this.siguiente.Name = "siguiente";
-            this.siguiente.Size = new System.Drawing.Size(64, 62);
+            this.siguiente.Size = new System.Drawing.Size(32, 32);
             this.siguiente.TabIndex = 21;
             this.siguiente.TabStop = false;
             this.siguiente.Click += new System.EventHandler(this.siguiente_Click);
@@ -259,11 +245,10 @@
             this.mute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.mute.BackColor = System.Drawing.Color.Transparent;
             this.mute.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mute.Image = EsplaiMusic.Properties.Resources.Sound_off_icon;
-            this.mute.Location = new System.Drawing.Point(786, 127);
-            this.mute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.mute.Image = global::EsplaiMusic.Properties.Resources.Sound_off_icon;
+            this.mute.Location = new System.Drawing.Point(420, 66);
             this.mute.Name = "mute";
-            this.mute.Size = new System.Drawing.Size(64, 62);
+            this.mute.Size = new System.Drawing.Size(32, 32);
             this.mute.TabIndex = 22;
             this.mute.TabStop = false;
             this.mute.Visible = false;
@@ -274,11 +259,10 @@
             this.unmute.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.unmute.BackColor = System.Drawing.Color.Transparent;
             this.unmute.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.unmute.Image = EsplaiMusic.Properties.Resources.Sound_on_icon;
-            this.unmute.Location = new System.Drawing.Point(786, 127);
-            this.unmute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.unmute.Image = global::EsplaiMusic.Properties.Resources.Sound_on_icon;
+            this.unmute.Location = new System.Drawing.Point(420, 66);
             this.unmute.Name = "unmute";
-            this.unmute.Size = new System.Drawing.Size(64, 62);
+            this.unmute.Size = new System.Drawing.Size(32, 32);
             this.unmute.TabIndex = 23;
             this.unmute.TabStop = false;
             this.unmute.Click += new System.EventHandler(this.unmute_Click);
@@ -297,12 +281,11 @@
             this.volumen.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.volumen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(123)))), ((int)(((byte)(125)))), ((int)(((byte)(123)))));
             this.volumen.IndentHeight = 6;
-            this.volumen.Location = new System.Drawing.Point(862, 135);
-            this.volumen.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.volumen.Location = new System.Drawing.Point(458, 70);
             this.volumen.Maximum = 100;
             this.volumen.Minimum = 0;
             this.volumen.Name = "volumen";
-            this.volumen.Size = new System.Drawing.Size(218, 28);
+            this.volumen.Size = new System.Drawing.Size(109, 28);
             this.volumen.TabIndex = 12;
             this.volumen.TextTickStyle = System.Windows.Forms.TickStyle.None;
             this.volumen.TickColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(146)))), ((int)(((byte)(148)))));
@@ -323,10 +306,9 @@
             this.playedTimeLabel.AutoSize = true;
             this.playedTimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.playedTimeLabel.ForeColor = System.Drawing.Color.White;
-            this.playedTimeLabel.Location = new System.Drawing.Point(38, 35);
-            this.playedTimeLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.playedTimeLabel.Location = new System.Drawing.Point(19, 18);
             this.playedTimeLabel.Name = "playedTimeLabel";
-            this.playedTimeLabel.Size = new System.Drawing.Size(66, 25);
+            this.playedTimeLabel.Size = new System.Drawing.Size(34, 13);
             this.playedTimeLabel.TabIndex = 24;
             this.playedTimeLabel.Text = "00:00";
             // 
@@ -334,10 +316,9 @@
             // 
             this.labelMovil.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.labelMovil.AutoSize = true;
-            this.labelMovil.Location = new System.Drawing.Point(758, 490);
-            this.labelMovil.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelMovil.Location = new System.Drawing.Point(451, 281);
             this.labelMovil.Name = "labelMovil";
-            this.labelMovil.Size = new System.Drawing.Size(58, 25);
+            this.labelMovil.Size = new System.Drawing.Size(29, 13);
             this.labelMovil.TabIndex = 25;
             this.labelMovil.Text = "label";
             // 
@@ -351,10 +332,9 @@
             this.randomOn.BackColor = System.Drawing.Color.Transparent;
             this.randomOn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.randomOn.Image = ((System.Drawing.Image)(resources.GetObject("randomOn.Image")));
-            this.randomOn.Location = new System.Drawing.Point(330, 127);
-            this.randomOn.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.randomOn.Location = new System.Drawing.Point(192, 66);
             this.randomOn.Name = "randomOn";
-            this.randomOn.Size = new System.Drawing.Size(64, 62);
+            this.randomOn.Size = new System.Drawing.Size(32, 32);
             this.randomOn.TabIndex = 26;
             this.randomOn.TabStop = false;
             this.randomOn.Visible = false;
@@ -366,17 +346,15 @@
             this.randomOff.BackColor = System.Drawing.Color.Transparent;
             this.randomOff.Cursor = System.Windows.Forms.Cursors.Hand;
             this.randomOff.Image = ((System.Drawing.Image)(resources.GetObject("randomOff.Image")));
-            this.randomOff.Location = new System.Drawing.Point(330, 127);
-            this.randomOff.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.randomOff.Location = new System.Drawing.Point(192, 66);
             this.randomOff.Name = "randomOff";
-            this.randomOff.Size = new System.Drawing.Size(64, 62);
+            this.randomOff.Size = new System.Drawing.Size(32, 32);
             this.randomOff.TabIndex = 27;
             this.randomOff.TabStop = false;
             this.randomOff.Click += new System.EventHandler(this.randomOff_Click);
             // 
             // panelButtons
             // 
-            this.panelButtons.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.panelButtons.BackColor = System.Drawing.Color.Silver;
             this.panelButtons.Controls.Add(this.randomOff);
             this.panelButtons.Controls.Add(this.randomOn);
@@ -393,10 +371,10 @@
             this.panelButtons.Controls.Add(this.duracionCancion);
             this.panelButtons.Controls.Add(this.repeat);
             this.panelButtons.Controls.Add(this.norepeat);
-            this.panelButtons.Location = new System.Drawing.Point(54, 540);
-            this.panelButtons.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelButtons.Location = new System.Drawing.Point(0, 299);
             this.panelButtons.Name = "panelButtons";
-            this.panelButtons.Size = new System.Drawing.Size(1540, 215);
+            this.panelButtons.Size = new System.Drawing.Size(824, 112);
             this.panelButtons.TabIndex = 28;
             // 
             // notifyIcon1
@@ -416,49 +394,48 @@
             this.toolStripSeparator1,
             this.salirToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(290, 124);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 76);
             // 
             // mostrarVentanaToolStripMenuItem
             // 
             this.mostrarVentanaToolStripMenuItem.Name = "mostrarVentanaToolStripMenuItem";
-            this.mostrarVentanaToolStripMenuItem.Size = new System.Drawing.Size(289, 38);
+            this.mostrarVentanaToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.mostrarVentanaToolStripMenuItem.Text = "Mostrar ventana";
             this.mostrarVentanaToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // ocultarVentanaToolStripMenuItem
             // 
             this.ocultarVentanaToolStripMenuItem.Name = "ocultarVentanaToolStripMenuItem";
-            this.ocultarVentanaToolStripMenuItem.Size = new System.Drawing.Size(289, 38);
+            this.ocultarVentanaToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.ocultarVentanaToolStripMenuItem.Text = "Ocultar ventana";
             this.ocultarVentanaToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(286, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(289, 38);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1648, 790);
+            this.ClientSize = new System.Drawing.Size(824, 411);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.labelMovil);
-            this.Controls.Add(this.lista);
             this.Controls.Add(this.browse);
+            this.Controls.Add(this.lista);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Esplai Music";

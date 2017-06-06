@@ -233,6 +233,7 @@ namespace EsplaiMusic
             // Asociamos la lista de reproducción al objeto que reproduce la musica
             wmp.currentPlaylist = playlist;
             selectSongOfList();
+            wmp.controls.stop();
         }
 
         // Método para reproducir la música
