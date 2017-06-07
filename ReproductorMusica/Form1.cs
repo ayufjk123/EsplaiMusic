@@ -41,9 +41,13 @@ namespace EsplaiMusic
         // flag para activar o no la repetición de la canción (aún por implementar método alternativo)
         private bool repetir = false;
 
+        Escaner scaner = new Escaner();
+
         public Form1()
         {
             InitializeComponent();
+            scaner.scanFiles();
+
             this.timer1.Interval = 1000;
 
             /* Configuramos el objeto para el explorador de archivos 
@@ -379,6 +383,7 @@ namespace EsplaiMusic
 
         // Método para seleccionar la cancion actual en la lista ListBox
         private void selectSongOfList() {
+
             int index = lista.FindString(wmp.currentMedia.name);
 
             if (index != System.Windows.Forms.ListBox.NoMatches) {

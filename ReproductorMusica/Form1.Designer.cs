@@ -125,7 +125,7 @@
             this.repeat.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.repeat.BackColor = System.Drawing.Color.Transparent;
             this.repeat.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.repeat.Image = global::EsplaiMusic.Properties.Resources.Play_Mode_Repeat_All_Hot_icon;
+            this.repeat.Image = ((System.Drawing.Image)(resources.GetObject("repeat.Image")));
             this.repeat.Location = new System.Drawing.Point(230, 66);
             this.repeat.Name = "repeat";
             this.repeat.Size = new System.Drawing.Size(32, 32);
@@ -430,10 +430,10 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(824, 411);
+            this.Controls.Add(this.lista);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.labelMovil);
             this.Controls.Add(this.browse);
-            this.Controls.Add(this.lista);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
