@@ -31,7 +31,6 @@ namespace EsplaiMusic
 
                     conn = null;
                     Console.WriteLine(e.ToString());
-                    Console.ReadKey();
                     return null;
                 }
             }

@@ -14,34 +14,22 @@ namespace EsplaiMusic
     {
         private static string query;
 
-        SqlConnection conn = dbConnect.openConnection();                
+        SqlConnection conn = dbConnect.openConnection();
+
+        static List<String> musicFiles = new List<string>();
 
         public void scanFiles()
         {
-            string fileName, checkSum, temp;
-            string raizDic = "C:\\";
-            List<String> subCarpetas = Directory.GetDirectories(raizDic + "CloudMusic").ToList();
-            List<String> musicFiles = Directory.GetFiles(raizDic + "CloudMusic").ToList();
+            string fileName, checkSum, path;
+            string raizDic = "C:\\CloudMusic";
+            //List<String> subCarpetas = Directory.GetDirectories(raizDic).ToList();
+            musicFiles = Directory.GetFiles(raizDic).ToList();
 
             desactivateAllSongs();
 
             // Leemos cada archivo de la lista de archivos de las subcarpetas
 
-            // NOTA: SOLO FUNCIONA CON 2 NIVELES
-            foreach (string musicFile in subCarpetas)
-            {
-                List<String> musicSubFiles = Directory.GetFiles(musicFile).ToList();
-
-                /* Añadimos cada archivo a la lista de archivos genericos, 
-                para tener en una lista los archivos de la carpeta raíz y los de las subcarpetas */
-                foreach (string nameSubFiles in musicSubFiles)
-                {
-                    if (nameSubFiles.EndsWith("mp3"))
-                    {
-                        musicFiles.Add(nameSubFiles);
-                    }
-                }
-            }
+            DirSearch(raizDic);
 
             // Leemos cada archivo de la lista de todos los archivos
             foreach (string filePath in musicFiles)
@@ -49,8 +37,8 @@ namespace EsplaiMusic
                 int resultado;
 
                 // Obtenemos el nombre de cad aarchivo
-                temp = filePath.Remove(filePath.LastIndexOf('.'));
-                fileName = temp.Remove(0, temp.LastIndexOf('\\') + 1);
+                path = filePath.Remove(filePath.LastIndexOf('.'));
+                fileName = path.Remove(0, path.LastIndexOf('\\') + 1);
 
                 // Obtenemos el codigo checksum usando encriptación MD5 de cada archivo
                 using (var md5 = MD5.Create())
@@ -67,24 +55,26 @@ namespace EsplaiMusic
                 // Comprobamos que la cancion exista. Si existe se actualiza y si no, se inserta
                 if (resultado == 1)
                 {
-                    updateSong(fileName, checkSum);
-                } else
+                    updateSong(fileName, path, checkSum);
+                }
+                else
                 {
-                    insertSong(fileName, checkSum);
+                    insertSong(fileName, path, checkSum);
                 }
             }
-            
-            }
+
+        }
 
         // Selecciona la canción a partir de su codigo checksum
         public int selectSong(string checksum)
         {
             int resultado = 0;
             conn.Open();
-            if (conn != null) {
+            if (conn != null)
+            {
                 try
                 {
-                    query = "SELECT count(codigoArchivo) from canciones where codigoArchivo = @checksum;"; 
+                    query = "SELECT count(codigoArchivo) from canciones where codigoArchivo = @checksum;";
                     SqlCommand comando = new SqlCommand(query, conn);
                     comando.Parameters.AddWithValue("@checksum", checksum);
 
@@ -102,7 +92,7 @@ namespace EsplaiMusic
         }
 
         // Inserta la canción en la tabla de canciones
-        public void insertSong(string name, string checksum)
+        public void insertSong(string name, string path, string checksum)
         {
             conn.Open();
             bool activada = true;
@@ -111,11 +101,12 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "INSERT into canciones (nombre, codigoArchivo, activa) values (@nombre, @codigo_archivo, @activa);";
+                    query = "INSERT into canciones (nombre, ruta, codigoArchivo, activa) values (@nombre, @path, @codigo_archivo, @activa);";
 
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@nombre", name);
+                    comando.Parameters.AddWithValue("@path", path);
                     comando.Parameters.AddWithValue("@codigo_archivo", checksum);
                     comando.Parameters.AddWithValue("@activa", activada);
 
@@ -131,7 +122,7 @@ namespace EsplaiMusic
         }
 
         // Actualiza el nombre de la canción y su codigo checksum
-        public void updateSong(string name, string checksum)
+        public void updateSong(string name, string path, string checksum)
         {
             conn.Open();
             bool activada = true;
@@ -140,11 +131,12 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "UPDATE canciones SET nombre = @nombre, activa = @activada where codigoArchivo = @checksum;";
+                    query = "UPDATE canciones SET nombre = @nombre, ruta = @path, activa = @activada where codigoArchivo = @checksum;";
 
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@nombre", name);
+                    comando.Parameters.AddWithValue("@path", path);
                     comando.Parameters.AddWithValue("@checksum", checksum);
                     comando.Parameters.AddWithValue("@activada", activada);
 
@@ -178,6 +170,27 @@ namespace EsplaiMusic
                     conn.Close();
                 }
                 conn.Close();
+            }
+        }
+
+        public static void DirSearch(string sDir)
+        {
+            try
+            {
+                foreach (string d in Directory.GetDirectories(sDir))
+                {
+                    foreach (string f in Directory.GetFiles(d, "*.mp3"))
+                    {
+                        /* Añadimos cada archivo a la lista de archivos genericos, 
+                        para tener en una lista los archivos de la carpeta raíz y los de las subcarpetas */
+                        musicFiles.Add(f);
+                    }
+                    DirSearch(d);
+                }
+            }
+            catch (System.Exception excpt)
+            {
+                Console.WriteLine(excpt.Message);
             }
         }
     }

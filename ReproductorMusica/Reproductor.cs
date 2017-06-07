@@ -17,7 +17,7 @@ using System.Media;
 
 namespace EsplaiMusic
 {
-    public partial class Form1 : Form
+    public partial class Reproductor : Form
     {
         // Contador que se utiliza para saber en qué segundo de la canción nos encontramos
         private static int contador = 0;
@@ -43,7 +43,7 @@ namespace EsplaiMusic
 
         Escaner scaner = new Escaner();
 
-        public Form1()
+        public Reproductor()
         {
             InitializeComponent();
             scaner.scanFiles();
