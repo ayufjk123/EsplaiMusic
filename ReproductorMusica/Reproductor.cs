@@ -240,13 +240,13 @@ namespace EsplaiMusic
         }
 
         // Método para reproducir la música
-        private void playMusic(bool noplay=false)
+        private void playMusic(/*bool noplay=false*/)
         {
            //if (!noplay)
             // {
             //     wmp.controls.play();
             // }
-            if (wmp.controls.currentItem != null)
+            if (lista.Items.Count > 0)
             {
                 wmp.controls.play();
                 this.play.Visible = false;
@@ -285,23 +285,25 @@ namespace EsplaiMusic
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
-            if (wmp.controls.currentItem != null)
+            if (lista.Items.Count > 0)
             {
                 if (lista.Items.Count == 1)
                 {
                     wmp.controls.currentPosition = 0;
                     resetProgress();
-                    //progress();
+                    progress();
                     labelMovil.Left = this.ClientSize.Width;
                     labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                    this.stopMusic();
                 } else {
                     wmp.controls.next();
                     updateDurationLabel();
                     selectSongOfList();
                     resetProgress();
-                    //progress();
+                    progress();
                     labelMovil.Left = this.ClientSize.Width;
                     labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                    this.stopMusic();
                 }
             }
             else
@@ -313,7 +315,7 @@ namespace EsplaiMusic
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
-            if (wmp.controls.currentItem != null)
+            if (lista.Items.Count > 0)
             {
                 if (lista.Items.Count == 1)
                 {
@@ -322,6 +324,7 @@ namespace EsplaiMusic
                     progress();
                     labelMovil.Left = this.ClientSize.Width;
                     labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                    this.stopMusic();
                 } else
                 {
                     wmp.controls.previous();
@@ -331,7 +334,8 @@ namespace EsplaiMusic
                     progress();
                     labelMovil.Left = this.ClientSize.Width;
                     labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
-                }                
+                    this.stopMusic();
+                }
             }
             else
             {
@@ -361,10 +365,12 @@ namespace EsplaiMusic
         {
             this.repeat.Visible = false;
             this.norepeat.Visible = true;
-            //wmp.settings.setMode("loop", false);
-            /*repetir = false;
-            playlist = playlistAux;
-            wmp.currentPlaylist = playlist;*/
+            repetir = false;
+           
+            wmp.currentPlaylist = playlist;
+            updateProgressBar();
+            playlistAux.clear();
+            updateDurationLabel();
         }
 
         // Método para dejar de repetir la música de la lista una vez se termina de reproducir 
@@ -372,15 +378,15 @@ namespace EsplaiMusic
         {
             this.norepeat.Visible = false;
             this.repeat.Visible = true;
-            //wmp.settings.setMode("loop", true);
-            /*repetir = true;
-            playlistAux = playlist;
-            playlist.clear();
-            int index = Int32.Parse(lista.SelectedItem.ToString());
+            repetir = true;
 
-            wmp.controls.currentItem = playlist.Item[index];
-            playlist.appendItem(wmp.controls.currentItem);
-            wmp.currentPlaylist = playlist;*/
+            double pos = wmp.controls.currentPosition;
+
+            playlistAux.appendItem(wmp.currentMedia);
+            
+            wmp.currentPlaylist = playlistAux;
+            wmp.controls.currentPosition = pos;
+            updateDurationLabel();
         }
 
         // Método para activar la reproducción de música aleatoria
