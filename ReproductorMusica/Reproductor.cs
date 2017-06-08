@@ -628,5 +628,7 @@ namespace EsplaiMusic
                 this.notifyIcon1.Visible = true;
             }
         }
+
+        
     }
 }
