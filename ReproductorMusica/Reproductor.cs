@@ -102,8 +102,7 @@ namespace EsplaiMusic
         // Evento click del boton play
         private void play_Click(object sender, EventArgs e)
         {
-            playMusic();
-            progress();
+            playMusic();            
         }
 
         // Evento click del boton pause
@@ -243,18 +242,25 @@ namespace EsplaiMusic
         // Método para reproducir la música
         private void playMusic(bool noplay=false)
         {
-           if (!noplay)
+           //if (!noplay)
+            // {
+            //     wmp.controls.play();
+            // }
+            if (wmp.controls.currentItem != null)
             {
                 wmp.controls.play();
-
+                this.play.Visible = false;
+                this.pause.Visible = true;
+                updateDurationLabel();
+                selectSongOfList();
+                labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                timerLabel.Start();
+                progress();
+            } else
+            {
+                MessageBox.Show("La lista está vacía");
             }
-            this.play.Visible = false;
-            this.pause.Visible = true;
-            updateDurationLabel();
-            selectSongOfList();
-            labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
-            timerLabel.Start();
-        }        
+        }
 
         // Método para parar la música
         private void stopMusic()
@@ -279,23 +285,58 @@ namespace EsplaiMusic
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
-            wmp.controls.next();
-            updateDurationLabel();            
-            selectSongOfList();
-            resetProgress();
-            progress();
-            labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+            if (wmp.controls.currentItem != null)
+            {
+                if (lista.Items.Count == 1)
+                {
+                    wmp.controls.currentPosition = 0;
+                    resetProgress();
+                    //progress();
+                    labelMovil.Left = this.ClientSize.Width;
+                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                } else {
+                    wmp.controls.next();
+                    updateDurationLabel();
+                    selectSongOfList();
+                    resetProgress();
+                    //progress();
+                    labelMovil.Left = this.ClientSize.Width;
+                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                }
+            }
+            else
+            {
+                MessageBox.Show("La lista está vacía");
+            }
         }
 
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
-            wmp.controls.previous();
-            updateDurationLabel();
-            selectSongOfList();
-            resetProgress();
-            progress();
-            labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+            if (wmp.controls.currentItem != null)
+            {
+                if (lista.Items.Count == 1)
+                {
+                    wmp.controls.currentPosition = 0;
+                    resetProgress();
+                    progress();
+                    labelMovil.Left = this.ClientSize.Width;
+                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                } else
+                {
+                    wmp.controls.previous();
+                    updateDurationLabel();
+                    selectSongOfList();
+                    resetProgress();
+                    progress();
+                    labelMovil.Left = this.ClientSize.Width;
+                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                }                
+            }
+            else
+            {
+                MessageBox.Show("La lista está vacía");
+            }
         }
 
         // Método para silenciar el reproductor
@@ -322,18 +363,24 @@ namespace EsplaiMusic
             this.norepeat.Visible = true;
             //wmp.settings.setMode("loop", false);
             /*repetir = false;
-            playlist = playlistAux;*/
+            playlist = playlistAux;
+            wmp.currentPlaylist = playlist;*/
         }
 
-        /* Método para dejar de repetir la música de la lista una vez se termina de reproducir 
-        (NOTA: música o de la canción aún no se sabe) */
+        // Método para dejar de repetir la música de la lista una vez se termina de reproducir 
         private void noRepeatMusic()
         {
             this.norepeat.Visible = false;
             this.repeat.Visible = true;
             //wmp.settings.setMode("loop", true);
             /*repetir = true;
-            playlistAux = playlist;*/
+            playlistAux = playlist;
+            playlist.clear();
+            int index = Int32.Parse(lista.SelectedItem.ToString());
+
+            wmp.controls.currentItem = playlist.Item[index];
+            playlist.appendItem(wmp.controls.currentItem);
+            wmp.currentPlaylist = playlist;*/
         }
 
         // Método para activar la reproducción de música aleatoria
@@ -361,7 +408,12 @@ namespace EsplaiMusic
            y darle valor Maximum a la barra de duración */
         private int getDurationInSeconds()
         {
-            int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
+            int duracionSegundos = 0;
+
+            if (wmp.controls.currentItem != null)
+            {
+                duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
+            }
 
             return duracionSegundos;
         }
@@ -370,8 +422,11 @@ namespace EsplaiMusic
            y guardarlo en el Label de duracion */
         private void updateDurationLabel()
         {
-            string duracionFormateada = wmp.controls.currentItem.durationString;
-            label1.Text = duracionFormateada;
+            if (wmp.controls.currentItem != null)
+            {
+                string duracionFormateada = wmp.controls.currentItem.durationString;
+                label1.Text = duracionFormateada;
+            }
         }
 
         // Método para devolver el valor del label de la duracion total de la cancion a su valor por defecto
