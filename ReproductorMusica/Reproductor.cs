@@ -39,7 +39,7 @@ namespace EsplaiMusic
         private System.Windows.Forms.ToolTip tooltip1 = new System.Windows.Forms.ToolTip();
 
         // flag para activar o no la repetición de la canción (aún por implementar método alternativo)
-        private bool repetir = false;
+        //private bool repetir = false;
 
         Escaner scaner = new Escaner();
 
@@ -622,5 +622,7 @@ namespace EsplaiMusic
                 this.notifyIcon1.Visible = true;
             }
         }
+
+        
     }
 }
