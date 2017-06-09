@@ -40,13 +40,16 @@ namespace EsplaiMusic
 
         // flag para activar o no la repetición de la canción (aún por implementar método alternativo)
         private bool repetir = false;
+        private int contadorCambios = 0;
+
+        string Title, Artist, Album, Year;
 
         Escaner scaner = new Escaner();
 
         public Reproductor()
         {
             InitializeComponent();
-            scaner.scanFiles();
+            //scaner.scanFiles();
 
             this.timer1.Interval = 1000;
 
@@ -186,8 +189,48 @@ namespace EsplaiMusic
         // Evento que controla cuando una canción termina. No está terminado
         private void wmp_PlayStateChange(int NewState)
         {
+            contadorCambios++;
+
+            //int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
+            //string duracionFormateada = wmp.controls.currentItem.durationString;
+
+            //MessageBox.Show("segundos:" + duracionSegundos + " - duracion: " + duracionFormateada + "Estado: " + NewState);
+
+            if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+            {
+                contadorCambios = 0;
+            }
+
             if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
             {
+                int index = lista.FindString(wmp.currentMedia.name);
+
+                // Para cuando solo haya una canción, reproducirla de nuevo una vez finalizada
+                if (lista.Items.Count == 1)
+                {
+                    wmp.controls.playItem(playlist.Item[0]);
+                    wmp.controls.currentItem = playlist.Item[0];
+                }
+
+                // Para repetir la misma canción cuando hay más de una en la lista de reproducción
+                else if (repetir == true && contadorCambios == 1)
+                {
+                    if (index == 0)
+                    {
+                        index = lista.Items.Count - 1;
+                        wmp.controls.playItem(playlist.Item[index]);
+                        wmp.controls.currentItem = playlist.Item[index];
+                        //MessageBox.Show(wmp.currentMedia.name + " posicion: " + index + " " + duracionSegundos);
+                        //this.duracionCancion.Maximum = duracionSegundos;
+                        //label1.Text = duracionFormateada;
+                    } else
+                    {
+                        wmp.controls.playItem(playlist.Item[index - 1]);
+                        wmp.controls.currentItem = playlist.Item[index - 1];
+                    }
+                    //resetProgress();
+                }
+
                 // contador = 0, reset de la barra a 0 y max value = segundos
                 resetProgress();
                 // selecciona la siguiente cancion
@@ -240,12 +283,8 @@ namespace EsplaiMusic
         }
 
         // Método para reproducir la música
-        private void playMusic(/*bool noplay=false*/)
+        private void playMusic()
         {
-           //if (!noplay)
-            // {
-            //     wmp.controls.play();
-            // }
             if (lista.Items.Count > 0)
             {
                 wmp.controls.play();
@@ -253,7 +292,20 @@ namespace EsplaiMusic
                 this.pause.Visible = true;
                 updateDurationLabel();
                 selectSongOfList();
-                labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+
+                Title = wmp.currentMedia.name;
+                Artist = "Linkin Park";
+                Album = "Meteora";
+                Year = "2005";
+
+                /*TagLib.File tagFile = TagLib.File.Create(filePath);
+                Artist = string.Join(",", tagFile.Tag.Performers);
+                Album = tagFile.Tag.Album;
+                Title = tagFile.Tag.Title;
+                Year = tagFile.Tag.Year.ToString();*/
+
+                labelMovil.Text = "Reproduciendo: " + Title + " - " + Artist + " - " + Album + " - " + Year;                
+
                 timerLabel.Start();
                 progress();
             } else
@@ -290,21 +342,15 @@ namespace EsplaiMusic
                 if (lista.Items.Count == 1)
                 {
                     wmp.controls.currentPosition = 0;
-                    resetProgress();
-                    progress();
-                    labelMovil.Left = this.ClientSize.Width;
-                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
-                    this.stopMusic();
-                } else {
-                    wmp.controls.next();
-                    updateDurationLabel();
-                    selectSongOfList();
-                    resetProgress();
-                    progress();
-                    labelMovil.Left = this.ClientSize.Width;
-                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
-                    this.stopMusic();
                 }
+                wmp.controls.next();
+                updateDurationLabel();
+                selectSongOfList();
+                resetProgress();
+                progress();
+                labelMovil.Left = this.ClientSize.Width;
+                labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                this.stopMusic();
             }
             else
             {
@@ -320,22 +366,15 @@ namespace EsplaiMusic
                 if (lista.Items.Count == 1)
                 {
                     wmp.controls.currentPosition = 0;
-                    resetProgress();
-                    progress();
-                    labelMovil.Left = this.ClientSize.Width;
-                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
-                    this.stopMusic();
-                } else
-                {
-                    wmp.controls.previous();
-                    updateDurationLabel();
-                    selectSongOfList();
-                    resetProgress();
-                    progress();
-                    labelMovil.Left = this.ClientSize.Width;
-                    labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
-                    this.stopMusic();
                 }
+                wmp.controls.previous();
+                updateDurationLabel();
+                selectSongOfList();
+                resetProgress();
+                progress();
+                labelMovil.Left = this.ClientSize.Width;
+                labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                this.stopMusic();
             }
             else
             {
@@ -366,11 +405,6 @@ namespace EsplaiMusic
             this.repeat.Visible = false;
             this.norepeat.Visible = true;
             repetir = false;
-           
-            wmp.currentPlaylist = playlist;
-            updateProgressBar();
-            playlistAux.clear();
-            updateDurationLabel();
         }
 
         // Método para dejar de repetir la música de la lista una vez se termina de reproducir 
@@ -378,15 +412,7 @@ namespace EsplaiMusic
         {
             this.norepeat.Visible = false;
             this.repeat.Visible = true;
-            repetir = true;
-
-            double pos = wmp.controls.currentPosition;
-
-            playlistAux.appendItem(wmp.currentMedia);
-            
-            wmp.currentPlaylist = playlistAux;
-            wmp.controls.currentPosition = pos;
-            updateDurationLabel();
+            repetir = true;      
         }
 
         // Método para activar la reproducción de música aleatoria
