@@ -205,10 +205,10 @@ namespace EsplaiMusic
 
             if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
             {
-                int index = lista.FindString(wmp.currentMedia.name);
+                int index = listareproduccion.FindString(wmp.currentMedia.name);
 
                 // Para cuando solo haya una canción, reproducirla de nuevo una vez finalizada
-                if (lista.Items.Count == 1)
+                if (listareproduccion.Items.Count == 1)
                 {
                     wmp.controls.playItem(playlist.Item[0]);
                     wmp.controls.currentItem = playlist.Item[0];
@@ -219,7 +219,7 @@ namespace EsplaiMusic
                 {
                     if (index == 0)
                     {
-                        index = lista.Items.Count - 1;
+                        index = listareproduccion.Items.Count - 1;
                         wmp.controls.playItem(playlist.Item[index]);
                         wmp.controls.currentItem = playlist.Item[index];
                         //MessageBox.Show(wmp.currentMedia.name + " posicion: " + index + " " + duracionSegundos);
@@ -287,10 +287,6 @@ namespace EsplaiMusic
         // Método para reproducir la música
         private void playMusic()
         {
-           //if (!noplay)
-            // {
-            //     wmp.controls.play();
-            // }
             if (listareproduccion.Items.Count > 0)
             {
                 wmp.controls.play();

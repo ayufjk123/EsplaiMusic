@@ -466,13 +466,12 @@
             this.ListboxPlaylist.BackColor = System.Drawing.Color.Black;
             this.ListboxPlaylist.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ListboxPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ListboxPlaylist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ListboxPlaylist.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ListboxPlaylist.ForeColor = System.Drawing.Color.White;
             this.ListboxPlaylist.FormattingEnabled = true;
-            this.ListboxPlaylist.ItemHeight = 15;
-            this.ListboxPlaylist.Location = new System.Drawing.Point(9, 51);
+            this.ListboxPlaylist.Location = new System.Drawing.Point(12, 51);
             this.ListboxPlaylist.Name = "ListboxPlaylist";
-            this.ListboxPlaylist.Size = new System.Drawing.Size(260, 195);
+            this.ListboxPlaylist.Size = new System.Drawing.Size(257, 208);
             this.ListboxPlaylist.TabIndex = 30;
             // 
             // button1
