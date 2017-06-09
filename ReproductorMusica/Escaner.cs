@@ -429,5 +429,31 @@ namespace EsplaiMusic
                 Console.WriteLine(excpt.Message);
             }
         }
+        public List<string> PlaylistNombres()
+        {
+            List<string> resultado = new List<string>() ;
+            conn.Open();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "SELECT nombre FROM playlists;";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    SqlDataReader myReader = comando.ExecuteReader();
+
+                    while (myReader.Read())
+                    {
+                        resultado.Add(Convert.ToString(myReader["nombre"]));
+                    }
+                }
+                catch (Exception e)
+                { 
+                    Console.WriteLine(e.ToString());
+                    conn.Close();
+                }
+            }
+            conn.Close();
+            return resultado;
+        }
     }
 }

@@ -70,6 +70,12 @@
   <ItemGroup>
     <Compile Include="dbConnect.cs" />
     <Compile Include="Escaner.cs" />
+    <Compile Include="FormNewPlayList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewPlayList.Designer.cs">
+      <DependentUpon>FormNewPlayList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reproductor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormNewPlayList.resx">
+      <DependentUpon>FormNewPlayList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reproductor.resx">
       <DependentUpon>Reproductor.cs</DependentUpon>
     </EmbeddedResource>

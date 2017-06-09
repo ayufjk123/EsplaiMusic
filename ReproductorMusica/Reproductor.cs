@@ -81,6 +81,8 @@ namespace EsplaiMusic
 
             // Ponemos el color de fondo del panel de botones transparente
             this.panelButtons.BackColor = Color.Transparent;
+
+            addplaylist();
         }
 
         /* #####################
@@ -230,7 +232,7 @@ namespace EsplaiMusic
                     playlist.appendItem(media);
 
                     // Lista del formulario para mostrar los nombres de las canciones elegidas
-                    lista.Items.Add(media.name);
+                    listareproduccion.Items.Add(media.name);
                 }
             }
             // Asociamos la lista de reproducción al objeto que reproduce la musica
@@ -246,7 +248,7 @@ namespace EsplaiMusic
             // {
             //     wmp.controls.play();
             // }
-            if (lista.Items.Count > 0)
+            if (listareproduccion.Items.Count > 0)
             {
                 wmp.controls.play();
                 this.play.Visible = false;
@@ -285,9 +287,9 @@ namespace EsplaiMusic
         // Método para cambiar a la siguiente canción de la lista de reproducción
         private void nextMusic()
         {
-            if (lista.Items.Count > 0)
+            if (listareproduccion.Items.Count > 0)
             {
-                if (lista.Items.Count == 1)
+                if (listareproduccion.Items.Count == 1)
                 {
                     wmp.controls.currentPosition = 0;
                     resetProgress();
@@ -315,9 +317,9 @@ namespace EsplaiMusic
         // Método para cambiar a la anterior canción de la lista de reproducción
         private void previousMusic()
         {
-            if (lista.Items.Count > 0)
+            if (listareproduccion.Items.Count > 0)
             {
-                if (lista.Items.Count == 1)
+                if (listareproduccion.Items.Count == 1)
                 {
                     wmp.controls.currentPosition = 0;
                     resetProgress();
@@ -445,10 +447,10 @@ namespace EsplaiMusic
         // Método para seleccionar la cancion actual en la lista ListBox
         private void selectSongOfList() {
 
-            int index = lista.FindString(wmp.currentMedia.name);
+            int index = listareproduccion.FindString(wmp.currentMedia.name);
 
             if (index != System.Windows.Forms.ListBox.NoMatches) {
-                lista.SetSelected(index, true);
+                listareproduccion.SetSelected(index, true);
             }            
         }
 
@@ -522,7 +524,7 @@ namespace EsplaiMusic
            con doble clic de la lista de reproducción */
         private void playListDoubleClickSelected(MouseEventArgs e)
         {
-            int index = this.lista.IndexFromPoint(e.Location);
+            int index = this.listareproduccion.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 wmp.controls.currentItem = playlist.Item[index];
@@ -629,6 +631,21 @@ namespace EsplaiMusic
             }
         }
 
-        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormNewPlayList obj1 = new FormNewPlayList();
+            obj1.ShowDialog();
+        }
+
+        private void addplaylist()
+        {
+            List<string> listOfPlaylist = new List<string>();
+            listOfPlaylist = scaner.PlaylistNombres();
+            foreach (string song in listOfPlaylist)
+            {
+                ListboxPlaylist.Items.Add(song);
+            }
+            
+        }
     }
 }

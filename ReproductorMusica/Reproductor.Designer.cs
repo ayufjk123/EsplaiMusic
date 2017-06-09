@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reproductor));
             this.browse = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.lista = new System.Windows.Forms.ListBox();
+            this.listareproduccion = new System.Windows.Forms.ListBox();
             this.norepeat = new System.Windows.Forms.PictureBox();
             this.repeat = new System.Windows.Forms.PictureBox();
             this.duracionCancion = new XComponent.SliderBar.MACTrackBar();
@@ -58,8 +58,8 @@
             this.ocultarVentanaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.ListboxTemaPlaylist = new System.Windows.Forms.ListBox();
+            this.ListboxPlaylist = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -115,18 +115,18 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // lista
+            // listareproduccion
             // 
-            this.lista.BackColor = System.Drawing.Color.Black;
-            this.lista.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lista.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lista.ForeColor = System.Drawing.Color.White;
-            this.lista.FormattingEnabled = true;
-            this.lista.Location = new System.Drawing.Point(565, 51);
-            this.lista.Name = "lista";
-            this.lista.Size = new System.Drawing.Size(259, 208);
-            this.lista.TabIndex = 6;
-            this.lista.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lista_MouseDoubleClick);
+            this.listareproduccion.BackColor = System.Drawing.Color.Black;
+            this.listareproduccion.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listareproduccion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.listareproduccion.ForeColor = System.Drawing.Color.White;
+            this.listareproduccion.FormattingEnabled = true;
+            this.listareproduccion.Location = new System.Drawing.Point(565, 51);
+            this.listareproduccion.Name = "listareproduccion";
+            this.listareproduccion.Size = new System.Drawing.Size(259, 208);
+            this.listareproduccion.TabIndex = 6;
+            this.listareproduccion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lista_MouseDoubleClick);
             // 
             // norepeat
             // 
@@ -449,29 +449,31 @@
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // listBox1
+            // ListboxTemaPlaylist
             // 
-            this.listBox1.BackColor = System.Drawing.Color.Black;
-            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.listBox1.ForeColor = System.Drawing.Color.White;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(275, 51);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(284, 208);
-            this.listBox1.TabIndex = 29;
+            this.ListboxTemaPlaylist.BackColor = System.Drawing.Color.Black;
+            this.ListboxTemaPlaylist.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListboxTemaPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ListboxTemaPlaylist.ForeColor = System.Drawing.Color.White;
+            this.ListboxTemaPlaylist.FormattingEnabled = true;
+            this.ListboxTemaPlaylist.Location = new System.Drawing.Point(275, 51);
+            this.ListboxTemaPlaylist.Name = "ListboxTemaPlaylist";
+            this.ListboxTemaPlaylist.Size = new System.Drawing.Size(284, 208);
+            this.ListboxTemaPlaylist.TabIndex = 29;
             // 
-            // listBox2
+            // ListboxPlaylist
             // 
-            this.listBox2.BackColor = System.Drawing.Color.Black;
-            this.listBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.listBox2.ForeColor = System.Drawing.Color.White;
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(9, 51);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(260, 208);
-            this.listBox2.TabIndex = 30;
+            this.ListboxPlaylist.BackColor = System.Drawing.Color.Black;
+            this.ListboxPlaylist.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListboxPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ListboxPlaylist.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ListboxPlaylist.ForeColor = System.Drawing.Color.White;
+            this.ListboxPlaylist.FormattingEnabled = true;
+            this.ListboxPlaylist.ItemHeight = 15;
+            this.ListboxPlaylist.Location = new System.Drawing.Point(9, 51);
+            this.ListboxPlaylist.Name = "ListboxPlaylist";
+            this.ListboxPlaylist.Size = new System.Drawing.Size(260, 195);
+            this.ListboxPlaylist.TabIndex = 30;
             // 
             // button1
             // 
@@ -488,6 +490,7 @@
             this.button1.TabIndex = 31;
             this.button1.Text = "Nueva Lista De Reproducción";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // pictureBox1
             // 
@@ -616,9 +619,9 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.lista);
+            this.Controls.Add(this.ListboxPlaylist);
+            this.Controls.Add(this.ListboxTemaPlaylist);
+            this.Controls.Add(this.listareproduccion);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.browse);
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -660,7 +663,7 @@
 
         private System.Windows.Forms.Button browse;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ListBox lista;
+        private System.Windows.Forms.ListBox listareproduccion;
         private System.Windows.Forms.PictureBox norepeat;
         private System.Windows.Forms.PictureBox repeat;
         private XComponent.SliderBar.MACTrackBar duracionCancion;
@@ -686,8 +689,8 @@
         private System.Windows.Forms.ToolStripMenuItem ocultarVentanaToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox ListboxTemaPlaylist;
+        private System.Windows.Forms.ListBox ListboxPlaylist;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
