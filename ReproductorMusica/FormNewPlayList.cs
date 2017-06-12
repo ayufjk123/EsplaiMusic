@@ -12,6 +12,8 @@ namespace EsplaiMusic
 {
     public partial class FormNewPlayList : Form
     {
+        private string newListName;
+
         public FormNewPlayList()
         {
             InitializeComponent();
@@ -19,7 +21,20 @@ namespace EsplaiMusic
 
         private void btncancelar_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void btnaceptar_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            newListName = textBox1.Text;
+            this.Close();
+        }
+
+        public string getNewListName()
+        {
+            return this.newListName;
         }
     }
 }

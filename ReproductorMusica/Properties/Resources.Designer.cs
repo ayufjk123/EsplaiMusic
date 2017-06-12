@@ -83,6 +83,26 @@ namespace EsplaiMusic.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap favoritoActivado {
+            get {
+                object obj = ResourceManager.GetObject("favoritoActivado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap favoritoDesactivado {
+            get {
+                object obj = ResourceManager.GetObject("favoritoDesactivado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pause_icon {
             get {
                 object obj = ResourceManager.GetObject("Pause-icon", resourceCulture);
@@ -113,9 +133,29 @@ namespace EsplaiMusic.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Play_Mode_Repeat_All_Hot_icon {
+        internal static System.Drawing.Bitmap Play_Mode_Repeat_All_Hot_icon_one {
             get {
-                object obj = ResourceManager.GetObject("Play-Mode-Repeat-All-Hot-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("Play-Mode-Repeat-All-Hot-icon_one", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shuffle_off {
+            get {
+                object obj = ResourceManager.GetObject("shuffle_off", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shuffle_on {
+            get {
+                object obj = ResourceManager.GetObject("shuffle_on", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

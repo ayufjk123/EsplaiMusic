@@ -52,6 +52,8 @@
             this.randomOn = new System.Windows.Forms.PictureBox();
             this.randomOff = new System.Windows.Forms.PictureBox();
             this.panelButtons = new System.Windows.Forms.Panel();
+            this.favouriteDesactivated = new System.Windows.Forms.PictureBox();
+            this.favouriteActivated = new System.Windows.Forms.PictureBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mostrarVentanaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,18 +62,20 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ListboxTemaPlaylist = new System.Windows.Forms.ListBox();
             this.ListboxPlaylist = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.createPlayList = new System.Windows.Forms.Button();
+            this.delSongListReprod = new System.Windows.Forms.PictureBox();
+            this.addAllSongsListTema = new System.Windows.Forms.PictureBox();
+            this.addListTema = new System.Windows.Forms.PictureBox();
+            this.addSongListaReproduccion = new System.Windows.Forms.PictureBox();
+            this.deleteSongTemaPlayList = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevaListaDeReproducciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sobreNosotrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addAllSongs = new System.Windows.Forms.PictureBox();
+            this.deshacerCambios = new System.Windows.Forms.PictureBox();
+            this.labelAñadida = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -84,14 +88,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.randomOn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.randomOff)).BeginInit();
             this.panelButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.favouriteDesactivated)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.favouriteActivated)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delSongListReprod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addAllSongsListTema)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addListTema)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addSongListaReproduccion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deleteSongTemaPlayList)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addAllSongs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deshacerCambios)).BeginInit();
             this.SuspendLayout();
             // 
             // browse
@@ -188,11 +195,11 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(789, 18);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 16);
+            this.label1.Size = new System.Drawing.Size(44, 16);
             this.label1.TabIndex = 16;
             this.label1.Text = "00:00";
             // 
@@ -327,11 +334,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.playedTimeLabel.AutoSize = true;
             this.playedTimeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.playedTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.playedTimeLabel.ForeColor = System.Drawing.Color.Black;
+            this.playedTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.playedTimeLabel.ForeColor = System.Drawing.Color.White;
             this.playedTimeLabel.Location = new System.Drawing.Point(21, 18);
             this.playedTimeLabel.Name = "playedTimeLabel";
-            this.playedTimeLabel.Size = new System.Drawing.Size(39, 16);
+            this.playedTimeLabel.Size = new System.Drawing.Size(44, 16);
             this.playedTimeLabel.TabIndex = 24;
             this.playedTimeLabel.Text = "00:00";
             // 
@@ -382,6 +389,9 @@
             // panelButtons
             // 
             this.panelButtons.BackColor = System.Drawing.Color.Silver;
+            this.panelButtons.Controls.Add(this.labelAñadida);
+            this.panelButtons.Controls.Add(this.favouriteDesactivated);
+            this.panelButtons.Controls.Add(this.favouriteActivated);
             this.panelButtons.Controls.Add(this.randomOff);
             this.panelButtons.Controls.Add(this.randomOn);
             this.panelButtons.Controls.Add(this.playedTimeLabel);
@@ -403,6 +413,32 @@
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(838, 134);
             this.panelButtons.TabIndex = 28;
+            // 
+            // favouriteDesactivated
+            // 
+            this.favouriteDesactivated.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.favouriteDesactivated.BackColor = System.Drawing.Color.Transparent;
+            this.favouriteDesactivated.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.favouriteDesactivated.Image = global::EsplaiMusic.Properties.Resources.favoritoDesactivado;
+            this.favouriteDesactivated.Location = new System.Drawing.Point(198, 91);
+            this.favouriteDesactivated.Name = "favouriteDesactivated";
+            this.favouriteDesactivated.Size = new System.Drawing.Size(32, 32);
+            this.favouriteDesactivated.TabIndex = 29;
+            this.favouriteDesactivated.TabStop = false;
+            this.favouriteDesactivated.Click += new System.EventHandler(this.favouriteDesactivated_Click);
+            // 
+            // favouriteActivated
+            // 
+            this.favouriteActivated.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.favouriteActivated.BackColor = System.Drawing.Color.Transparent;
+            this.favouriteActivated.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.favouriteActivated.Image = global::EsplaiMusic.Properties.Resources.favoritoActivado;
+            this.favouriteActivated.Location = new System.Drawing.Point(198, 52);
+            this.favouriteActivated.Name = "favouriteActivated";
+            this.favouriteActivated.Size = new System.Drawing.Size(32, 32);
+            this.favouriteActivated.TabIndex = 28;
+            this.favouriteActivated.TabStop = false;
+            this.favouriteActivated.Click += new System.EventHandler(this.favouriteActivated_Click);
             // 
             // notifyIcon1
             // 
@@ -473,95 +509,89 @@
             this.ListboxPlaylist.Name = "ListboxPlaylist";
             this.ListboxPlaylist.Size = new System.Drawing.Size(257, 208);
             this.ListboxPlaylist.TabIndex = 30;
+            this.ListboxPlaylist.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListboxPlaylist_MouseClick);
             // 
-            // button1
+            // createPlayList
             // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(565, 265);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(259, 23);
-            this.button1.TabIndex = 31;
-            this.button1.Text = "Nueva Lista De Reproducción";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.createPlayList.BackColor = System.Drawing.Color.White;
+            this.createPlayList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.createPlayList.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.createPlayList.FlatAppearance.BorderSize = 0;
+            this.createPlayList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.createPlayList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.createPlayList.ForeColor = System.Drawing.Color.Black;
+            this.createPlayList.Location = new System.Drawing.Point(608, 265);
+            this.createPlayList.Name = "createPlayList";
+            this.createPlayList.Size = new System.Drawing.Size(175, 23);
+            this.createPlayList.TabIndex = 31;
+            this.createPlayList.Text = "Generar Lista De Reproducción";
+            this.createPlayList.UseVisualStyleBackColor = false;
+            this.createPlayList.Click += new System.EventHandler(this.createPlayList_Click);
             // 
-            // pictureBox1
+            // delSongListReprod
             // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(734, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox1.TabIndex = 28;
-            this.pictureBox1.TabStop = false;
+            this.delSongListReprod.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.delSongListReprod.BackColor = System.Drawing.Color.Transparent;
+            this.delSongListReprod.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.delSongListReprod.Image = ((System.Drawing.Image)(resources.GetObject("delSongListReprod.Image")));
+            this.delSongListReprod.Location = new System.Drawing.Point(734, 13);
+            this.delSongListReprod.Name = "delSongListReprod";
+            this.delSongListReprod.Size = new System.Drawing.Size(32, 32);
+            this.delSongListReprod.TabIndex = 28;
+            this.delSongListReprod.TabStop = false;
+            this.delSongListReprod.Click += new System.EventHandler(this.delSongListReprod_Click);
             // 
-            // pictureBox2
+            // addAllSongsListTema
             // 
-            this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(696, 12);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox2.TabIndex = 32;
-            this.pictureBox2.TabStop = false;
+            this.addAllSongsListTema.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.addAllSongsListTema.BackColor = System.Drawing.Color.Transparent;
+            this.addAllSongsListTema.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addAllSongsListTema.Image = ((System.Drawing.Image)(resources.GetObject("addAllSongsListTema.Image")));
+            this.addAllSongsListTema.Location = new System.Drawing.Point(696, 12);
+            this.addAllSongsListTema.Name = "addAllSongsListTema";
+            this.addAllSongsListTema.Size = new System.Drawing.Size(32, 32);
+            this.addAllSongsListTema.TabIndex = 32;
+            this.addAllSongsListTema.TabStop = false;
+            this.addAllSongsListTema.Click += new System.EventHandler(this.addAllSongsListTema_Click);
             // 
-            // pictureBox3
+            // addListTema
             // 
-            this.pictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(658, 13);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox3.TabIndex = 33;
-            this.pictureBox3.TabStop = false;
+            this.addListTema.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.addListTema.BackColor = System.Drawing.Color.Transparent;
+            this.addListTema.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addListTema.Image = ((System.Drawing.Image)(resources.GetObject("addListTema.Image")));
+            this.addListTema.Location = new System.Drawing.Point(658, 13);
+            this.addListTema.Name = "addListTema";
+            this.addListTema.Size = new System.Drawing.Size(32, 32);
+            this.addListTema.TabIndex = 33;
+            this.addListTema.TabStop = false;
+            this.addListTema.Click += new System.EventHandler(this.addListTema_Click);
             // 
-            // pictureBox5
+            // addSongListaReproduccion
             // 
-            this.pictureBox5.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox5.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(402, 13);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox5.TabIndex = 35;
-            this.pictureBox5.TabStop = false;
+            this.addSongListaReproduccion.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.addSongListaReproduccion.BackColor = System.Drawing.Color.Transparent;
+            this.addSongListaReproduccion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addSongListaReproduccion.Image = ((System.Drawing.Image)(resources.GetObject("addSongListaReproduccion.Image")));
+            this.addSongListaReproduccion.Location = new System.Drawing.Point(440, 14);
+            this.addSongListaReproduccion.Name = "addSongListaReproduccion";
+            this.addSongListaReproduccion.Size = new System.Drawing.Size(32, 32);
+            this.addSongListaReproduccion.TabIndex = 34;
+            this.addSongListaReproduccion.TabStop = false;
+            this.addSongListaReproduccion.Click += new System.EventHandler(this.addSongListaReproduccion_Click);
             // 
-            // pictureBox6
+            // deleteSongTemaPlayList
             // 
-            this.pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(440, 14);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox6.TabIndex = 34;
-            this.pictureBox6.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(364, 14);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox4.TabIndex = 36;
-            this.pictureBox4.TabStop = false;
+            this.deleteSongTemaPlayList.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.deleteSongTemaPlayList.BackColor = System.Drawing.Color.Transparent;
+            this.deleteSongTemaPlayList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deleteSongTemaPlayList.Image = ((System.Drawing.Image)(resources.GetObject("deleteSongTemaPlayList.Image")));
+            this.deleteSongTemaPlayList.Location = new System.Drawing.Point(364, 14);
+            this.deleteSongTemaPlayList.Name = "deleteSongTemaPlayList";
+            this.deleteSongTemaPlayList.Size = new System.Drawing.Size(32, 32);
+            this.deleteSongTemaPlayList.TabIndex = 36;
+            this.deleteSongTemaPlayList.TabStop = false;
+            this.deleteSongTemaPlayList.Click += new System.EventHandler(this.deleteSongTemaPlayList_Click);
             // 
             // menuStrip1
             // 
@@ -601,6 +631,45 @@
             this.salirToolStripMenuItem1.Name = "salirToolStripMenuItem1";
             this.salirToolStripMenuItem1.Size = new System.Drawing.Size(228, 22);
             this.salirToolStripMenuItem1.Text = "Salir";
+            this.salirToolStripMenuItem1.Click += new System.EventHandler(this.salirToolStripMenuItem1_Click);
+            // 
+            // addAllSongs
+            // 
+            this.addAllSongs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.addAllSongs.BackColor = System.Drawing.Color.Transparent;
+            this.addAllSongs.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addAllSongs.Image = ((System.Drawing.Image)(resources.GetObject("addAllSongs.Image")));
+            this.addAllSongs.Location = new System.Drawing.Point(402, 14);
+            this.addAllSongs.Name = "addAllSongs";
+            this.addAllSongs.Size = new System.Drawing.Size(32, 32);
+            this.addAllSongs.TabIndex = 38;
+            this.addAllSongs.TabStop = false;
+            this.addAllSongs.Click += new System.EventHandler(this.addAllSongs_Click);
+            // 
+            // deshacerCambios
+            // 
+            this.deshacerCambios.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.deshacerCambios.BackColor = System.Drawing.Color.Transparent;
+            this.deshacerCambios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deshacerCambios.Image = ((System.Drawing.Image)(resources.GetObject("deshacerCambios.Image")));
+            this.deshacerCambios.Location = new System.Drawing.Point(326, 14);
+            this.deshacerCambios.Name = "deshacerCambios";
+            this.deshacerCambios.Size = new System.Drawing.Size(32, 32);
+            this.deshacerCambios.TabIndex = 39;
+            this.deshacerCambios.TabStop = false;
+            this.deshacerCambios.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListboxPlaylist_MouseClick);
+            // 
+            // labelAñadida
+            // 
+            this.labelAñadida.AutoSize = true;
+            this.labelAñadida.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAñadida.ForeColor = System.Drawing.Color.White;
+            this.labelAñadida.Location = new System.Drawing.Point(127, 56);
+            this.labelAñadida.Name = "labelAñadida";
+            this.labelAñadida.Size = new System.Drawing.Size(161, 18);
+            this.labelAñadida.TabIndex = 30;
+            this.labelAñadida.Text = "Añadida a Favoritos!";
+            this.labelAñadida.Visible = false;
             // 
             // Reproductor
             // 
@@ -610,13 +679,14 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(838, 446);
-            this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.pictureBox5);
-            this.Controls.Add(this.pictureBox6);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.deshacerCambios);
+            this.Controls.Add(this.addAllSongs);
+            this.Controls.Add(this.deleteSongTemaPlayList);
+            this.Controls.Add(this.addSongListaReproduccion);
+            this.Controls.Add(this.addListTema);
+            this.Controls.Add(this.addAllSongsListTema);
+            this.Controls.Add(this.delSongListReprod);
+            this.Controls.Add(this.createPlayList);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.ListboxPlaylist);
             this.Controls.Add(this.ListboxTemaPlaylist);
@@ -644,15 +714,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.randomOff)).EndInit();
             this.panelButtons.ResumeLayout(false);
             this.panelButtons.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.favouriteDesactivated)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.favouriteActivated)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delSongListReprod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addAllSongsListTema)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addListTema)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addSongListaReproduccion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deleteSongTemaPlayList)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addAllSongs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deshacerCambios)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -690,18 +763,22 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.ListBox ListboxTemaPlaylist;
         private System.Windows.Forms.ListBox ListboxPlaylist;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Button createPlayList;
+        private System.Windows.Forms.PictureBox delSongListReprod;
+        private System.Windows.Forms.PictureBox addAllSongsListTema;
+        private System.Windows.Forms.PictureBox addListTema;
+        private System.Windows.Forms.PictureBox addSongListaReproduccion;
+        private System.Windows.Forms.PictureBox deleteSongTemaPlayList;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem opcionesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevaListaDeReproducciónToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sobreNosotrosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem1;
+        private System.Windows.Forms.PictureBox favouriteActivated;
+        private System.Windows.Forms.PictureBox favouriteDesactivated;
+        private System.Windows.Forms.PictureBox addAllSongs;
+        private System.Windows.Forms.PictureBox deshacerCambios;
+        private System.Windows.Forms.Label labelAñadida;
     }
 }
 

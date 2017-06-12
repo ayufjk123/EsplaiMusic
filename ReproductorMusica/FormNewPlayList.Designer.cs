@@ -47,9 +47,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 13);
+            this.label1.Size = new System.Drawing.Size(127, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Nueva Lista de reproducción";
+            this.label1.Text = "Nombre de la nueva lista:";
             // 
             // btncancelar
             // 
@@ -69,6 +69,7 @@
             this.btnaceptar.TabIndex = 3;
             this.btnaceptar.Text = "ACEPTAR";
             this.btnaceptar.UseVisualStyleBackColor = true;
+            this.btnaceptar.Click += new System.EventHandler(this.btnaceptar_Click);
             // 
             // FormNewPlayList
             // 

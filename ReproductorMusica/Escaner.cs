@@ -16,12 +16,14 @@ namespace EsplaiMusic
 
         SqlConnection conn = dbConnect.openConnection();
 
-        static List<String> musicFiles = new List<string>();
+        public static List<String> musicFiles = new List<string>();
         public static List<string> listOfPlaylist = new List<string>();
+
+        public static List<PlayList> ListOfPlayLists = new List<PlayList>();
 
         public void scanFiles()
         {
-            string fileName, checkSum, path;
+            string fileName, checkSum, path, year, pathNoExtension;
             string raizDic = "C:\\CloudMusic";
             //List<String> subCarpetas = Directory.GetDirectories(raizDic).ToList();
             musicFiles = Directory.GetFiles(raizDic).ToList();
@@ -51,9 +53,12 @@ namespace EsplaiMusic
                 {
                     int resultado;
 
-                    // Obtenemos el nombre de cad aarchivo
-                    path = filePath.Remove(filePath.LastIndexOf('.'));
-                    fileName = path.Remove(0, path.LastIndexOf('\\') + 1);
+                    // Obtenemos el nombre de cada archivo
+                    
+                    path = filePath;
+                    pathNoExtension = filePath.Remove(filePath.LastIndexOf('.'));
+
+                    fileName = pathNoExtension.Remove(0, pathNoExtension.LastIndexOf('\\') + 1);
 
                     // Obtenemos el codigo checksum usando encriptación MD5 de cada archivo
                     using (var md5 = MD5.Create())
@@ -63,6 +68,9 @@ namespace EsplaiMusic
                             checkSum = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
                         }
                     }
+
+                    TagLib.File tagFile = TagLib.File.Create(filePath);
+                    year = tagFile.Tag.Year.ToString();
 
                     // Obtenemos la canción a partir de su checksum
                     resultado = selectSong(checkSum);
@@ -74,20 +82,16 @@ namespace EsplaiMusic
                     }
                     else
                     {
-                        insertSong(fileName, path, checkSum);
+                        insertSong(fileName, path, checkSum, year);
                     }
                     int playlist_id = selectIDPlaylist(namePlaylist);
                     int cancion_id = selectIDSong(checkSum);
                     if (filePath.Remove(filePath.LastIndexOf("\\")).EndsWith(namePlaylist))
                     {
-                        insertPlaylistCancion(playlist_id.ToString(), cancion_id.ToString());
+                        insertPlaylistCancion(playlist_id, cancion_id);
                     }
-
                 }
             }
-
-
-
         }
 
         // Selecciona la canción a partir de su codigo checksum
@@ -117,22 +121,25 @@ namespace EsplaiMusic
         }
 
         // Inserta la canción en la tabla de canciones
-        public void insertSong(string name, string path, string checksum)
+        public void insertSong(string name, string path, string checksum, string year)
         {
             conn.Open();
             bool activada = true;
+            bool favourite = false;
 
             if (conn != null)
             {
                 try
                 {
-                    query = "INSERT into canciones (nombre, ruta, codigoArchivo, activa) values (@nombre, @path, @codigo_archivo, @activa);";
+                    query = "INSERT into canciones (nombre, ruta, codigoArchivo, favorita, anyo, activa) values (@nombre, @path, @codigo_archivo, @favorita, @anyo, @activa);";
 
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@nombre", name);
                     comando.Parameters.AddWithValue("@path", path);
                     comando.Parameters.AddWithValue("@codigo_archivo", checksum);
+                    comando.Parameters.AddWithValue("@favorita", favourite);
+                    comando.Parameters.AddWithValue("@anyo", year);
                     comando.Parameters.AddWithValue("@activa", activada);
 
                     comando.ExecuteNonQuery();
@@ -264,7 +271,8 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "SELECT COUNT(*) FROM playlist_cancion pc, playlists pl, canciones ca WHERE pc.playlist_id = pl.ID AND pc.cancion_id = ca.ID AND ca.codigoArchivo = @codigoArchivo;";
+                    query = "SELECT COUNT(*) FROM playlist_cancion pc, playlists pl, canciones ca " +
+                        "WHERE pc.playlist_id = pl.ID AND pc.cancion_id = ca.ID AND ca.codigoArchivo = @codigoArchivo;";
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@codigoArchivo", checksum);
@@ -333,7 +341,7 @@ namespace EsplaiMusic
         }
 
         // Inserta la canción en la tabla de canciones
-        public void insertPlaylistCancion(string playList_id, string cancion_id)
+        public void insertPlaylistCancion(int playList_id, int cancion_id)
         {
             conn.Open();
 
@@ -360,7 +368,7 @@ namespace EsplaiMusic
         }
 
         // Actualiza el nombre de la canción y su codigo checksum
-        public void deletePlaylistCancion(string playlist_id, string cancion_id)
+        public void deletePlaylistCancion(int playlist_id, int cancion_id)
         {
             conn.Open();
 
@@ -408,6 +416,7 @@ namespace EsplaiMusic
             }
         }
 
+        // Método para
         public static void DirSearch(string sDir)
         {
             try
@@ -429,21 +438,32 @@ namespace EsplaiMusic
                 Console.WriteLine(excpt.Message);
             }
         }
-        public List<string> PlaylistNombres()
+
+        // Método para rellenar la lista de listas de reproducción
+        public List<PlayList> chargeListOfPlayLists()
         {
-            List<string> resultado = new List<string>() ;
+            int id;
+            string nombre;            
+
             conn.Open();
             if (conn != null)
             {
                 try
                 {
-                    query = "SELECT nombre FROM playlists;";
+                    query = "SELECT ID, nombre FROM playlists;";
                     SqlCommand comando = new SqlCommand(query, conn);
                     SqlDataReader myReader = comando.ExecuteReader();
 
                     while (myReader.Read())
                     {
-                        resultado.Add(Convert.ToString(myReader["nombre"]));
+                        PlayList playList1 = new PlayList();
+
+                        id = (Convert.ToInt32(myReader["ID"]));
+                        nombre = Convert.ToString(myReader["nombre"]);
+
+                        playList1.setID(id);
+                        playList1.setName(nombre);
+                        ListOfPlayLists.Add(playList1);
                     }
                 }
                 catch (Exception e)
@@ -453,7 +473,7 @@ namespace EsplaiMusic
                 }
             }
             conn.Close();
-            return resultado;
-        }
+            return ListOfPlayLists;
+        }        
     }
 }

@@ -40,11 +40,23 @@ namespace EsplaiMusic
 
         // flag para activar o no la repetición de la canción (aún por implementar método alternativo)
         private bool repetir = false;
+
+        // Cuenta la cantidad de veces que cambia de estado la canción. Se usa junto a la variable repetir
         private int contadorCambios = 0;
 
         string Title, Artist, Album, Year;
 
+        //Objeto escaner usado para llamar a sus métodos
         Escaner scaner = new Escaner();
+
+        // Lista que contendrá las listas de reproduccion de la base de datos
+        List<PlayList> ListOfPlayLists = new List<PlayList>();
+
+        // Lista de objetos Song de la lista de reproducción actual
+        List<Song> listaReproduccionActual = new List<Song>();
+
+        /* Lista de objetos Song temporal que contiene las canciones de la segunda listbox y asi poder trabajar con ellos */
+        List<Song> listaTemp = new List<Song>();
 
         public Reproductor()
         {
@@ -64,6 +76,7 @@ namespace EsplaiMusic
             // Ajustamos el valor de la barra de volumen por defecto en 50 (la mitad)
             wmp.settings.volume = 50;
 
+            // Asignamos las etiquetas a los botones
             toolTip(this.play, "Play");
             toolTip(this.stop, "Stop");
             toolTip(this.pause, "Pause");
@@ -77,15 +90,24 @@ namespace EsplaiMusic
             toolTip(this.norepeat, "Turn On  Repeat");
             toolTip(this.randomOn, "Turn Off Random");
             toolTip(this.randomOff, "Turn On Random");
+            toolTip(this.favouriteDesactivated, "Add to favourites");
+            toolTip(this.favouriteActivated, "Remove from favourites");
+            toolTip(this.deshacerCambios, "Undo changes");
+            toolTip(this.deleteSongTemaPlayList, "Remove Song");
+            toolTip(this.addAllSongs, "Add All");
+            toolTip(this.addSongListaReproduccion, "Add To PlayList");
+            toolTip(this.addListTema, "Move To List");
+            toolTip(this.addAllSongsListTema, "Move All");
+            toolTip(this.delSongListReprod, "Remove Song");
 
             // Coloca el label movil a la derecha del todo y le pone 1 milisegundo de intervalo a su timer
             labelMovil.Left = this.ClientSize.Width;
             this.timerLabel.Interval = 1;
 
             // Ponemos el color de fondo del panel de botones transparente
-            this.panelButtons.BackColor = Color.Transparent;
+            this.panelButtons.BackColor = Color.FromArgb(110, 33, 44, 50);
 
-            addplaylist();
+            addPlayLists();
         }
 
         /* #####################
@@ -257,6 +279,77 @@ namespace EsplaiMusic
             moveLabelMovil();
         }
 
+        // Evento que selecciona la lista de reproducción y muestra sus canciones en la 2ª lista
+        private void ListboxPlaylist_MouseClick(object sender, MouseEventArgs e)
+        {
+            showSongsSelectedPlayList();
+        }
+
+        // Evento que ejecuta el método que elimina la canción de favoritos
+        private void favouriteActivated_Click(object sender, EventArgs e)
+        {
+            this.favouriteActivated.Visible = false;
+            //this.favouriteDesactivated.Visible = true;
+            this.labelAñadida.Visible = true;
+            //delFromFavourites();
+        }
+
+        // Evento que ejecuta el método que añade la canción a favoritos
+        private void favouriteDesactivated_Click(object sender, EventArgs e)
+        {
+            this.favouriteDesactivated.Visible = false;
+            this.favouriteActivated.Visible = true;
+            addToFavourites();
+        }
+
+        // Evento del botón de añadir a la lista de reproducción todas las canciones de la lista seleccionada
+        private void addAllSongs_Click(object sender, EventArgs e)
+        {
+            addAllListaReproduccion();
+        }
+
+        // Evento para añadir la canción seleccionada a la lista de reproducción
+        private void addSongListaReproduccion_Click(object sender, EventArgs e)
+        {
+            addSongListaReprod();
+        }
+
+        // Evento para quitar la canción seleccionada de la lista de reproducción
+        private void deleteSongTemaPlayList_Click(object sender, EventArgs e)
+        {
+            deleteSongToListBox(ListboxTemaPlaylist, listaTemp);
+        }
+
+        // Evento para pasar una canción de la lista de reproducción a la lista de canciones (2ª listbox)
+        private void addListTema_Click(object sender, EventArgs e)
+        {
+            addSongListaTema();
+        }
+
+        // Evento para pasar todas las canciones de la lista de reproducción a la lista de canciones (2ª listbox)
+        private void addAllSongsListTema_Click(object sender, EventArgs e)
+        {
+            addAllListTema();
+        }
+
+        // Evento para eliminar una canción de una listbox
+        private void delSongListReprod_Click(object sender, EventArgs e)
+        {
+            deleteSongToListBox(listareproduccion, listaReproduccionActual);
+        }
+
+        // Evento para generar una playlist a partir de la lista de reproducción
+        private void createPlayList_Click(object sender, EventArgs e)
+        {
+            generatePlayList();            
+        }
+
+        // Evento para salir del programa desde el menú
+        private void salirToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         /* #####################
            ##     Métodos     ##
            ##################### */
@@ -265,6 +358,8 @@ namespace EsplaiMusic
         las canciones que queremos agregar a la lista de reproducción */
         private void addMusic()
         {
+            listareproduccion.Items.Clear();
+            listaReproduccionActual.Clear();
             if (opf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 foreach (string file in opf.FileNames)
@@ -272,8 +367,8 @@ namespace EsplaiMusic
                     /* Le decimos que por cada cancion elegida la guarde en el objeto media 
                        y luego la añada a la lista de reproduccion */
                     media = wmp.newMedia(file);
-                    playlist.appendItem(media);
 
+                    playlist.appendItem(media);
                     // Lista del formulario para mostrar los nombres de las canciones elegidas
                     listareproduccion.Items.Add(media.name);
                 }
@@ -282,6 +377,11 @@ namespace EsplaiMusic
             wmp.currentPlaylist = playlist;
             selectSongOfList();
             wmp.controls.stop();
+
+            if (listareproduccion.Items.Count > 0)
+            {
+                listareproduccion.SetSelected(0, true);
+            }                        
         }
 
         // Método para reproducir la música
@@ -295,16 +395,16 @@ namespace EsplaiMusic
                 updateDurationLabel();
                 selectSongOfList();
 
-                Title = wmp.currentMedia.name;
-                Artist = "Linkin Park";
-                Album = "Meteora";
-                Year = "2005";
+                int index = listareproduccion.SelectedIndex;
 
-                /*TagLib.File tagFile = TagLib.File.Create(filePath);
+                string pathSong = listaReproduccionActual[index].getPath();
+                wmp.controls.currentItem = wmp.currentPlaylist.Item[index];
+
+                TagLib.File tagFile = TagLib.File.Create(pathSong);
                 Artist = string.Join(",", tagFile.Tag.Performers);
                 Album = tagFile.Tag.Album;
                 Title = tagFile.Tag.Title;
-                Year = tagFile.Tag.Year.ToString();*/
+                Year = tagFile.Tag.Year.ToString();
 
                 labelMovil.Text = "Reproduciendo: " + Title + " - " + Artist + " - " + Album + " - " + Year;                
 
@@ -470,14 +570,18 @@ namespace EsplaiMusic
             this.playedTimeLabel.Text = "00:00";
         }
 
-        // Método para seleccionar la cancion actual en la lista ListBox
+        // Método para seleccionar la cancion actual en la lista ListBox (método por revisar)
         private void selectSongOfList() {
 
-            int index = listareproduccion.FindString(wmp.currentMedia.name);
+            if (listareproduccion.SelectedItem != null)
+            {
+                int index = listareproduccion.FindString(wmp.currentMedia.name);
 
-            if (index != System.Windows.Forms.ListBox.NoMatches) {
-                listareproduccion.SetSelected(index, true);
-            }            
+                if (index != System.Windows.Forms.ListBox.NoMatches)
+                {
+                    listareproduccion.SetSelected(index, true);
+                }
+            }
         }
 
         //Metodo para la barra de progreso
@@ -551,9 +655,10 @@ namespace EsplaiMusic
         private void playListDoubleClickSelected(MouseEventArgs e)
         {
             int index = this.listareproduccion.IndexFromPoint(e.Location);
+
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
-                wmp.controls.currentItem = playlist.Item[index];
+                wmp.controls.currentItem = wmp.currentPlaylist.Item[index];
                 resetProgress();
                 playMusic();
                 progress();
@@ -643,6 +748,43 @@ namespace EsplaiMusic
                 this.notifyIcon1.Visible = true;
             }
         }
+        
+        // Método que muestra las canciones de la lista de reproducción seleccionada en la 2ª lista
+        private void showSongsSelectedPlayList()
+        {            
+            if (ListboxPlaylist.SelectedItem != null)
+            {
+                string listName = ListboxPlaylist.SelectedItem.ToString();
+                int index = ListboxPlaylist.SelectedIndex;
+
+                ListboxTemaPlaylist.Items.Clear();
+                foreach (PlayList list in ListOfPlayLists)
+                {
+                    if (list.getName().Equals(listName))
+                    {
+                        foreach (Song song in list.getPlayListSongs())
+                        {
+                            ListboxTemaPlaylist.Items.Add(song.getName());
+                            listaTemp.Add(song);
+                        }
+                    }
+                }
+
+                selectItemList(ListboxTemaPlaylist, index);
+            }
+        }
+
+        //private void favouriteActivated_Click(object sender, EventArgs e)
+        //{
+        //    this.favouriteActivated.Visible = false;
+        //    this.favouriteDesactivated.Visible = true;
+        //}
+
+        //private void favouriteDesactivated_Click(object sender, EventArgs e)
+        //{
+        //    this.favouriteDesactivated.Visible = false;
+        //    this.favouriteActivated.Visible = true;
+        //}
 
         // Método para minimizar la ventana
         private void frmMain_Resize(object sender, EventArgs e)
@@ -655,23 +797,236 @@ namespace EsplaiMusic
                 // Mostrar el icono
                 this.notifyIcon1.Visible = true;
             }
+        }        
+
+        /* Método para generar el array de listas dereproducción con sus canciones y 
+           añadir el nombre de cada lista en el listbox de las listas de reproducción */
+        private void addPlayLists()
+        {
+            ListOfPlayLists = scaner.chargeListOfPlayLists();
+
+            foreach (PlayList list in ListOfPlayLists)
+            {
+                ListboxPlaylist.Items.Add(list.getName());
+                list.fillPlayListsWithSongs();
+            }
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /* Método para añadir a la lista de reproducción todas las canciones de la lista seleccionada 
+        y vaciar la lista de canciones */
+        private void addAllListaReproduccion()
+        {
+            foreach (Song song in listaTemp)
+            {
+                if (searchSong(listareproduccion, song.getName()) == false)
+                {
+                    listaReproduccionActual.Add(song);
+                    listareproduccion.Items.Add(song.getName());
+                    media = wmp.newMedia(song.getPath());
+                    wmp.currentPlaylist.appendItem(media);
+                }                
+            }
+            ListboxTemaPlaylist.Items.Clear();
+            listaTemp.Clear();
+            
+            if (listareproduccion.Items.Count > 0)
+            {
+                listareproduccion.SetSelected(0, true);
+            }
+        }
+
+        // Método para añadir la canción seleccionada a la lista de reproducción
+        private void addSongListaReprod()
+        {
+            string listName = ListboxPlaylist.SelectedItem.ToString();
+            string songName = ListboxTemaPlaylist.SelectedItem.ToString();
+
+            if(searchSong(listareproduccion, songName) == false)
+            {
+                PlayList lista = new PlayList();
+                Song song = new Song();
+
+                lista = this.getPlayList(listName);
+                song = lista.getSong(songName);
+
+                listaReproduccionActual.Add(song);
+                listareproduccion.Items.Add(song.getName());
+                media = wmp.newMedia(song.getPath());
+                wmp.currentPlaylist.appendItem(media);
+
+                ListboxTemaPlaylist.Items.Remove(song.getName());
+
+                if (ListboxTemaPlaylist.Items.Count > 0)
+                {
+                    ListboxTemaPlaylist.SetSelected(0, true);
+                }
+
+                if (listareproduccion.Items.Count > 0)
+                {
+                    listareproduccion.SetSelected(0, true);
+                }
+
+            } else
+            {
+                MessageBox.Show("Ya está añadida!");
+            }
+        }
+
+        // Método para quitar la canción seleccionada de la lista de reproducción
+        private void deleteSongToListBox(ListBox listbox, List<Song> listSong)
+        {
+            int index = listbox.SelectedIndex;
+
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                listbox.Items.RemoveAt(index);
+                listSong.RemoveAt(index);
+
+                if (listbox == listareproduccion && wmp.currentPlaylist.count > 0)
+                {
+                    wmp.currentPlaylist.removeItem(wmp.currentPlaylist.Item[index]);
+                }                
+            }
+
+            selectItemList(listbox, index);
+        }
+
+        // Método para seleccionar un elemento de la listbox después de haber realizado una modificación (añadir, eliminar, etc)
+        private void selectItemList(ListBox listbox, int index)
+        {
+            if (listbox.Items.Count > 0)
+            {
+                if (listbox.Items.Count == 1)
+                {
+                    listbox.SetSelected(0, true);
+                } else
+                {
+                    listbox.SetSelected(index, true);
+                }
+            }
+        }
+
+        // Método para mover la canción seleccionada de la lista de reproducción a la lista de canciones (2ª listbox)
+        private void addSongListaTema()
+        {            
+            string songName = listareproduccion.SelectedItem.ToString();
+            int index = listareproduccion.SelectedIndex;
+
+            if (searchSong(ListboxTemaPlaylist, songName) == false)
+            {
+                foreach (Song song in listaReproduccionActual)
+                {
+                    if (song.getName().Equals(songName))
+                    {
+                        listaTemp.Add(song);
+                        ListboxTemaPlaylist.Items.Add(song.getName());
+
+                        listaReproduccionActual.Remove(song);
+                        listareproduccion.Items.Remove(song.getName());
+                        wmp.currentPlaylist.removeItem(wmp.currentPlaylist.Item[index]);
+
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ya está añadida!");
+            }
+
+            if (listareproduccion.Items.Count > 0)
+            {
+                listareproduccion.SetSelected(0, true);
+            }
+        }
+
+        /* Método para añadir a la lista de canciones todas las canciones de la lista de reproducción 
+        y vaciar la lista de reproducción */
+        private void addAllListTema()
+        {
+            foreach (Song song in listaReproduccionActual)
+            {
+                if (searchSong(ListboxTemaPlaylist, song.getName()) == false)
+                {
+                    ListboxTemaPlaylist.Items.Add(song.getName());
+                    listaTemp.Add(song);                    
+                }
+            }
+
+            listareproduccion.Items.Clear();
+            listaReproduccionActual.Clear();
+            wmp.currentPlaylist.clear();
+
+            if (ListboxTemaPlaylist.Items.Count > 0)
+            {
+                ListboxTemaPlaylist.SetSelected(0, true);
+            }
+        }
+
+        // Método para buscar una canción en la lista de reproducción y comprobar si ya está añadida o no
+        private bool searchSong(ListBox listbox, string name)
+        {
+            bool found = false;
+
+            foreach (object song in listbox.Items)
+            {
+                if (song.ToString().Equals(name))
+                {
+                    found = true;
+                }
+            }
+
+            return found;
+        }        
+
+        // Método para obtener una lista de reproducción a partir de su nombre
+        private PlayList getPlayList(string listName)
+        {
+            PlayList lista = new PlayList();
+
+            foreach (PlayList list in ListOfPlayLists)
+            {
+                if (list.getName().Equals(listName))
+                {
+                    lista = list;
+                    break;
+                }
+            }
+            return lista;
+        }        
+
+        // Método para crear una lista de canciones a partir de la lista de reproducción
+        private void generatePlayList()
         {
             FormNewPlayList obj1 = new FormNewPlayList();
-            obj1.ShowDialog();
+            var result = obj1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                string newListName = obj1.getNewListName();
+
+                scaner.insertPlaylist(newListName);
+                int playListID = scaner.selectIDPlaylist(newListName);
+
+                foreach (Song song in listaReproduccionActual)
+                {
+                    int cancionID = scaner.selectIDSong(song.getChecksum());
+                    scaner.insertPlaylistCancion(playListID, cancionID);
+                }
+            }
         }
 
-        private void addplaylist()
+        // Método para guardar la canción actual en favoritos
+        private void addToFavourites()
         {
-            List<string> listOfPlaylist = new List<string>();
-            listOfPlaylist = scaner.PlaylistNombres();
-            foreach (string song in listOfPlaylist)
-            {
-                ListboxPlaylist.Items.Add(song);
-            }
-            
+
+        }
+
+        // Método para eliminar la canción actual de favoritos
+        private void deleteFromFavourites()
+        {
+
         }
     }
 }
