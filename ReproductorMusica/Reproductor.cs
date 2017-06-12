@@ -44,8 +44,6 @@ namespace EsplaiMusic
         // Cuenta la cantidad de veces que cambia de estado la canción. Se usa junto a la variable repetir
         private int contadorCambios = 0;
 
-        string Title, Artist, Album, Year;
-
         //Objeto escaner usado para llamar a sus métodos
         Escaner scaner = new Escaner();
 
@@ -395,6 +393,7 @@ namespace EsplaiMusic
                 updateDurationLabel();
                 selectSongOfList();
 
+                string Title, Artist, Album, Year;
                 int index = listareproduccion.SelectedIndex;
 
                 string pathSong = listaReproduccionActual[index].getPath();
@@ -757,6 +756,7 @@ namespace EsplaiMusic
                 string listName = ListboxPlaylist.SelectedItem.ToString();
 
                 ListboxTemaPlaylist.Items.Clear();
+                listaTemp.Clear();
                 foreach (PlayList list in ListOfPlayLists)
                 {
                     if (list.getName().Equals(listName))
@@ -767,7 +767,7 @@ namespace EsplaiMusic
                             listaTemp.Add(song);
                         }
                     }
-                }
+                }                
 
                 selectItemList(ListboxTemaPlaylist, 0);
             }
@@ -809,7 +809,9 @@ namespace EsplaiMusic
                 ListboxPlaylist.Items.Add(list.getName());
                 list.fillPlayListsWithSongs();
             }
-
+            /*ListboxPlaylist.Items.Add("-----------------------------------");
+            int ultimo = ListboxPlaylist.Items.Count;
+            ListboxPlaylist.SetSelected(ultimo -1, false);*/
         }
 
         /* Método para añadir a la lista de reproducción todas las canciones de la lista seleccionada 
@@ -826,8 +828,6 @@ namespace EsplaiMusic
                     wmp.currentPlaylist.appendItem(media);
                 }                
             }
-            ListboxTemaPlaylist.Items.Clear();
-            listaTemp.Clear();
             
             if (listareproduccion.Items.Count > 0)
             {
@@ -853,8 +853,6 @@ namespace EsplaiMusic
                 listareproduccion.Items.Add(song.getName());
                 media = wmp.newMedia(song.getPath());
                 wmp.currentPlaylist.appendItem(media);
-
-                ListboxTemaPlaylist.Items.Remove(song.getName());
 
                 if (ListboxTemaPlaylist.Items.Count > 0)
                 {
@@ -999,7 +997,7 @@ namespace EsplaiMusic
         private void generatePlayList()
         {
             FormNewPlayList obj1 = new FormNewPlayList();
-            var result = obj1.ShowDialog();
+            var result = obj1.ShowDialog();            
 
             if (result == DialogResult.OK)
             {
@@ -1013,6 +1011,12 @@ namespace EsplaiMusic
                     int cancionID = scaner.selectIDSong(song.getChecksum());
                     scaner.insertPlaylistCancion(playListID, cancionID);
                 }
+
+                PlayList listaNueva = new PlayList();
+                listaNueva.setName(newListName);
+                listaNueva.setPlayListSongs(listaReproduccionActual);
+                ListOfPlayLists.Add(listaNueva);
+                ListboxPlaylist.Items.Add(listaNueva.getName());
             }
         }
 
