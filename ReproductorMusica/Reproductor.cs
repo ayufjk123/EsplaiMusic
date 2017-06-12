@@ -755,7 +755,6 @@ namespace EsplaiMusic
             if (ListboxPlaylist.SelectedItem != null)
             {
                 string listName = ListboxPlaylist.SelectedItem.ToString();
-                int index = ListboxPlaylist.SelectedIndex;
 
                 ListboxTemaPlaylist.Items.Clear();
                 foreach (PlayList list in ListOfPlayLists)
@@ -770,7 +769,7 @@ namespace EsplaiMusic
                     }
                 }
 
-                selectItemList(ListboxTemaPlaylist, index);
+                selectItemList(ListboxTemaPlaylist, 0);
             }
         }
 

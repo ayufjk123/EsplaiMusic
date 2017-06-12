@@ -198,5 +198,23 @@
   <ItemGroup>
     <None Include="Resources\shuffle_on.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eliminar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flechaAnterior01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flechaAnteriorDoble.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flechaSiguiente01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flechaSiguienteDOBLE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\undo_32x32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

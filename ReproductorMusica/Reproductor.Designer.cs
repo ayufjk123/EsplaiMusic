@@ -52,6 +52,7 @@
             this.randomOn = new System.Windows.Forms.PictureBox();
             this.randomOff = new System.Windows.Forms.PictureBox();
             this.panelButtons = new System.Windows.Forms.Panel();
+            this.labelAñadida = new System.Windows.Forms.Label();
             this.favouriteDesactivated = new System.Windows.Forms.PictureBox();
             this.favouriteActivated = new System.Windows.Forms.PictureBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
@@ -75,7 +76,6 @@
             this.salirToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllSongs = new System.Windows.Forms.PictureBox();
             this.deshacerCambios = new System.Windows.Forms.PictureBox();
-            this.labelAñadida = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -414,6 +414,18 @@
             this.panelButtons.Size = new System.Drawing.Size(838, 134);
             this.panelButtons.TabIndex = 28;
             // 
+            // labelAñadida
+            // 
+            this.labelAñadida.AutoSize = true;
+            this.labelAñadida.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelAñadida.ForeColor = System.Drawing.Color.White;
+            this.labelAñadida.Location = new System.Drawing.Point(127, 56);
+            this.labelAñadida.Name = "labelAñadida";
+            this.labelAñadida.Size = new System.Drawing.Size(161, 18);
+            this.labelAñadida.TabIndex = 30;
+            this.labelAñadida.Text = "Añadida a Favoritos!";
+            this.labelAñadida.Visible = false;
+            // 
             // favouriteDesactivated
             // 
             this.favouriteDesactivated.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -638,7 +650,7 @@
             this.addAllSongs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.addAllSongs.BackColor = System.Drawing.Color.Transparent;
             this.addAllSongs.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addAllSongs.Image = ((System.Drawing.Image)(resources.GetObject("addAllSongs.Image")));
+            this.addAllSongs.Image = global::EsplaiMusic.Properties.Resources.flechaSiguienteDOBLE;
             this.addAllSongs.Location = new System.Drawing.Point(402, 14);
             this.addAllSongs.Name = "addAllSongs";
             this.addAllSongs.Size = new System.Drawing.Size(32, 32);
@@ -651,25 +663,13 @@
             this.deshacerCambios.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.deshacerCambios.BackColor = System.Drawing.Color.Transparent;
             this.deshacerCambios.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.deshacerCambios.Image = ((System.Drawing.Image)(resources.GetObject("deshacerCambios.Image")));
+            this.deshacerCambios.Image = global::EsplaiMusic.Properties.Resources.undo_32x32;
             this.deshacerCambios.Location = new System.Drawing.Point(326, 14);
             this.deshacerCambios.Name = "deshacerCambios";
             this.deshacerCambios.Size = new System.Drawing.Size(32, 32);
             this.deshacerCambios.TabIndex = 39;
             this.deshacerCambios.TabStop = false;
             this.deshacerCambios.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListboxPlaylist_MouseClick);
-            // 
-            // labelAñadida
-            // 
-            this.labelAñadida.AutoSize = true;
-            this.labelAñadida.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAñadida.ForeColor = System.Drawing.Color.White;
-            this.labelAñadida.Location = new System.Drawing.Point(127, 56);
-            this.labelAñadida.Name = "labelAñadida";
-            this.labelAñadida.Size = new System.Drawing.Size(161, 18);
-            this.labelAñadida.TabIndex = 30;
-            this.labelAñadida.Text = "Añadida a Favoritos!";
-            this.labelAñadida.Visible = false;
             // 
             // Reproductor
             // 

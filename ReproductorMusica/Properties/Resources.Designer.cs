@@ -63,6 +63,16 @@ namespace EsplaiMusic.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap eliminar {
+            get {
+                object obj = ResourceManager.GetObject("eliminar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Fast_backward_icon {
             get {
                 object obj = ResourceManager.GetObject("Fast-backward-icon", resourceCulture);
@@ -96,6 +106,46 @@ namespace EsplaiMusic.Properties {
         internal static System.Drawing.Bitmap favoritoDesactivado {
             get {
                 object obj = ResourceManager.GetObject("favoritoDesactivado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap flechaAnterior01 {
+            get {
+                object obj = ResourceManager.GetObject("flechaAnterior01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap flechaAnteriorDoble {
+            get {
+                object obj = ResourceManager.GetObject("flechaAnteriorDoble", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap flechaSiguiente01 {
+            get {
+                object obj = ResourceManager.GetObject("flechaSiguiente01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap flechaSiguienteDOBLE {
+            get {
+                object obj = ResourceManager.GetObject("flechaSiguienteDOBLE", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -206,6 +256,16 @@ namespace EsplaiMusic.Properties {
         internal static System.Drawing.Bitmap Stop_icon {
             get {
                 object obj = ResourceManager.GetObject("Stop-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap undo_32x32 {
+            get {
+                object obj = ResourceManager.GetObject("undo_32x32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
