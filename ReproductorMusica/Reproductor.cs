@@ -212,14 +212,14 @@ namespace EsplaiMusic
         {
             contadorCambios++;
 
-            //int duracionSegundos = Convert.ToInt32(wmp.controls.currentItem.duration);
-            //string duracionFormateada = wmp.controls.currentItem.durationString;
-
-            //MessageBox.Show("segundos:" + duracionSegundos + " - duracion: " + duracionFormateada + "Estado: " + NewState);
-
             if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
             {
                 contadorCambios = 0;
+            }
+
+            if (NewState == (int)WMPLib.WMPPlayState.wmppsPlaying)
+            {
+                updateDurationLabel();
             }
 
             if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
@@ -241,14 +241,13 @@ namespace EsplaiMusic
                         index = listareproduccion.Items.Count - 1;
                         wmp.controls.playItem(playlist.Item[index]);
                         wmp.controls.currentItem = playlist.Item[index];
-                        //MessageBox.Show(wmp.currentMedia.name + " posicion: " + index + " " + duracionSegundos);
-                        //this.duracionCancion.Maximum = duracionSegundos;
-                        //label1.Text = duracionFormateada;
+
                     } else
                     {
                         wmp.controls.playItem(playlist.Item[index - 1]);
                         wmp.controls.currentItem = playlist.Item[index - 1];
                     }
+                    updateDurationLabel();
                     //resetProgress();
                 }
 
@@ -257,7 +256,7 @@ namespace EsplaiMusic
                 // selecciona la siguiente cancion
                 selectSongOfList();
                 // actualiza la duracion total
-                updateDurationLabel();
+                //updateDurationLabel();
                 // resetea a 00:00 el label del progreso. el otro label está comentado
                 resetLabels();
             }
@@ -396,7 +395,8 @@ namespace EsplaiMusic
                 wmp.controls.play();
                 this.play.Visible = false;
                 this.pause.Visible = true;
-                updateDurationLabel();
+                //updateDurationLabel();
+
                 selectSongOfList();
 
                 string Title, Artist, Album, Year;
@@ -587,7 +587,7 @@ namespace EsplaiMusic
             if (wmp.controls.currentItem != null)
             {
                 string duracionFormateada = wmp.controls.currentItem.durationString;
-                label1.Text = duracionFormateada;
+                totalDuration.Text = duracionFormateada;
             }
         }
 
@@ -801,6 +801,7 @@ namespace EsplaiMusic
             }
         }
 
+        // Eventi para añadir la canción a la lista de favoritos
         private void favouriteButton_Click(object sender, EventArgs e)
         {
             this.favouriteButton.Visible = false;
@@ -831,9 +832,6 @@ namespace EsplaiMusic
                 ListboxPlaylist.Items.Add(list.getName());
                 list.fillPlayListsWithSongs();
             }
-            /*ListboxPlaylist.Items.Add("-----------------------------------");
-            int ultimo = ListboxPlaylist.Items.Count;
-            ListboxPlaylist.SetSelected(ultimo -1, false);*/
         }
 
         /* Método para añadir a la lista de reproducción todas las canciones de la lista seleccionada 
@@ -1058,12 +1056,6 @@ namespace EsplaiMusic
         private void addToFavourites()
         {
 
-        }
-
-        // Método para eliminar la canción actual de favoritos
-        private void deleteFromFavourites()
-        {
-
-        }        
+        }      
     }
 }

@@ -36,7 +36,7 @@
             this.norepeat = new System.Windows.Forms.PictureBox();
             this.repeat = new System.Windows.Forms.PictureBox();
             this.duracionCancion = new XComponent.SliderBar.MACTrackBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.totalDuration = new System.Windows.Forms.Label();
             this.stop = new System.Windows.Forms.PictureBox();
             this.anterior = new System.Windows.Forms.PictureBox();
             this.pause = new System.Windows.Forms.PictureBox();
@@ -192,18 +192,18 @@
             this.duracionCancion.Value = 0;
             this.duracionCancion.Scroll += new System.EventHandler(this.duracionCancion_Scroll);
             // 
-            // label1
+            // totalDuration
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(789, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 16);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "00:00";
+            this.totalDuration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalDuration.AutoSize = true;
+            this.totalDuration.BackColor = System.Drawing.Color.Transparent;
+            this.totalDuration.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalDuration.ForeColor = System.Drawing.Color.White;
+            this.totalDuration.Location = new System.Drawing.Point(789, 18);
+            this.totalDuration.Name = "totalDuration";
+            this.totalDuration.Size = new System.Drawing.Size(44, 16);
+            this.totalDuration.TabIndex = 16;
+            this.totalDuration.Text = "00:00";
             // 
             // stop
             // 
@@ -404,7 +404,7 @@
             this.panelButtons.Controls.Add(this.pause);
             this.panelButtons.Controls.Add(this.anterior);
             this.panelButtons.Controls.Add(this.stop);
-            this.panelButtons.Controls.Add(this.label1);
+            this.panelButtons.Controls.Add(this.totalDuration);
             this.panelButtons.Controls.Add(this.duracionCancion);
             this.panelButtons.Controls.Add(this.repeat);
             this.panelButtons.Controls.Add(this.norepeat);
@@ -755,7 +755,7 @@
         private System.Windows.Forms.PictureBox norepeat;
         private System.Windows.Forms.PictureBox repeat;
         private XComponent.SliderBar.MACTrackBar duracionCancion;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label totalDuration;
         private System.Windows.Forms.PictureBox stop;
         private System.Windows.Forms.PictureBox anterior;
         private System.Windows.Forms.PictureBox pause;

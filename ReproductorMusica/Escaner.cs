@@ -25,7 +25,6 @@ namespace EsplaiMusic
         {
             string fileName, checkSum, path, year, pathNoExtension;
             string raizDic = "C:\\CloudMusic";
-            //List<String> subCarpetas = Directory.GetDirectories(raizDic).ToList();
             musicFiles = Directory.GetFiles(raizDic).ToList();
             listOfPlaylist.Add(raizDic.Substring(raizDic.LastIndexOf("\\") + 1));
 
@@ -394,6 +393,30 @@ namespace EsplaiMusic
             }
         }
 
+        // Método para eliminar de la lista (la relación) de las canciones que esten desactivadas
+        public void deletePlaylistCancionDesactiva()
+        {
+            conn.Open();
+
+            if (conn != null)
+            {
+                try
+                {
+                    query = "DELETE FROM playlist_cancion pc LEFT JOIN canciones c ON pc.cancion_id = c.ID AND c.active = 0;";
+
+                    SqlCommand comando = new SqlCommand(query, conn);
+
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    conn.Close();
+                }
+                conn.Close();
+            }
+        }
+
         // Desactiva todas las canciones actualizando su valor "activada" a 0 (false)
         public void desactivateAllSongs()
         {
@@ -416,21 +439,25 @@ namespace EsplaiMusic
             }
         }
 
-        // Método para
+        /* Método para escanear recursivamente todos los archivos y carpetas y guardarlos en sus respectivas listas
+        si la carpeta está vacía no la guardará */
         public static void DirSearch(string sDir)
         {
             try
             {
                 foreach (string d in Directory.GetDirectories(sDir))
                 {
-                    foreach (string f in Directory.GetFiles(d, "*.mp3"))
+                    if (Directory.GetFiles(d, "*.mp3").Count() > 0)
                     {
-                        /* Añadimos cada archivo a la lista de archivos genericos, 
-                        para tener en una lista los archivos de la carpeta raíz y los de las subcarpetas */
-                        musicFiles.Add(f);
+                        foreach (string f in Directory.GetFiles(d, "*.mp3"))
+                        {
+                            /* Añadimos cada archivo a la lista de archivos genericos, 
+                            para tener en una lista los archivos de la carpeta raíz y los de las subcarpetas */
+                            musicFiles.Add(f);
+                        }
+                        listOfPlaylist.Add(d.Substring(d.LastIndexOf("\\") + 1));
+                        DirSearch(d);
                     }
-                    listOfPlaylist.Add(d.Substring(d.LastIndexOf("\\") + 1));
-                    DirSearch(d);
                 }
             }
             catch (System.Exception excpt)
