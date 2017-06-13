@@ -88,8 +88,7 @@ namespace EsplaiMusic
             toolTip(this.norepeat, "Turn On  Repeat");
             toolTip(this.randomOn, "Turn Off Random");
             toolTip(this.randomOff, "Turn On Random");
-            toolTip(this.favouriteDesactivated, "Add to favourites");
-            toolTip(this.favouriteActivated, "Remove from favourites");
+            toolTip(this.favouriteButton, "Add to favourites");
             toolTip(this.deshacerCambios, "Undo changes");
             toolTip(this.deleteSongTemaPlayList, "Remove Song");
             toolTip(this.addAllSongs, "Add All");
@@ -205,7 +204,7 @@ namespace EsplaiMusic
            la canción a reproducir de la lista de reproducción */
         private void lista_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            playListDoubleClickSelected(e);
+            playListDoubleClickSelected(e);            
         }
 
         // Evento que controla cuando una canción termina. No está terminado
@@ -268,7 +267,7 @@ namespace EsplaiMusic
            cuando el usuario la desplaza */
         private void duracionCancion_Scroll(object sender, EventArgs e)
         {
-            updateProgressBar();
+            updateProgressBar();            
         }
 
         // Evento que ejecuta el metodo que mueve el label con el nombre de la cancion actual
@@ -286,17 +285,16 @@ namespace EsplaiMusic
         // Evento que ejecuta el método que elimina la canción de favoritos
         private void favouriteActivated_Click(object sender, EventArgs e)
         {
-            this.favouriteActivated.Visible = false;
+            this.favouriteButton.Visible = false;
             //this.favouriteDesactivated.Visible = true;
-            this.labelAñadida.Visible = true;
+            this.favouriteLabel.Visible = true;
             //delFromFavourites();
         }
 
         // Evento que ejecuta el método que añade la canción a favoritos
         private void favouriteDesactivated_Click(object sender, EventArgs e)
         {
-            this.favouriteDesactivated.Visible = false;
-            this.favouriteActivated.Visible = true;
+            this.favouriteButton.Visible = true;
             addToFavourites();
         }
 
@@ -340,6 +338,12 @@ namespace EsplaiMusic
         private void createPlayList_Click(object sender, EventArgs e)
         {
             generatePlayList();            
+        }
+
+        // Evento para guardar la lista de reproducción actual
+        private void savePlayList_Click(object sender, EventArgs e)
+        {
+            saveList();
         }
 
         // Evento para salir del programa desde el menú
@@ -387,6 +391,8 @@ namespace EsplaiMusic
         {
             if (listareproduccion.Items.Count > 0)
             {
+                StringBuilder sb = new StringBuilder();
+
                 wmp.controls.play();
                 this.play.Visible = false;
                 this.pause.Visible = true;
@@ -397,7 +403,6 @@ namespace EsplaiMusic
                 int index = listareproduccion.SelectedIndex;
 
                 string pathSong = listaReproduccionActual[index].getPath();
-                wmp.controls.currentItem = wmp.currentPlaylist.Item[index];
 
                 TagLib.File tagFile = TagLib.File.Create(pathSong);
                 Artist = string.Join(",", tagFile.Tag.Performers);
@@ -405,7 +410,31 @@ namespace EsplaiMusic
                 Title = tagFile.Tag.Title;
                 Year = tagFile.Tag.Year.ToString();
 
-                labelMovil.Text = "Reproduciendo: " + Title + " - " + Artist + " - " + Album + " - " + Year;                
+                sb.Append("Reproduciendo: ");
+
+                if (Title != null && !Title.Equals(""))
+                {
+                    sb.Append(Title);
+                } else
+                {
+                    sb.Append(wmp.currentMedia.name);
+                }
+
+                if (Artist != null && !Artist.Equals(""))
+                {
+                    sb.Append(" - " + Artist);
+                }
+
+                if (Album != null && !Album.Equals(""))
+                {
+                    sb.Append(" - " + Album);
+                }
+                if (Year != null && !Year.Equals("") && !Year.Equals("0"))
+                {
+                    sb.Append(" - " + Year);
+                }
+
+                labelMovil.Text = sb.ToString();
 
                 timerLabel.Start();
                 progress();
@@ -450,7 +479,7 @@ namespace EsplaiMusic
                 resetProgress();
                 progress();
                 labelMovil.Left = this.ClientSize.Width;
-                labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                timerLabel.Stop();
                 this.stopMusic();
             }
             else
@@ -474,7 +503,7 @@ namespace EsplaiMusic
                 resetProgress();
                 progress();
                 labelMovil.Left = this.ClientSize.Width;
-                labelMovil.Text = "Reproduciendo " + wmp.currentMedia.name;
+                timerLabel.Stop();
                 this.stopMusic();
             }
             else
@@ -590,7 +619,7 @@ namespace EsplaiMusic
             int segundos = getDurationInSeconds();
             this.duracionCancion.Maximum = segundos;
 
-            //prueba de asignacion del evento de cambio de estado (cuando finaliza la canción)
+            //asignacion del evento de cambio de estado (cuando pasa a estar playing, stopped, etc)
             wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
         }        
 
@@ -658,10 +687,9 @@ namespace EsplaiMusic
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 wmp.controls.currentItem = wmp.currentPlaylist.Item[index];
-                resetProgress();
+                resetProgress();                
+                progress();                
                 playMusic();
-                progress();
-                resetProgress();
             }       
         }
 
@@ -773,17 +801,11 @@ namespace EsplaiMusic
             }
         }
 
-        //private void favouriteActivated_Click(object sender, EventArgs e)
-        //{
-        //    this.favouriteActivated.Visible = false;
-        //    this.favouriteDesactivated.Visible = true;
-        //}
-
-        //private void favouriteDesactivated_Click(object sender, EventArgs e)
-        //{
-        //    this.favouriteDesactivated.Visible = false;
-        //    this.favouriteActivated.Visible = true;
-        //}
+        private void favouriteButton_Click(object sender, EventArgs e)
+        {
+            this.favouriteButton.Visible = false;
+            this.favouriteLabel.Visible = true;
+        }
 
         // Método para minimizar la ventana
         private void frmMain_Resize(object sender, EventArgs e)
@@ -838,8 +860,14 @@ namespace EsplaiMusic
         // Método para añadir la canción seleccionada a la lista de reproducción
         private void addSongListaReprod()
         {
-            string listName = ListboxPlaylist.SelectedItem.ToString();
-            string songName = ListboxTemaPlaylist.SelectedItem.ToString();
+            string listName = "";
+            string songName = "";
+
+            if (ListboxPlaylist.SelectedItem != null && ListboxTemaPlaylist.SelectedItem != null)
+            {
+                listName = ListboxPlaylist.SelectedItem.ToString();
+                songName = ListboxTemaPlaylist.SelectedItem.ToString();
+            }            
 
             if(searchSong(listareproduccion, songName) == false)
             {
@@ -910,26 +938,26 @@ namespace EsplaiMusic
             string songName = listareproduccion.SelectedItem.ToString();
             int index = listareproduccion.SelectedIndex;
 
-            if (searchSong(ListboxTemaPlaylist, songName) == false)
+            foreach (Song song in listaReproduccionActual)
             {
-                foreach (Song song in listaReproduccionActual)
+                if (song.getName().Equals(songName))
                 {
-                    if (song.getName().Equals(songName))
+                    if (searchSong(ListboxTemaPlaylist, songName) == false)
                     {
                         listaTemp.Add(song);
                         ListboxTemaPlaylist.Items.Add(song.getName());
 
-                        listaReproduccionActual.Remove(song);
-                        listareproduccion.Items.Remove(song.getName());
-                        wmp.currentPlaylist.removeItem(wmp.currentPlaylist.Item[index]);
-
-                        break;
+                    } else
+                    {
+                        MessageBox.Show("Ya está añadida!");
                     }
+
+                    listaReproduccionActual.Remove(song);
+                    listareproduccion.Items.Remove(song.getName());
+                    wmp.currentPlaylist.removeItem(wmp.currentPlaylist.Item[index]);
+
+                    break;
                 }
-            }
-            else
-            {
-                MessageBox.Show("Ya está añadida!");
             }
 
             if (listareproduccion.Items.Count > 0)
@@ -1020,6 +1048,12 @@ namespace EsplaiMusic
             }
         }
 
+        // Método para guardar los cambios en la lista de reproducción del segundo listbox
+        private void saveList()
+        {
+
+        }
+
         // Método para guardar la canción actual en favoritos
         private void addToFavourites()
         {
@@ -1030,6 +1064,6 @@ namespace EsplaiMusic
         private void deleteFromFavourites()
         {
 
-        }
+        }        
     }
 }
