@@ -14,7 +14,7 @@ namespace EsplaiMusic
     {
         private static string query;
 
-        SqlConnection conn = dbConnect.openConnection();
+        SqlConnection conn = null;
 
         public static List<String> musicFiles = new List<string>();
         public static List<string> listOfPlaylist = new List<string>();
@@ -26,12 +26,16 @@ namespace EsplaiMusic
             string fileName, checkSum, path, year, pathNoExtension;
             string raizDic = "C:\\CloudMusic";
             musicFiles = Directory.GetFiles(raizDic).ToList();
-            listOfPlaylist.Add(raizDic.Substring(raizDic.LastIndexOf("\\") + 1));
+            //listOfPlaylist.Add(raizDic.Substring(raizDic.LastIndexOf("\\") + 1));
+
+            if (Directory.GetFiles(raizDic, "*.mp3").Count() > 0)
+            {
+                listOfPlaylist.Add(raizDic.Substring(raizDic.LastIndexOf("\\") + 1));
+            }
 
             desactivateAllSongs();
 
             // Leemos cada archivo de la lista de archivos de las subcarpetas
-
             DirSearch(raizDic);
 
             foreach (string namePlaylist in listOfPlaylist)
@@ -53,7 +57,7 @@ namespace EsplaiMusic
                     int resultado;
 
                     // Obtenemos el nombre de cada archivo
-                    
+
                     path = filePath;
                     pathNoExtension = filePath.Remove(filePath.LastIndexOf('.'));
 
@@ -97,7 +101,7 @@ namespace EsplaiMusic
         public int selectSong(string checksum)
         {
             int resultado = 0;
-            conn.Open();
+            conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
@@ -112,17 +116,19 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
             return resultado;
         }
 
         // Inserta la canción en la tabla de canciones
         public void insertSong(string name, string path, string checksum, string year)
         {
-            conn.Open();
+            conn = dbConnect.openConnection();
             bool activada = true;
             bool favourite = false;
 
@@ -146,16 +152,18 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
         }
 
         // Actualiza el nombre de la canción y su codigo checksum
         public void updateSong(string name, string path, string checksum)
         {
-            conn.Open();
+            conn = dbConnect.openConnection();
             bool activada = true;
 
             if (conn != null)
@@ -176,9 +184,11 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
                 }
-                conn.Close();
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
             }
         }
 
@@ -186,7 +196,7 @@ namespace EsplaiMusic
         public int selectPlaylist(string name)
         {
             int resultado = 0;
-            conn.Open();
+            conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
@@ -201,17 +211,19 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
             return resultado;
         }
 
         // Inserta la canción en la tabla de canciones
         public void insertPlaylist(string name)
         {
-            conn.Open();
+            conn = dbConnect.openConnection();
 
             if (conn != null)
             {
@@ -228,16 +240,18 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
         }
 
         // Actualiza el nombre de la canción y su codigo checksum
         public void updatePlaylist(string nameOld, string nameNew)
         {
-            conn.Open();
+            conn = dbConnect.openConnection();
 
             if (conn != null)
             {
@@ -255,9 +269,11 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
                 }
-                conn.Close();
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
             }
         }
 
@@ -265,7 +281,7 @@ namespace EsplaiMusic
         public int selectPlaylistCancion(string checksum)
         {
             int resultado = 0;
-            conn.Open();
+            conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
@@ -281,10 +297,12 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
             return resultado;
         }
 
@@ -292,7 +310,7 @@ namespace EsplaiMusic
         public int selectIDSong(string checksum)
         {
             int resultado = 0;
-            conn.Open();
+            conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
@@ -306,10 +324,12 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
             return resultado;
         }
 
@@ -317,7 +337,7 @@ namespace EsplaiMusic
         public int selectIDPlaylist(string name)
         {
             int resultado = 0;
-            conn.Open();
+            conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
@@ -332,17 +352,19 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
             return resultado;
         }
 
         // Inserta la canción en la tabla de canciones
         public void insertPlaylistCancion(int playList_id, int cancion_id)
         {
-            conn.Open();
+            conn = dbConnect.openConnection();
 
             if (conn != null)
             {
@@ -360,16 +382,18 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
         }
 
         // Actualiza el nombre de la canción y su codigo checksum
         public void deletePlaylistCancion(int playlist_id, int cancion_id)
         {
-            conn.Open();
+            conn = dbConnect.openConnection();
 
             if (conn != null)
             {
@@ -387,36 +411,14 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
                 }
-                conn.Close();
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
             }
         }
-
-        // Método para eliminar de la lista (la relación) de las canciones que esten desactivadas
-        public void deletePlaylistCancionDesactiva()
-        {
-            conn.Open();
-
-            if (conn != null)
-            {
-                try
-                {
-                    query = "DELETE FROM playlist_cancion pc LEFT JOIN canciones c ON pc.cancion_id = c.ID AND c.active = 0;";
-
-                    SqlCommand comando = new SqlCommand(query, conn);
-
-                    comando.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                    conn.Close();
-                }
-                conn.Close();
-            }
-        }
-
+                
         // Desactiva todas las canciones actualizando su valor "activada" a 0 (false)
         public void desactivateAllSongs()
         {
@@ -433,9 +435,11 @@ namespace EsplaiMusic
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
                 }
-                conn.Close();
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
             }
         }
 
@@ -447,7 +451,7 @@ namespace EsplaiMusic
             {
                 foreach (string d in Directory.GetDirectories(sDir))
                 {
-                    if (Directory.GetFiles(d, "*.mp3").Count() > 0)
+                    if (Directory.GetFiles(d, "*.mp3").Count() > 0 || Directory.GetDirectories(d).Count() > 0)
                     {
                         foreach (string f in Directory.GetFiles(d, "*.mp3"))
                         {
@@ -455,7 +459,10 @@ namespace EsplaiMusic
                             para tener en una lista los archivos de la carpeta raíz y los de las subcarpetas */
                             musicFiles.Add(f);
                         }
-                        listOfPlaylist.Add(d.Substring(d.LastIndexOf("\\") + 1));
+                        if (Directory.GetFiles(d, "*.mp3").Count() > 0)
+                        {
+                            listOfPlaylist.Add(d.Substring(d.LastIndexOf("\\") + 1));
+                        }
                         DirSearch(d);
                     }
                 }
@@ -470,9 +477,9 @@ namespace EsplaiMusic
         public List<PlayList> chargeListOfPlayLists()
         {
             int id;
-            string nombre;            
+            string nombre;
 
-            conn.Open();
+            conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
@@ -494,13 +501,15 @@ namespace EsplaiMusic
                     }
                 }
                 catch (Exception e)
-                { 
+                {
                     Console.WriteLine(e.ToString());
-                    conn.Close();
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
                 }
             }
-            conn.Close();
             return ListOfPlayLists;
-        }        
+        }
     }
 }

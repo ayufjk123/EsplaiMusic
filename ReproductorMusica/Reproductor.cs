@@ -59,6 +59,7 @@ namespace EsplaiMusic
         public Reproductor()
         {
             InitializeComponent();
+            //scaner.deletePlaylistCancionDesactiva();
             scaner.scanFiles();
 
             this.timer1.Interval = 1000;
@@ -210,31 +211,50 @@ namespace EsplaiMusic
         // Evento que controla cuando una canción termina. No está terminado
         private void wmp_PlayStateChange(int NewState)
         {
-            contadorCambios++;
-
-            if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+            if (wmp.currentMedia != null)
             {
-                contadorCambios = 0;
-            }
+                //contadorCambios++;
 
-            if (NewState == (int)WMPLib.WMPPlayState.wmppsPlaying)
-            {
-                updateDurationLabel();
-            }
+                /*if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+                {
+                    contadorCambios = 0;
+                }*/
 
-            if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
-            {
-                int index = listareproduccion.FindString(wmp.currentMedia.name);
+                if (NewState == (int)WMPLib.WMPPlayState.wmppsPlaying)
+                {
+                    // contador = 0, reset de la barra a 0 y max value = segundos
+                    resetProgress();
+                    // selecciona la siguiente cancion
+                    selectSongOfList();
+                    // actualiza la duracion total
+                    updateDurationLabel();
+                    // resetea a 00:00 el label del progreso. el otro label está comentado
+                    resetLabels();
+                }
+
+                /*if (NewState == (int)WMPLib.WMPPlayState.wmppsTransitioning)
+                {
+                    // contador = 0, reset de la barra a 0 y max value = segundos
+                    resetProgress();
+                    // selecciona la siguiente cancion
+                    selectSongOfList();
+                    // actualiza la duracion total
+                    updateDurationLabel();
+                    // resetea a 00:00 el label del progreso. el otro label está comentado
+                    resetLabels();
+                }*/
+
+                //int index = listareproduccion.FindString(wmp.currentMedia.name);
 
                 // Para cuando solo haya una canción, reproducirla de nuevo una vez finalizada
-                if (listareproduccion.Items.Count == 1)
+                /*if (listareproduccion.Items.Count == 1)
                 {
                     wmp.controls.playItem(playlist.Item[0]);
                     wmp.controls.currentItem = playlist.Item[0];
                 }
 
                 // Para repetir la misma canción cuando hay más de una en la lista de reproducción
-                else if (repetir == true && contadorCambios == 1)
+                /*else if (repetir == true && contadorCambios == 1)
                 {
                     if (index == 0)
                     {
@@ -242,23 +262,15 @@ namespace EsplaiMusic
                         wmp.controls.playItem(playlist.Item[index]);
                         wmp.controls.currentItem = playlist.Item[index];
 
-                    } else
+                    }
+                    else
                     {
                         wmp.controls.playItem(playlist.Item[index - 1]);
                         wmp.controls.currentItem = playlist.Item[index - 1];
                     }
                     updateDurationLabel();
-                    //resetProgress();
-                }
-
-                // contador = 0, reset de la barra a 0 y max value = segundos
-                resetProgress();
-                // selecciona la siguiente cancion
-                selectSongOfList();
-                // actualiza la duracion total
-                //updateDurationLabel();
-                // resetea a 00:00 el label del progreso. el otro label está comentado
-                resetLabels();
+                    //resetProgress();*/
+                //}
             }
         }
 
@@ -979,7 +991,9 @@ namespace EsplaiMusic
 
             listareproduccion.Items.Clear();
             listaReproduccionActual.Clear();
+            wmp.controls.stop();
             wmp.currentPlaylist.clear();
+           
 
             if (ListboxTemaPlaylist.Items.Count > 0)
             {

@@ -83,7 +83,7 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    string query = "SELECT c.ID, c.nombre, c.ruta, c.codigoArchivo, c.favorita, c.anyo, c.activa FROM canciones c  where c.ID IN ";
+                    string query = "SELECT c.ID, c.nombre, c.ruta, c.codigoArchivo, c.favorita, c.anyo, c.activa FROM canciones c  where c.activa = 1 AND c.ID IN ";
                     query += "(SELECT plc.cancion_id FROM playlist_cancion plc WHERE plc.playlist_id IN ";
                     query += "(SELECT pl.ID from playlists pl WHERE pl.nombre = @namePlayList));";
 

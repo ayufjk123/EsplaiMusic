@@ -56,5 +56,10 @@ namespace EsplaiMusic
                 }
             }
         }
+
+        public static SqlConnection getConn()
+        {
+            return conn;
+        }
     }
 }
