@@ -21,6 +21,9 @@ namespace EsplaiMusic
 
         public static List<PlayList> ListOfPlayLists = new List<PlayList>();
 
+        // Lista de ID's de las canciones favoritas
+        public static List<int> idFavoritas = new List<int>();
+
         public void scanFiles()
         {
             string fileName, checkSum, path, year, pathNoExtension;
@@ -94,6 +97,29 @@ namespace EsplaiMusic
                         insertPlaylistCancion(playlist_id, cancion_id);
                     }
                 }
+            }
+
+            // Añadimos la lista de canciones favoritas y luego sus canciones en la tabla relacional
+            string nombreFav = "Favoritos";
+            int idFav = selectIDPlaylist(nombreFav);
+
+            if (idFav < 1)
+            {
+                insertPlaylist(nombreFav);
+            }            
+            
+            // Obtenemos el ID de todas las canciones en favoritos
+            selectFavoritas();
+
+            // Comprobamos si la relación ya existe (la canción ya está añadida a la lista de favoritos) y la añadimos si no existe
+            foreach (int idCancion in idFavoritas)
+            {
+                int relacion = selectPlaylistCancion(idFav, idCancion);
+
+                if (relacion < 1)
+                {
+                    insertPlaylistCancion(idFav, idCancion);
+                }                
             }
         }
 
@@ -277,8 +303,37 @@ namespace EsplaiMusic
             }
         }
 
-        // Selecciona la canción a partir de su codigo checksum
-        public int selectPlaylistCancion(string checksum)
+        //// Selecciona la canción a partir de su codigo checksum
+        //public int selectPlaylistCancion(string checksum)
+        //{
+        //    int resultado = 0;
+        //    conn = dbConnect.openConnection();
+        //    if (conn != null)
+        //    {
+        //        try
+        //        {
+        //            query = "SELECT COUNT(*) FROM playlist_cancion pc, playlists pl, canciones ca " +
+        //                "WHERE pc.playlist_id = pl.ID AND pc.cancion_id = ca.ID AND ca.codigoArchivo = @codigoArchivo;";
+        //            SqlCommand comando = new SqlCommand(query, conn);
+
+        //            comando.Parameters.AddWithValue("@codigoArchivo", checksum);
+
+        //            resultado = Convert.ToInt32(comando.ExecuteScalar());
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e.ToString());
+        //        }
+        //        finally
+        //        {
+        //            dbConnect.closeConnection();
+        //        }
+        //    }
+        //    return resultado;
+        //}
+
+        // Cuenta la cantidad de relaciones que hay entre una lista y una cancion. Si hay una ya no la vovleremos a insertar
+        public int selectPlaylistCancion(int idPlaylist, int idCancion)
         {
             int resultado = 0;
             conn = dbConnect.openConnection();
@@ -286,11 +341,11 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "SELECT COUNT(*) FROM playlist_cancion pc, playlists pl, canciones ca " +
-                        "WHERE pc.playlist_id = pl.ID AND pc.cancion_id = ca.ID AND ca.codigoArchivo = @codigoArchivo;";
+                    query = "SELECT COUNT(*) FROM playlist_cancion pc WHERE playlist_id = @idPlaylist AND cancion_id = @idCancion;" ;
                     SqlCommand comando = new SqlCommand(query, conn);
 
-                    comando.Parameters.AddWithValue("@codigoArchivo", checksum);
+                    comando.Parameters.AddWithValue("@idPlaylist", idPlaylist);
+                    comando.Parameters.AddWithValue("@idCancion", idCancion);
 
                     resultado = Convert.ToInt32(comando.ExecuteScalar());
                 }
@@ -331,6 +386,38 @@ namespace EsplaiMusic
                 }
             }
             return resultado;
+        }
+
+        // Selecciona el ID de las canciones favoritas
+        public void selectFavoritas()
+        {
+            int favorita = 1;
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "SELECT ID from canciones where favorita = @favorita;";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    comando.Parameters.AddWithValue("@favorita", favorita);
+
+                    SqlDataReader lector = comando.ExecuteReader();
+
+                    while (lector.Read())
+                    {
+                        int pos = lector.GetInt32(0);
+                        idFavoritas.Add(pos);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
         }
 
         // Selecciona la canción a partir de su codigo checksum

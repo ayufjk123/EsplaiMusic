@@ -73,6 +73,12 @@
   <ItemGroup>
     <Compile Include="dbConnect.cs" />
     <Compile Include="Escaner.cs" />
+    <Compile Include="formCloseProgram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formCloseProgram.Designer.cs">
+      <DependentUpon>formCloseProgram.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormNewPlayList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Song.cs" />
+    <EmbeddedResource Include="formCloseProgram.resx">
+      <DependentUpon>formCloseProgram.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormNewPlayList.resx">
       <DependentUpon>FormNewPlayList.cs</DependentUpon>
     </EmbeddedResource>

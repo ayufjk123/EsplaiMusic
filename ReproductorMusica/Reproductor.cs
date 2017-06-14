@@ -732,8 +732,19 @@ namespace EsplaiMusic
             {
                 // Cancelar cerrar la ventana
                 e.Cancel = true;
-                // Ocultar ventana
-                this.Hide();
+                // pregunta qué desea hacer al usuario (salir, minimizar, o cancelar)
+                formCloseProgram obj1 = new formCloseProgram();
+                var result = obj1.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    //Cierra el programa
+                    Application.Exit();
+                } else if (result == DialogResult.Ignore)
+                {
+                    //Minimiza el programa
+                    this.Hide();
+                }
             }
         }
 
@@ -1037,7 +1048,7 @@ namespace EsplaiMusic
         private void generatePlayList()
         {
             FormNewPlayList obj1 = new FormNewPlayList();
-            var result = obj1.ShowDialog();            
+            var result = obj1.ShowDialog();
 
             if (result == DialogResult.OK)
             {
