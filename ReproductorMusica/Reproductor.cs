@@ -97,6 +97,7 @@ namespace EsplaiMusic
             toolTip(this.addListTema, "Move To List");
             toolTip(this.addAllSongsListTema, "Move All");
             toolTip(this.delSongListReprod, "Remove Song");
+            toolTip(this.createPlayList, "Create new Playist");
 
             // Coloca el label movil a la derecha del todo y le pone 1 milisegundo de intervalo a su timer
             labelMovil.Left = this.ClientSize.Width;
@@ -106,17 +107,29 @@ namespace EsplaiMusic
             this.panelButtons.BackColor = Color.FromArgb(110, 33, 44, 50);
 
             addPlayLists();
+
+            //this.ListboxPlaylist.BackColor = Color.FromArgb(8, 106, 135);
+            //this.ListboxTemaPlaylist.BackColor = Color.FromArgb(24, 129, 161);
+            //this.listareproduccion.BackColor = Color.FromArgb(151, 180, 188);
+
+
+            //this.ListboxPlaylist.BackColor = Color.FromArgb(177, 186, 189);
+
+
+            this.ListboxPlaylist.BackColor = Color.FromArgb(165, 174, 176);
+            this.ListboxTemaPlaylist.BackColor = Color.FromArgb(165,174,176);
+            this.listareproduccion.BackColor = Color.FromArgb(165,174,176);
         }
 
         /* #####################
            ##     Eventos     ##
            ##################### */
 
-        // Evento click del boton para buscar las canciones con el explorador de archivos
-        private void browse_Click(object sender, EventArgs e)
-        {
-            addMusic();
-        }
+        //// Evento click del boton para buscar las canciones con el explorador de archivos
+        //private void browse_Click(object sender, EventArgs e)
+        //{
+        //    addMusic();
+        //}
 
         // Evento click del boton stop
         private void stop_Click(object sender, EventArgs e)
@@ -357,6 +370,19 @@ namespace EsplaiMusic
             saveList();
         }
 
+        // Evento que controla cuando el usuario selecciona una canción de las listas
+        private void ListboxTemaPlaylist_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.favouriteButton.Visible = false;
+            this.favouriteLabel.Visible = false;
+        }
+
+        // Evento que controla cuando el usuario selecciona una canción de la lista de reproducción con un solo click
+        private void listareproduccion_MouseClick(object sender, MouseEventArgs e)
+        {
+            checkFavouriteButton();
+        }
+
         // Evento para salir del programa desde el menú
         private void salirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -369,33 +395,33 @@ namespace EsplaiMusic
 
         /* Método para abrir el explorador de archivos y seleccionar 
         las canciones que queremos agregar a la lista de reproducción */
-        private void addMusic()
-        {
-            listareproduccion.Items.Clear();
-            listaReproduccionActual.Clear();
-            if (opf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                foreach (string file in opf.FileNames)
-                {
-                    /* Le decimos que por cada cancion elegida la guarde en el objeto media 
-                       y luego la añada a la lista de reproduccion */
-                    media = wmp.newMedia(file);
+        //private void addMusic()
+        //{
+        //    listareproduccion.Items.Clear();
+        //    listaReproduccionActual.Clear();
+        //    if (opf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        //    {
+        //        foreach (string file in opf.FileNames)
+        //        {
+        //            /* Le decimos que por cada cancion elegida la guarde en el objeto media 
+        //               y luego la añada a la lista de reproduccion */
+        //            media = wmp.newMedia(file);
 
-                    playlist.appendItem(media);
-                    // Lista del formulario para mostrar los nombres de las canciones elegidas
-                    listareproduccion.Items.Add(media.name);
-                }
-            }
-            // Asociamos la lista de reproducción al objeto que reproduce la musica
-            wmp.currentPlaylist = playlist;
-            selectSongOfList();
-            wmp.controls.stop();
+        //            playlist.appendItem(media);
+        //            // Lista del formulario para mostrar los nombres de las canciones elegidas
+        //            listareproduccion.Items.Add(media.name);
+        //        }
+        //    }
+        //    // Asociamos la lista de reproducción al objeto que reproduce la musica
+        //    wmp.currentPlaylist = playlist;
+        //    selectSongOfList();
+        //    wmp.controls.stop();
 
-            if (listareproduccion.Items.Count > 0)
-            {
-                listareproduccion.SetSelected(0, true);
-            }                        
-        }
+        //    if (listareproduccion.Items.Count > 0)
+        //    {
+        //        listareproduccion.SetSelected(0, true);
+        //    }                        
+        //}
 
         // Método para reproducir la música
         private void playMusic()
@@ -829,6 +855,7 @@ namespace EsplaiMusic
         {
             this.favouriteButton.Visible = false;
             this.favouriteLabel.Visible = true;
+            addToFavourites();
         }
 
         // Método para minimizar la ventana
@@ -1080,7 +1107,47 @@ namespace EsplaiMusic
         // Método para guardar la canción actual en favoritos
         private void addToFavourites()
         {
+            int index = listareproduccion.SelectedIndex;
+            int idFavoritos = scaner.selectIDPlaylist("Favoritos");
 
-        }      
+            Song song = new Song();
+            song = listaReproduccionActual[index];
+            song.setFavourite(true);
+            
+            scaner.insertPlaylistCancion(idFavoritos, song.getID());
+            scaner.updateFavoritaValue(song.getID(), true);                        
+
+            PlayList favoritos = new PlayList("Favoritos");
+                        
+            foreach (PlayList list in ListOfPlayLists)
+            {
+                if (list.getName().Equals("Favoritos"))
+                {
+                    ListOfPlayLists[list.getID() - 1].getPlayListSongs().Add(song);
+                    break;
+                }
+            }            
+        }        
+
+        /* Método para verificar si la canción está en favoritos. Si lo está mostrará el label 
+        y si no el botón para añadirla */
+        private void checkFavouriteButton()
+        {
+            int index = listareproduccion.SelectedIndex;
+
+            Song song = new Song();
+            song = listaReproduccionActual[index];
+
+            if (song.getFavourite() == true)
+            {
+                favouriteLabel.Visible = true;
+                favouriteButton.Visible = false;
+            }
+            else
+            {
+                favouriteLabel.Visible = false;
+                favouriteButton.Visible = true;
+            }
+        }        
     }
 }

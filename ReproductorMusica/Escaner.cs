@@ -598,5 +598,28 @@ namespace EsplaiMusic
             }
             return ListOfPlayLists;
         }
+
+        // Cambia el valor Favorita de la canción indicada a partir del valor pasado por parámetro
+        public void updateFavoritaValue(int idCancion, bool favorita)
+        {
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "UPDATE canciones SET favorita = '" + favorita + "' WHERE ID = '" + idCancion + "';";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+        }
     }
 }
