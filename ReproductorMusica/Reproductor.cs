@@ -911,39 +911,44 @@ namespace EsplaiMusic
             string listName = "";
             string songName = "";
 
-            if (ListboxPlaylist.SelectedItem != null && ListboxTemaPlaylist.SelectedItem != null)
+            if (ListboxTemaPlaylist.Items.Count > 0)
+            {
+                if (searchSong(listareproduccion, songName) == false)
+                {
+                    PlayList lista = new PlayList();
+                    Song song = new Song();
+
+                    lista = this.getPlayList(listName);
+                    song = lista.getSong(songName);
+
+                    listaReproduccionActual.Add(song);
+                    listareproduccion.Items.Add(song.getName());
+                    media = wmp.newMedia(song.getPath());
+                    wmp.currentPlaylist.appendItem(media);
+
+                    if (ListboxTemaPlaylist.Items.Count > 0)
+                    {
+                        ListboxTemaPlaylist.SetSelected(0, true);
+                    }
+
+                    if (listareproduccion.Items.Count > 0)
+                    {
+                        listareproduccion.SetSelected(0, true);
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Ya está añadida!");
+                }
+            }
+
+            /*if (ListboxPlaylist.SelectedItem != null && ListboxTemaPlaylist.SelectedItem != null)
             {
                 listName = ListboxPlaylist.SelectedItem.ToString();
                 songName = ListboxTemaPlaylist.SelectedItem.ToString();
-            }            
-
-            if(searchSong(listareproduccion, songName) == false)
-            {
-                PlayList lista = new PlayList();
-                Song song = new Song();
-
-                lista = this.getPlayList(listName);
-                song = lista.getSong(songName);
-
-                listaReproduccionActual.Add(song);
-                listareproduccion.Items.Add(song.getName());
-                media = wmp.newMedia(song.getPath());
-                wmp.currentPlaylist.appendItem(media);
-
-                if (ListboxTemaPlaylist.Items.Count > 0)
-                {
-                    ListboxTemaPlaylist.SetSelected(0, true);
-                }
-
-                if (listareproduccion.Items.Count > 0)
-                {
-                    listareproduccion.SetSelected(0, true);
-                }
-
-            } else
-            {
-                MessageBox.Show("Ya está añadida!");
-            }
+            }*/
+            
         }
 
         // Método para quitar la canción seleccionada de la lista de reproducción
@@ -982,36 +987,40 @@ namespace EsplaiMusic
 
         // Método para mover la canción seleccionada de la lista de reproducción a la lista de canciones (2ª listbox)
         private void addSongListaTema()
-        {            
-            string songName = listareproduccion.SelectedItem.ToString();
-            int index = listareproduccion.SelectedIndex;
-
-            foreach (Song song in listaReproduccionActual)
-            {
-                if (song.getName().Equals(songName))
-                {
-                    if (searchSong(ListboxTemaPlaylist, songName) == false)
-                    {
-                        listaTemp.Add(song);
-                        ListboxTemaPlaylist.Items.Add(song.getName());
-
-                    } else
-                    {
-                        MessageBox.Show("Ya está añadida!");
-                    }
-
-                    listaReproduccionActual.Remove(song);
-                    listareproduccion.Items.Remove(song.getName());
-                    wmp.currentPlaylist.removeItem(wmp.currentPlaylist.Item[index]);
-
-                    break;
-                }
-            }
-
+        {
             if (listareproduccion.Items.Count > 0)
             {
-                listareproduccion.SetSelected(0, true);
-            }
+                string songName = listareproduccion.SelectedItem.ToString();
+                int index = listareproduccion.SelectedIndex;
+
+                foreach (Song song in listaReproduccionActual)
+                {
+                    if (song.getName().Equals(songName))
+                    {
+                        if (searchSong(ListboxTemaPlaylist, songName) == false)
+                        {
+                            listaTemp.Add(song);
+                            ListboxTemaPlaylist.Items.Add(song.getName());
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ya está añadida!");
+                        }
+
+                        listaReproduccionActual.Remove(song);
+                        listareproduccion.Items.Remove(song.getName());
+                        wmp.currentPlaylist.removeItem(wmp.currentPlaylist.Item[index]);
+
+                        break;
+                    }
+                }
+
+                if (listareproduccion.Items.Count > 0)
+                {
+                    listareproduccion.SetSelected(0, true);
+                }
+            }            
         }
 
         /* Método para añadir a la lista de canciones todas las canciones de la lista de reproducción 
