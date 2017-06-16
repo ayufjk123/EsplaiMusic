@@ -24,10 +24,10 @@ namespace EsplaiMusic
         // Lista de ID's de las canciones favoritas
         public static List<int> idFavoritas = new List<int>();
 
-        public void scanFiles()
+        public void scanFiles(string raizDic)
         {
             string fileName, checkSum, path, year, pathNoExtension;
-            string raizDic = "C:\\CloudMusic";
+            //string raizDic = "C:\\CloudMusic";
             musicFiles = Directory.GetFiles(raizDic).ToList();
             //listOfPlaylist.Add(raizDic.Substring(raizDic.LastIndexOf("\\") + 1));
 

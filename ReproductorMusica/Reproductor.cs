@@ -13,7 +13,7 @@ using WMPLib;
 
 // Libreria usada para crear y guardar objetos de tipo Media (reproducibles)
 using System.Media;
-
+using System.IO;
 
 namespace EsplaiMusic
 {
@@ -23,7 +23,7 @@ namespace EsplaiMusic
         private static int contador = 0;
 
         // Objeto para trabajar con el reproductor de musica y sus métodos
-        private static WindowsMediaPlayer wmp = new WindowsMediaPlayer();        
+        private static WindowsMediaPlayer wmp = new WindowsMediaPlayer();
 
         // Este objeto es la lista de reproduccion. Lo creamos para agregarle las canciones elegidas
         private static IWMPPlaylist playlist = wmp.playlistCollection.newPlaylist("listaReproduccion");
@@ -56,11 +56,50 @@ namespace EsplaiMusic
         // Lista de objetos Song temporal que contiene las canciones de la segunda listbox y asi poder trabajar con ellos
         List<Song> listaTemp = new List<Song>();
 
+        // String for saveRootDirectoryName
+        string fileName = "raizDic.txt";
+
         public Reproductor()
         {
             InitializeComponent();
+            // String para raizDirectorio
+            string raizDic = "";
+            // String para path of file which save the root of directory for project
+            string destPath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())), fileName);
+            // Parte comprobar si existe el archivo que necesitamos, si no existe, crea-la y guarda la raiz de directorio
+            if (!File.Exists(destPath))
+            {
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        raizDic = fbd.SelectedPath;
+                    }
+                }
+                try
+                {
+                    TextWriter tw = new StreamWriter(destPath, false);
+                    tw.WriteLine(raizDic);
+                    tw.Close();
+                }
+                catch (Exception f)
+                {
+                    System.Diagnostics.Debug.Write(f);
+                }
+            }
+            // Si ya está creado el archivo, leemos y cogemos la ruta
+            else if (File.Exists(destPath))
+            {
+                if (File.ReadAllLines(destPath).Count() > 0)
+                {
+                    raizDic = File.ReadAllLines(destPath)[0];
+                }
+            }
+
             //scaner.deletePlaylistCancionDesactiva();
-            scaner.scanFiles();
+            scaner.scanFiles(raizDic);
 
             this.timer1.Interval = 1000;
 
@@ -70,8 +109,8 @@ namespace EsplaiMusic
 
             /* Aplicamos un filtro para que el objeto del explorador de archivos 
             solo permita seleccionar archivos de tipo MP3 */
-            opf.Filter = "MP3 Audio Files (*.mp3) | *.mp3;";            
-            
+            opf.Filter = "MP3 Audio Files (*.mp3) | *.mp3;";
+
             // Ajustamos el valor de la barra de volumen por defecto en 50 (la mitad)
             wmp.settings.volume = 50;
 
@@ -108,11 +147,11 @@ namespace EsplaiMusic
             this.panelButtons.BackColor = Color.FromArgb(110, 33, 44, 50);
 
             addPlayLists();
-            
+
             // Color de Fondo de los ListBox
             this.ListboxPlaylist.BackColor = Color.FromArgb(165, 174, 176);
-            this.ListboxTemaPlaylist.BackColor = Color.FromArgb(165,174,176);
-            this.listareproduccion.BackColor = Color.FromArgb(165,174,176);
+            this.ListboxTemaPlaylist.BackColor = Color.FromArgb(165, 174, 176);
+            this.listareproduccion.BackColor = Color.FromArgb(165, 174, 176);
         }
 
         /* #####################
@@ -134,7 +173,7 @@ namespace EsplaiMusic
         // Evento click del boton play
         private void play_Click(object sender, EventArgs e)
         {
-            playMusic();            
+            playMusic();
         }
 
         // Evento click del boton pause
@@ -164,7 +203,7 @@ namespace EsplaiMusic
         // Evento click del boton para quitar el silencio del reproductor
         private void unmute_Click(object sender, EventArgs e)
         {
-            unmuteMusic();            
+            unmuteMusic();
         }
 
         // Evento para gestionar el cambio de volumen de la barra de volumen
@@ -188,7 +227,7 @@ namespace EsplaiMusic
         // Evento click del botón que hace que la música no se reproduzca de forma aleatoria        
         private void randomOn_Click(object sender, EventArgs e)
         {
-            desactivateRandomMusic();            
+            desactivateRandomMusic();
             this.randomOn.Visible = false;
             this.randomOff.Visible = true;
         }
@@ -212,7 +251,7 @@ namespace EsplaiMusic
            la canción a reproducir de la lista de reproducción */
         private void lista_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            playListDoubleClickSelected(e);            
+            playListDoubleClickSelected(e);
         }
 
         // Evento que controla cuando una canción termina. No está terminado
@@ -285,7 +324,7 @@ namespace EsplaiMusic
            cuando el usuario la desplaza */
         private void duracionCancion_Scroll(object sender, EventArgs e)
         {
-            updateProgressBar();            
+            updateProgressBar();
         }
 
         // Evento que ejecuta el metodo que mueve el label con el nombre de la cancion actual
@@ -355,7 +394,7 @@ namespace EsplaiMusic
         // Evento para generar una playlist a partir de la lista de reproducción
         private void createPlayList_Click(object sender, EventArgs e)
         {
-            generatePlayList();            
+            generatePlayList();
         }
 
         // Evento para guardar la lista de reproducción actual
@@ -448,7 +487,8 @@ namespace EsplaiMusic
                 if (Title != null && !Title.Equals(""))
                 {
                     sb.Append(Title);
-                } else
+                }
+                else
                 {
                     sb.Append(wmp.currentMedia.name);
                 }
@@ -471,7 +511,8 @@ namespace EsplaiMusic
 
                 timerLabel.Start();
                 progress();
-            } else
+            }
+            else
             {
                 MessageBox.Show("The list is empty!");
             }
@@ -494,7 +535,7 @@ namespace EsplaiMusic
             wmp.controls.pause();
             this.pause.Visible = false;
             this.play.Visible = true;
-            this.timer1.Stop();            
+            this.timer1.Stop();
         }
 
         // Método para cambiar a la siguiente canción de la lista de reproducción
@@ -547,7 +588,7 @@ namespace EsplaiMusic
 
         // Método para silenciar el reproductor
         private void muteMusic()
-        {            
+        {
             wmp.settings.volume = volumen.Value;
             this.mute.Visible = false;
             this.unmute.Visible = true;
@@ -575,7 +616,7 @@ namespace EsplaiMusic
         {
             this.norepeat.Visible = false;
             this.repeat.Visible = true;
-            repetir = true;      
+            repetir = true;
         }
 
         // Método para activar la reproducción de música aleatoria
@@ -632,7 +673,8 @@ namespace EsplaiMusic
         }
 
         // Método para seleccionar la cancion actual en la lista ListBox (método por revisar)
-        private void selectSongOfList() {
+        private void selectSongOfList()
+        {
 
             if (listareproduccion.SelectedItem != null)
             {
@@ -654,7 +696,7 @@ namespace EsplaiMusic
 
             //asignacion del evento de cambio de estado (cuando pasa a estar playing, stopped, etc)
             wmp.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wmp_PlayStateChange);
-        }        
+        }
 
         /* Método del temporizador que aumenta el contador y guarda su valor 
            en la barra de progreso para que ésta incremente */
@@ -720,10 +762,10 @@ namespace EsplaiMusic
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
                 wmp.controls.currentItem = wmp.currentPlaylist.Item[index];
-                resetProgress();                
-                progress();                
+                resetProgress();
+                progress();
                 playMusic();
-            }       
+            }
         }
 
         // Método para actualizar / mover el label movil con el nombre de la canción actual
@@ -761,7 +803,8 @@ namespace EsplaiMusic
                 {
                     //Cierra el programa
                     Application.Exit();
-                } else if (result == DialogResult.Ignore)
+                }
+                else if (result == DialogResult.Ignore)
                 {
                     //Minimiza el programa
                     this.Hide();
@@ -817,10 +860,10 @@ namespace EsplaiMusic
                 this.notifyIcon1.Visible = true;
             }
         }
-        
+
         // Método que muestra las canciones de la lista de reproducción seleccionada en la 2ª lista
         private void showSongsSelectedPlayList()
-        {            
+        {
             if (ListboxPlaylist.SelectedItem != null)
             {
                 string listName = ListboxPlaylist.SelectedItem.ToString();
@@ -837,7 +880,7 @@ namespace EsplaiMusic
                             listaTemp.Add(song);
                         }
                     }
-                }                
+                }
 
                 selectItemList(ListboxTemaPlaylist, 0);
             }
@@ -862,7 +905,7 @@ namespace EsplaiMusic
                 // Mostrar el icono
                 this.notifyIcon1.Visible = true;
             }
-        }        
+        }
 
         /* Método para generar el array de listas dereproducción con sus canciones y 
            añadir el nombre de cada lista en el listbox de las listas de reproducción */
@@ -889,9 +932,9 @@ namespace EsplaiMusic
                     listareproduccion.Items.Add(song.getName());
                     media = wmp.newMedia(song.getPath());
                     wmp.currentPlaylist.appendItem(media);
-                }                
+                }
             }
-            
+
             if (listareproduccion.Items.Count > 0)
             {
                 listareproduccion.SetSelected(0, true);
@@ -905,7 +948,6 @@ namespace EsplaiMusic
             {
                 string listName = ListboxPlaylist.SelectedItem.ToString();
                 string songName = ListboxTemaPlaylist.SelectedItem.ToString();
-                int index = ListboxTemaPlaylist.SelectedIndex;
 
                 if (searchSong(listareproduccion, songName) == false)
                 {
@@ -934,7 +976,6 @@ namespace EsplaiMusic
                 {
                     MessageBox.Show("Already added!");
                 }
-                selectItemList(ListboxTemaPlaylist, index);
             }
 
             /*if (ListboxPlaylist.SelectedItem != null && ListboxTemaPlaylist.SelectedItem != null)
@@ -942,7 +983,7 @@ namespace EsplaiMusic
                 listName = ListboxPlaylist.SelectedItem.ToString();
                 songName = ListboxTemaPlaylist.SelectedItem.ToString();
             }*/
-            
+
         }
 
         // Método para quitar la canción seleccionada de la lista de reproducción
@@ -972,10 +1013,8 @@ namespace EsplaiMusic
                 if (listbox.Items.Count == 1)
                 {
                     listbox.SetSelected(0, true);
-                } else if (listbox.Items.Count == index)
-                {
-                    listbox.SetSelected(index - 1, true);
-                } else
+                }
+                else
                 {
                     listbox.SetSelected(index, true);
                 }
@@ -1011,8 +1050,12 @@ namespace EsplaiMusic
                         break;
                     }
                 }
-                selectItemList(listareproduccion, index);
-            }            
+
+                if (listareproduccion.Items.Count > 0)
+                {
+                    listareproduccion.SetSelected(0, true);
+                }
+            }
         }
 
         /* Método para añadir a la lista de canciones todas las canciones de la lista de reproducción 
@@ -1032,7 +1075,7 @@ namespace EsplaiMusic
             listaReproduccionActual.Clear();
             wmp.controls.stop();
             wmp.currentPlaylist.clear();
-           
+
 
             if (ListboxTemaPlaylist.Items.Count > 0)
             {
@@ -1054,7 +1097,7 @@ namespace EsplaiMusic
             }
 
             return found;
-        }        
+        }
 
         // Método para obtener una lista de reproducción a partir de su nombre
         private PlayList getPlayList(string listName)
@@ -1070,7 +1113,7 @@ namespace EsplaiMusic
                 }
             }
             return lista;
-        }        
+        }
 
         // Método para crear una lista de canciones a partir de la lista de reproducción
         private void generatePlayList()
@@ -1104,7 +1147,7 @@ namespace EsplaiMusic
         {
             int indexLista = ListboxPlaylist.SelectedIndex;
 
-            string listName = ListboxPlaylist.SelectedItem.ToString();            
+            string listName = ListboxPlaylist.SelectedItem.ToString();
             int idList = scaner.selectIDPlaylist(listName);
 
             // Purgamos la lista y la dejamos sin canciones
@@ -1120,7 +1163,7 @@ namespace EsplaiMusic
             // Añadimos las canciones a la lista elegida
             foreach (Song song1 in listaTemp)
             {
-                scaner.insertPlaylistCancion(idList, song1.getID());                
+                scaner.insertPlaylistCancion(idList, song1.getID());
 
                 if (listName.Equals("Favoritos"))
                 {
@@ -1149,12 +1192,12 @@ namespace EsplaiMusic
             Song song = new Song();
             song = listaReproduccionActual[index];
             song.setFavourite(true);
-            
+
             scaner.insertPlaylistCancion(idFavoritos, song.getID());
-            scaner.updateFavoritaValue(song.getID(), true);                        
+            scaner.updateFavoritaValue(song.getID(), true);
 
             PlayList favoritos = new PlayList("Favoritos");
-                        
+
             foreach (PlayList list in ListOfPlayLists)
             {
                 if (list.getName().Equals("Favoritos"))
@@ -1163,7 +1206,7 @@ namespace EsplaiMusic
                     break;
                 }
             }
-        }        
+        }
 
         /* Método para verificar si la canción está en favoritos. Si lo está mostrará el label 
         y si no el botón para añadirla */
