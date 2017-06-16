@@ -905,6 +905,7 @@ namespace EsplaiMusic
             {
                 string listName = ListboxPlaylist.SelectedItem.ToString();
                 string songName = ListboxTemaPlaylist.SelectedItem.ToString();
+                int index = ListboxTemaPlaylist.SelectedIndex;
 
                 if (searchSong(listareproduccion, songName) == false)
                 {
@@ -933,6 +934,7 @@ namespace EsplaiMusic
                 {
                     MessageBox.Show("Already added!");
                 }
+                selectItemList(ListboxTemaPlaylist, index);
             }
 
             /*if (ListboxPlaylist.SelectedItem != null && ListboxTemaPlaylist.SelectedItem != null)
@@ -970,6 +972,9 @@ namespace EsplaiMusic
                 if (listbox.Items.Count == 1)
                 {
                     listbox.SetSelected(0, true);
+                } else if (listbox.Items.Count == index)
+                {
+                    listbox.SetSelected(index - 1, true);
                 } else
                 {
                     listbox.SetSelected(index, true);
@@ -1006,11 +1011,7 @@ namespace EsplaiMusic
                         break;
                     }
                 }
-
-                if (listareproduccion.Items.Count > 0)
-                {
-                    listareproduccion.SetSelected(0, true);
-                }
+                selectItemList(listareproduccion, index);
             }            
         }
 
