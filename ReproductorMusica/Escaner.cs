@@ -28,7 +28,7 @@ namespace EsplaiMusic
         {
             string fileName, checkSum, path, year, pathNoExtension;
             //string raizDic = "C:\\CloudMusic";
-            musicFiles = Directory.GetFiles(raizDic).ToList();
+            musicFiles = Directory.GetFiles(raizDic, "*.mp3").ToList();
             //listOfPlaylist.Add(raizDic.Substring(raizDic.LastIndexOf("\\") + 1));
 
             if (Directory.GetFiles(raizDic, "*.mp3").Count() > 0)
@@ -573,6 +573,46 @@ namespace EsplaiMusic
                 {
                     query = "SELECT ID, nombre FROM playlists;";
                     SqlCommand comando = new SqlCommand(query, conn);
+                    SqlDataReader myReader = comando.ExecuteReader();
+
+                    while (myReader.Read())
+                    {
+                        PlayList playList1 = new PlayList();
+
+                        id = (Convert.ToInt32(myReader["ID"]));
+                        nombre = Convert.ToString(myReader["nombre"]);
+
+                        playList1.setID(id);
+                        playList1.setName(nombre);
+                        ListOfPlayLists.Add(playList1);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+            return ListOfPlayLists;
+        }
+
+        // Método para rellenar la lista de listas de reproducción
+        public List<PlayList> chargeListOfPlayLists(string ultWord)
+        {
+            int id;
+            string nombre;
+
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "SELECT ID, nombre FROM playlists WHERE nombre = @nombre;";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    comando.Parameters.AddWithValue("@nombre", ultWord);
                     SqlDataReader myReader = comando.ExecuteReader();
 
                     while (myReader.Read())

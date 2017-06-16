@@ -66,7 +66,7 @@ namespace EsplaiMusic
             string raizDic = "";
             // String para path of file which save the root of directory for project
             string destPath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())), fileName);
-            // Parte comprobar si existe el archivo que necesitamos, si no existe, crea-la y guarda la raiz de directorio
+            // Parte comprobar si existe el archivo que necesitamos, si no existe, la crea y guarda la raiz de directorio
             if (!File.Exists(destPath))
             {
                 using (var fbd = new FolderBrowserDialog())
@@ -1226,6 +1226,28 @@ namespace EsplaiMusic
             {
                 favouriteLabel.Visible = false;
                 favouriteButton.Visible = true;
+            }
+        }
+
+        private void nuevaListaDeReproducciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormSetPath formsetpath = new FormSetPath();
+            var resul = formsetpath.ShowDialog();
+
+            if (resul == DialogResult.OK)
+            {
+                ListOfPlayLists.Clear();
+                ListboxPlaylist.Items.Clear();
+                ListboxTemaPlaylist.Items.Clear();
+                listareproduccion.Items.Clear();
+                string ultWord = formsetpath.RaizDic.Substring(formsetpath.RaizDic.LastIndexOf("\\"));
+                ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord);
+
+                foreach (PlayList list in ListOfPlayLists)
+                {
+                    ListboxPlaylist.Items.Add(list.getName());
+                    list.fillPlayListsWithSongs();
+                }
             }
         }
     }

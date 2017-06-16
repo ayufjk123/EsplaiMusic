@@ -591,19 +591,20 @@
             // nuevaListaDeReproducciónToolStripMenuItem
             // 
             this.nuevaListaDeReproducciónToolStripMenuItem.Name = "nuevaListaDeReproducciónToolStripMenuItem";
-            this.nuevaListaDeReproducciónToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-            this.nuevaListaDeReproducciónToolStripMenuItem.Text = "Nueva Lista de Reproducción";
+            this.nuevaListaDeReproducciónToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.nuevaListaDeReproducciónToolStripMenuItem.Text = "Select Folder";
+            this.nuevaListaDeReproducciónToolStripMenuItem.Click += new System.EventHandler(this.nuevaListaDeReproducciónToolStripMenuItem_Click);
             // 
             // sobreNosotrosToolStripMenuItem
             // 
             this.sobreNosotrosToolStripMenuItem.Name = "sobreNosotrosToolStripMenuItem";
-            this.sobreNosotrosToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.sobreNosotrosToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.sobreNosotrosToolStripMenuItem.Text = "Sobre Nosotros";
             // 
             // salirToolStripMenuItem1
             // 
             this.salirToolStripMenuItem1.Name = "salirToolStripMenuItem1";
-            this.salirToolStripMenuItem1.Size = new System.Drawing.Size(228, 22);
+            this.salirToolStripMenuItem1.Size = new System.Drawing.Size(155, 22);
             this.salirToolStripMenuItem1.Text = "Salir";
             this.salirToolStripMenuItem1.Click += new System.EventHandler(this.salirToolStripMenuItem1_Click);
             // 
