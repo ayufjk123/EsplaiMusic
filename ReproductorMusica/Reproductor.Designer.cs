@@ -78,6 +78,7 @@
             this.labelListas = new System.Windows.Forms.Label();
             this.labelCanciones = new System.Windows.Forms.Label();
             this.labelReproductor = new System.Windows.Forms.Label();
+            this.labelGuardado = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -117,7 +118,7 @@
             this.listareproduccion.ForeColor = System.Drawing.Color.White;
             this.listareproduccion.FormattingEnabled = true;
             this.listareproduccion.ItemHeight = 15;
-            this.listareproduccion.Location = new System.Drawing.Point(565, 76);
+            this.listareproduccion.Location = new System.Drawing.Point(565, 66);
             this.listareproduccion.Name = "listareproduccion";
             this.listareproduccion.Size = new System.Drawing.Size(259, 195);
             this.listareproduccion.TabIndex = 6;
@@ -406,11 +407,11 @@
             this.favouriteLabel.AutoSize = true;
             this.favouriteLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.favouriteLabel.ForeColor = System.Drawing.Color.White;
-            this.favouriteLabel.Location = new System.Drawing.Point(127, 56);
+            this.favouriteLabel.Location = new System.Drawing.Point(125, 56);
             this.favouriteLabel.Name = "favouriteLabel";
-            this.favouriteLabel.Size = new System.Drawing.Size(161, 18);
+            this.favouriteLabel.Size = new System.Drawing.Size(162, 18);
             this.favouriteLabel.TabIndex = 30;
-            this.favouriteLabel.Text = "Añadida a Favoritos!";
+            this.favouriteLabel.Text = "Added to Favourites!";
             this.favouriteLabel.Visible = false;
             // 
             // favouriteButton
@@ -419,7 +420,7 @@
             this.favouriteButton.BackColor = System.Drawing.Color.Transparent;
             this.favouriteButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.favouriteButton.Image = global::EsplaiMusic.Properties.Resources.favoritoActivado;
-            this.favouriteButton.Location = new System.Drawing.Point(198, 52);
+            this.favouriteButton.Location = new System.Drawing.Point(196, 52);
             this.favouriteButton.Name = "favouriteButton";
             this.favouriteButton.Size = new System.Drawing.Size(32, 32);
             this.favouriteButton.TabIndex = 28;
@@ -480,7 +481,7 @@
             this.ListboxTemaPlaylist.ForeColor = System.Drawing.Color.White;
             this.ListboxTemaPlaylist.FormattingEnabled = true;
             this.ListboxTemaPlaylist.ItemHeight = 15;
-            this.ListboxTemaPlaylist.Location = new System.Drawing.Point(275, 76);
+            this.ListboxTemaPlaylist.Location = new System.Drawing.Point(275, 66);
             this.ListboxTemaPlaylist.Name = "ListboxTemaPlaylist";
             this.ListboxTemaPlaylist.Size = new System.Drawing.Size(284, 195);
             this.ListboxTemaPlaylist.TabIndex = 29;
@@ -495,7 +496,7 @@
             this.ListboxPlaylist.ForeColor = System.Drawing.Color.White;
             this.ListboxPlaylist.FormattingEnabled = true;
             this.ListboxPlaylist.ItemHeight = 15;
-            this.ListboxPlaylist.Location = new System.Drawing.Point(12, 76);
+            this.ListboxPlaylist.Location = new System.Drawing.Point(12, 66);
             this.ListboxPlaylist.Name = "ListboxPlaylist";
             this.ListboxPlaylist.Size = new System.Drawing.Size(257, 195);
             this.ListboxPlaylist.TabIndex = 30;
@@ -507,7 +508,7 @@
             this.delSongListReprod.BackColor = System.Drawing.Color.Transparent;
             this.delSongListReprod.Cursor = System.Windows.Forms.Cursors.Hand;
             this.delSongListReprod.Image = ((System.Drawing.Image)(resources.GetObject("delSongListReprod.Image")));
-            this.delSongListReprod.Location = new System.Drawing.Point(790, 44);
+            this.delSongListReprod.Location = new System.Drawing.Point(790, 34);
             this.delSongListReprod.Name = "delSongListReprod";
             this.delSongListReprod.Size = new System.Drawing.Size(28, 28);
             this.delSongListReprod.TabIndex = 28;
@@ -520,7 +521,7 @@
             this.addAllSongsListTema.BackColor = System.Drawing.Color.Transparent;
             this.addAllSongsListTema.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addAllSongsListTema.Image = ((System.Drawing.Image)(resources.GetObject("addAllSongsListTema.Image")));
-            this.addAllSongsListTema.Location = new System.Drawing.Point(758, 44);
+            this.addAllSongsListTema.Location = new System.Drawing.Point(758, 34);
             this.addAllSongsListTema.Name = "addAllSongsListTema";
             this.addAllSongsListTema.Size = new System.Drawing.Size(28, 28);
             this.addAllSongsListTema.TabIndex = 32;
@@ -533,7 +534,7 @@
             this.addListTema.BackColor = System.Drawing.Color.Transparent;
             this.addListTema.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addListTema.Image = ((System.Drawing.Image)(resources.GetObject("addListTema.Image")));
-            this.addListTema.Location = new System.Drawing.Point(726, 44);
+            this.addListTema.Location = new System.Drawing.Point(726, 34);
             this.addListTema.Name = "addListTema";
             this.addListTema.Size = new System.Drawing.Size(28, 28);
             this.addListTema.TabIndex = 33;
@@ -546,7 +547,7 @@
             this.addSongListaReproduccion.BackColor = System.Drawing.Color.Transparent;
             this.addSongListaReproduccion.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addSongListaReproduccion.Image = ((System.Drawing.Image)(resources.GetObject("addSongListaReproduccion.Image")));
-            this.addSongListaReproduccion.Location = new System.Drawing.Point(525, 44);
+            this.addSongListaReproduccion.Location = new System.Drawing.Point(525, 34);
             this.addSongListaReproduccion.Name = "addSongListaReproduccion";
             this.addSongListaReproduccion.Size = new System.Drawing.Size(28, 28);
             this.addSongListaReproduccion.TabIndex = 34;
@@ -559,7 +560,7 @@
             this.deleteSongTemaPlayList.BackColor = System.Drawing.Color.Transparent;
             this.deleteSongTemaPlayList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deleteSongTemaPlayList.Image = ((System.Drawing.Image)(resources.GetObject("deleteSongTemaPlayList.Image")));
-            this.deleteSongTemaPlayList.Location = new System.Drawing.Point(461, 44);
+            this.deleteSongTemaPlayList.Location = new System.Drawing.Point(461, 34);
             this.deleteSongTemaPlayList.Name = "deleteSongTemaPlayList";
             this.deleteSongTemaPlayList.Size = new System.Drawing.Size(28, 28);
             this.deleteSongTemaPlayList.TabIndex = 36;
@@ -612,7 +613,7 @@
             this.addAllSongs.BackColor = System.Drawing.Color.Transparent;
             this.addAllSongs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addAllSongs.Image = ((System.Drawing.Image)(resources.GetObject("addAllSongs.Image")));
-            this.addAllSongs.Location = new System.Drawing.Point(493, 44);
+            this.addAllSongs.Location = new System.Drawing.Point(493, 34);
             this.addAllSongs.Name = "addAllSongs";
             this.addAllSongs.Size = new System.Drawing.Size(28, 28);
             this.addAllSongs.TabIndex = 38;
@@ -625,7 +626,7 @@
             this.deshacerCambios.BackColor = System.Drawing.Color.Transparent;
             this.deshacerCambios.Cursor = System.Windows.Forms.Cursors.Hand;
             this.deshacerCambios.Image = ((System.Drawing.Image)(resources.GetObject("deshacerCambios.Image")));
-            this.deshacerCambios.Location = new System.Drawing.Point(429, 44);
+            this.deshacerCambios.Location = new System.Drawing.Point(429, 34);
             this.deshacerCambios.Name = "deshacerCambios";
             this.deshacerCambios.Size = new System.Drawing.Size(28, 28);
             this.deshacerCambios.TabIndex = 39;
@@ -638,7 +639,7 @@
             this.savePlayList.BackColor = System.Drawing.Color.Transparent;
             this.savePlayList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.savePlayList.Image = ((System.Drawing.Image)(resources.GetObject("savePlayList.Image")));
-            this.savePlayList.Location = new System.Drawing.Point(527, 278);
+            this.savePlayList.Location = new System.Drawing.Point(527, 268);
             this.savePlayList.Name = "savePlayList";
             this.savePlayList.Size = new System.Drawing.Size(32, 32);
             this.savePlayList.TabIndex = 31;
@@ -651,7 +652,7 @@
             this.createPlayList.BackColor = System.Drawing.Color.Transparent;
             this.createPlayList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.createPlayList.Image = ((System.Drawing.Image)(resources.GetObject("createPlayList.Image")));
-            this.createPlayList.Location = new System.Drawing.Point(792, 278);
+            this.createPlayList.Location = new System.Drawing.Point(792, 268);
             this.createPlayList.Name = "createPlayList";
             this.createPlayList.Size = new System.Drawing.Size(32, 32);
             this.createPlayList.TabIndex = 40;
@@ -663,33 +664,46 @@
             this.labelListas.AutoSize = true;
             this.labelListas.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelListas.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.labelListas.Location = new System.Drawing.Point(8, 53);
+            this.labelListas.Location = new System.Drawing.Point(10, 43);
             this.labelListas.Name = "labelListas";
-            this.labelListas.Size = new System.Drawing.Size(88, 20);
+            this.labelListas.Size = new System.Drawing.Size(117, 20);
             this.labelListas.TabIndex = 41;
-            this.labelListas.Text = "Tus Listas";
+            this.labelListas.Text = "Your PlayLists";
             // 
             // labelCanciones
             // 
             this.labelCanciones.AutoSize = true;
             this.labelCanciones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCanciones.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.labelCanciones.Location = new System.Drawing.Point(271, 53);
+            this.labelCanciones.Location = new System.Drawing.Point(273, 43);
             this.labelCanciones.Name = "labelCanciones";
-            this.labelCanciones.Size = new System.Drawing.Size(121, 20);
+            this.labelCanciones.Size = new System.Drawing.Size(95, 20);
             this.labelCanciones.TabIndex = 42;
-            this.labelCanciones.Text = "Tus Canciones";
+            this.labelCanciones.Text = "Your Songs";
             // 
             // labelReproductor
             // 
             this.labelReproductor.AutoSize = true;
             this.labelReproductor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelReproductor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.labelReproductor.Location = new System.Drawing.Point(562, 53);
+            this.labelReproductor.Location = new System.Drawing.Point(564, 43);
             this.labelReproductor.Name = "labelReproductor";
-            this.labelReproductor.Size = new System.Drawing.Size(121, 20);
+            this.labelReproductor.Size = new System.Drawing.Size(63, 20);
             this.labelReproductor.TabIndex = 43;
-            this.labelReproductor.Text = "Reproduciendo";
+            this.labelReproductor.Text = "Playing";
+            // 
+            // labelGuardado
+            // 
+            this.labelGuardado.AutoSize = true;
+            this.labelGuardado.BackColor = System.Drawing.Color.Transparent;
+            this.labelGuardado.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGuardado.ForeColor = System.Drawing.Color.SeaGreen;
+            this.labelGuardado.Location = new System.Drawing.Point(331, 268);
+            this.labelGuardado.Name = "labelGuardado";
+            this.labelGuardado.Size = new System.Drawing.Size(125, 18);
+            this.labelGuardado.TabIndex = 44;
+            this.labelGuardado.Text = "Changes Saved";
+            this.labelGuardado.Visible = false;
             // 
             // Reproductor
             // 
@@ -699,6 +713,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(838, 480);
+            this.Controls.Add(this.labelGuardado);
             this.Controls.Add(this.labelReproductor);
             this.Controls.Add(this.labelCanciones);
             this.Controls.Add(this.labelListas);
@@ -805,6 +820,7 @@
         private System.Windows.Forms.Label labelListas;
         private System.Windows.Forms.Label labelCanciones;
         private System.Windows.Forms.Label labelReproductor;
+        private System.Windows.Forms.Label labelGuardado;
     }
 }
 

@@ -621,5 +621,52 @@ namespace EsplaiMusic
                 }
             }
         }
+
+        /* Eliminamos todas las relaciones de la PlayList seleccionada.
+        Así dejamos la lista vacía (purga) para agregar el nuevo contenido a partir de la segunda listbox */
+        public void deletePlayListRelations(int playlist_id)
+        {
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "DELETE FROM playlist_cancion WHERE playlist_id = '" + playlist_id + "'";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+        }
+
+        // Cambia el valor Favorita de todas las canciones que lo tengan activado. De esta forma las eliminamos todas de la lista (purgamos)
+        public void updateFavoritaValueToFalse()
+        {
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "UPDATE canciones SET favorita = 'false';";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+        }
     }
 }
