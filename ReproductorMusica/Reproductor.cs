@@ -799,8 +799,6 @@ namespace EsplaiMusic
                 // Icono esta ocultado
                 notifyIcon1.Visible = false;
                 // Cerrar ventana
-                this.Close();
-                this.Dispose();
                 Application.Exit();
             }
         }
