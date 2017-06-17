@@ -106,8 +106,8 @@ namespace EsplaiMusic
             if (idFav < 1)
             {
                 insertPlaylist(nombreFav);
-            }            
-            
+            }
+
             // Obtenemos el ID de todas las canciones en favoritos
             selectFavoritas();
 
@@ -119,7 +119,7 @@ namespace EsplaiMusic
                 if (relacion < 1)
                 {
                     insertPlaylistCancion(idFav, idCancion);
-                }                
+                }
             }
         }
 
@@ -218,7 +218,7 @@ namespace EsplaiMusic
             }
         }
 
-        // Selecciona la canción a partir de su codigo checksum
+        // Selecciona la playlist a partir de un nombre
         public int selectPlaylist(string name)
         {
             int resultado = 0;
@@ -244,6 +244,42 @@ namespace EsplaiMusic
                 }
             }
             return resultado;
+        }
+
+        // Selecciona la playlist a partir de un nombre
+        public PlayList selectFirstPlaylist()
+        {
+            int id;
+            string nombre;
+            conn = dbConnect.openConnection();
+            PlayList playList1 = new PlayList();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "SELECT ID, nombre FROM playlists WHERE ID = 1;";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    SqlDataReader myReader = comando.ExecuteReader();
+
+                    while (myReader.Read())
+                    {
+                        id = (Convert.ToInt32(myReader["ID"]));
+                        nombre = Convert.ToString(myReader["nombre"]);
+
+                        playList1.setID(id);
+                        playList1.setName(nombre);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+            return playList1;
         }
 
         // Inserta la canción en la tabla de canciones
@@ -341,7 +377,7 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "SELECT COUNT(*) FROM playlist_cancion pc WHERE playlist_id = @idPlaylist AND cancion_id = @idCancion;" ;
+                    query = "SELECT COUNT(*) FROM playlist_cancion pc WHERE playlist_id = @idPlaylist AND cancion_id = @idCancion;";
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@idPlaylist", idPlaylist);
@@ -505,11 +541,13 @@ namespace EsplaiMusic
                 }
             }
         }
-                
+
         // Desactiva todas las canciones actualizando su valor "activada" a 0 (false)
         public void desactivateAllSongs()
         {
             bool activada = false;
+
+            conn = dbConnect.openConnection();
 
             if (conn != null)
             {
@@ -560,6 +598,36 @@ namespace EsplaiMusic
             }
         }
 
+        static List<string> listOfSubDir = new List<string>();
+        /* Método para escanear recursivamente todos los archivos y carpetas y guardarlos en sus respectivas listas
+        si la carpeta está vacía no la guardará */
+        public static List<string> SubDirSearch(string sDir)
+        {
+            try
+            {
+                if (!listOfSubDir.Contains(sDir))
+                {
+                    if (Directory.GetFiles(sDir, "*.mp3").Count() > 0 || Directory.GetDirectories(sDir).Count() > 0)
+                    {
+                        listOfSubDir.Add(sDir);
+                    }
+                }
+                foreach (string d in Directory.GetDirectories(sDir))
+                {
+                    if (Directory.GetFiles(d, "*.mp3").Count() > 0 || Directory.GetDirectories(d).Count() > 0)
+                    {
+                        listOfSubDir.Add(d);
+                    }
+                    SubDirSearch(d);
+                }
+            }
+            catch (System.Exception excpt)
+            {
+                Console.WriteLine(excpt.Message);
+            }
+            return listOfSubDir;
+        }
+
         // Método para rellenar la lista de listas de reproducción
         public List<PlayList> chargeListOfPlayLists()
         {
@@ -600,7 +668,7 @@ namespace EsplaiMusic
         }
 
         // Método para rellenar la lista de listas de reproducción
-        public List<PlayList> chargeListOfPlayLists(string ultWord)
+        public List<PlayList> chargeListOfPlayLists(string ultWord, string raizDic)
         {
             int id;
             string nombre;
@@ -610,21 +678,49 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "SELECT ID, nombre FROM playlists WHERE nombre = @nombre;";
-                    SqlCommand comando = new SqlCommand(query, conn);
-                    comando.Parameters.AddWithValue("@nombre", ultWord);
-                    SqlDataReader myReader = comando.ExecuteReader();
-
-                    while (myReader.Read())
+                    if (Directory.GetDirectories(raizDic).Count() > 0)
                     {
-                        PlayList playList1 = new PlayList();
+                        List<string> listOfDir = SubDirSearch(raizDic);
+                        foreach (string path in listOfDir)
+                        {
+                            query = "SELECT ID, nombre FROM playlists WHERE nombre = @nombre;";
+                            SqlCommand comando = new SqlCommand(query, conn);
+                            string nom = path.Substring(path.LastIndexOf("\\") + 1);
+                            comando.Parameters.AddWithValue("@nombre", nom);
+                            SqlDataReader myReader = comando.ExecuteReader();
 
-                        id = (Convert.ToInt32(myReader["ID"]));
-                        nombre = Convert.ToString(myReader["nombre"]);
+                            while (myReader.Read())
+                            {
+                                PlayList playList1 = new PlayList();
 
-                        playList1.setID(id);
-                        playList1.setName(nombre);
-                        ListOfPlayLists.Add(playList1);
+                                id = (Convert.ToInt32(myReader["ID"]));
+                                nombre = Convert.ToString(myReader["nombre"]);
+
+                                playList1.setID(id);
+                                playList1.setName(nombre);
+                                ListOfPlayLists.Add(playList1);
+                            }
+                            myReader.Close();
+                        }
+                    }
+                    else
+                    {
+                        query = "SELECT ID, nombre FROM playlists WHERE nombre = @nombre;";
+                        SqlCommand comando = new SqlCommand(query, conn);
+                        comando.Parameters.AddWithValue("@nombre", ultWord);
+                        SqlDataReader myReader = comando.ExecuteReader();
+
+                        while (myReader.Read())
+                        {
+                            PlayList playList1 = new PlayList();
+
+                            id = (Convert.ToInt32(myReader["ID"]));
+                            nombre = Convert.ToString(myReader["nombre"]);
+
+                            playList1.setID(id);
+                            playList1.setName(nombre);
+                            ListOfPlayLists.Add(playList1);
+                        }
                     }
                 }
                 catch (Exception e)

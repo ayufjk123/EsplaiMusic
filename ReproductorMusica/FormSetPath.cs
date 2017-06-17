@@ -44,6 +44,9 @@ namespace EsplaiMusic
         {
             using (var fbd = new FolderBrowserDialog())
             {
+                fbd.Description = "Select your folder";
+                fbd.SelectedPath = textBox1.Text;
+
                 DialogResult result = fbd.ShowDialog();
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))

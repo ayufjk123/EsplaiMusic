@@ -57,20 +57,23 @@ namespace EsplaiMusic
         List<Song> listaTemp = new List<Song>();
 
         // String for saveRootDirectoryName
-        string fileName = "raizDic.txt";
+        static string fileName = "raizDic.txt";
+
+        // String para raizDirectorio
+        string raizDic = "";
+
+        // String para path of file which save the root of directory for project
+        string destPath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())), fileName);
 
         public Reproductor()
         {
             InitializeComponent();
-            // String para raizDirectorio
-            string raizDic = "";
-            // String para path of file which save the root of directory for project
-            string destPath = Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory())), fileName);
             // Parte comprobar si existe el archivo que necesitamos, si no existe, la crea y guarda la raiz de directorio
             if (!File.Exists(destPath))
             {
                 using (var fbd = new FolderBrowserDialog())
                 {
+                    fbd.Description = "Select your folder";
                     DialogResult result = fbd.ShowDialog();
 
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
@@ -92,10 +95,34 @@ namespace EsplaiMusic
             // Si ya está creado el archivo, leemos y cogemos la ruta
             else if (File.Exists(destPath))
             {
-                if (File.ReadAllLines(destPath).Count() > 0)
+                try
                 {
-                    raizDic = File.ReadAllLines(destPath)[0];
+                    if (File.ReadAllLines(destPath)[0].Equals(""))
+                    {
+                        PlayList pl = scaner.selectFirstPlaylist();
+                        raizDic = "C:\\" + pl.getName();
+                        try
+                        {
+                            TextWriter tw = new StreamWriter(destPath, false);
+                            tw.WriteLine(raizDic);
+                            tw.Close();
+                        }
+                        catch (Exception f)
+                        {
+                            System.Diagnostics.Debug.Write(f);
+                        }
+                    }
+                    else
+                    {
+                        raizDic = File.ReadAllLines(destPath)[0];
+                    }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    MessageBox.Show("ERROR\nYou should select the folder at first!");
+                }
+
             }
 
             //scaner.deletePlaylistCancionDesactiva();
@@ -911,7 +938,45 @@ namespace EsplaiMusic
            añadir el nombre de cada lista en el listbox de las listas de reproducción */
         private void addPlayLists()
         {
-            ListOfPlayLists = scaner.chargeListOfPlayLists();
+            if (!File.Exists(destPath) || File.ReadLines(destPath).Equals(""))
+            {
+                MessageBox.Show("ERROR\nYou should select the folder at first!");
+                ListOfPlayLists = scaner.chargeListOfPlayLists();
+            }
+            // Si ya está creado el archivo, leemos y cogemos la ruta
+            else if (File.Exists(destPath))
+            {
+                try
+                {
+                    if (File.ReadAllLines(destPath)[0].Equals(""))
+                    {
+                        PlayList pl = scaner.selectFirstPlaylist();
+                        raizDic = "C:\\" + pl.getName();
+                        try
+                        {
+                            TextWriter tw = new StreamWriter(destPath, false);
+                            tw.WriteLine(raizDic);
+                            tw.Close();
+                        }
+                        catch (Exception f)
+                        {
+                            System.Diagnostics.Debug.Write(f);
+                        }
+                    }
+                    else
+                    {
+                        raizDic = File.ReadAllLines(destPath)[0];
+                    }
+                    string ultWord = raizDic.Substring(raizDic.LastIndexOf("\\") + 1);
+                    ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord, raizDic);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    MessageBox.Show("ERROR\nYou should select the folder at first!");
+                }
+
+            }
 
             foreach (PlayList list in ListOfPlayLists)
             {
@@ -1212,20 +1277,23 @@ namespace EsplaiMusic
         y si no el botón para añadirla */
         private void checkFavouriteButton()
         {
-            int index = listareproduccion.SelectedIndex;
-
-            Song song = new Song();
-            song = listaReproduccionActual[index];
-
-            if (song.getFavourite() == true)
+            if (ListboxPlaylist.SelectedItem != null)
             {
-                favouriteLabel.Visible = true;
-                favouriteButton.Visible = false;
-            }
-            else
-            {
-                favouriteLabel.Visible = false;
-                favouriteButton.Visible = true;
+                int index = listareproduccion.SelectedIndex;
+
+                Song song = new Song();
+                song = listaReproduccionActual[index];
+
+                if (song.getFavourite() == true)
+                {
+                    favouriteLabel.Visible = true;
+                    favouriteButton.Visible = false;
+                }
+                else
+                {
+                    favouriteLabel.Visible = false;
+                    favouriteButton.Visible = true;
+                }
             }
         }
 
@@ -1240,8 +1308,8 @@ namespace EsplaiMusic
                 ListboxPlaylist.Items.Clear();
                 ListboxTemaPlaylist.Items.Clear();
                 listareproduccion.Items.Clear();
-                string ultWord = formsetpath.RaizDic.Substring(formsetpath.RaizDic.LastIndexOf("\\"));
-                ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord);
+                string ultWord = formsetpath.RaizDic.Substring(formsetpath.RaizDic.LastIndexOf("\\") + 1);
+                ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord, formsetpath.RaizDic);
 
                 foreach (PlayList list in ListOfPlayLists)
                 {
