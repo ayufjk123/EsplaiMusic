@@ -94,7 +94,12 @@ namespace EsplaiMusic
                     int cancion_id = selectIDSong(checkSum);
                     if (filePath.Remove(filePath.LastIndexOf("\\")).EndsWith(namePlaylist))
                     {
-                        insertPlaylistCancion(playlist_id, cancion_id);
+                        int relacion = selectPlaylistCancion(playlist_id, cancion_id);
+
+                        if (relacion < 1)
+                        {
+                            insertPlaylistCancion(playlist_id, cancion_id);
+                        }
                     }
                 }
             }
@@ -338,35 +343,6 @@ namespace EsplaiMusic
                 }
             }
         }
-
-        //// Selecciona la canción a partir de su codigo checksum
-        //public int selectPlaylistCancion(string checksum)
-        //{
-        //    int resultado = 0;
-        //    conn = dbConnect.openConnection();
-        //    if (conn != null)
-        //    {
-        //        try
-        //        {
-        //            query = "SELECT COUNT(*) FROM playlist_cancion pc, playlists pl, canciones ca " +
-        //                "WHERE pc.playlist_id = pl.ID AND pc.cancion_id = ca.ID AND ca.codigoArchivo = @codigoArchivo;";
-        //            SqlCommand comando = new SqlCommand(query, conn);
-
-        //            comando.Parameters.AddWithValue("@codigoArchivo", checksum);
-
-        //            resultado = Convert.ToInt32(comando.ExecuteScalar());
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e.ToString());
-        //        }
-        //        finally
-        //        {
-        //            dbConnect.closeConnection();
-        //        }
-        //    }
-        //    return resultado;
-        //}
 
         // Cuenta la cantidad de relaciones que hay entre una lista y una cancion. Si hay una ya no la vovleremos a insertar
         public int selectPlaylistCancion(int idPlaylist, int idCancion)
@@ -614,9 +590,13 @@ namespace EsplaiMusic
                 }
                 foreach (string d in Directory.GetDirectories(sDir))
                 {
-                    if (Directory.GetFiles(d, "*.mp3").Count() > 0 || Directory.GetDirectories(d).Count() > 0)
+                    if (!listOfSubDir.Contains(sDir))
                     {
-                        listOfSubDir.Add(d);
+                        if (Directory.GetFiles(d, "*.mp3").Count() > 0 || Directory.GetDirectories(d).Count() > 0)
+                        {
+                            Console.WriteLine("2- " + d);
+                            listOfSubDir.Add(d);
+                        }
                     }
                     SubDirSearch(d);
                 }
@@ -679,7 +659,7 @@ namespace EsplaiMusic
                 try
                 {
                     if (Directory.GetDirectories(raizDic).Count() > 0)
-                    {
+                    {                        
                         List<string> listOfDir = SubDirSearch(raizDic);
                         foreach (string path in listOfDir)
                         {

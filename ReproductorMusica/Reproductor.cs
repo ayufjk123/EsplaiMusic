@@ -32,6 +32,8 @@ namespace EsplaiMusic
         // Objeto utilizado para buscar y seleccionar la musica a través del explorador de windows
         private OpenFileDialog opf = new OpenFileDialog();
 
+        private FolderBrowserDialog fbd = new FolderBrowserDialog();
+
         // Objeto media utilizado para referirse a la cancion actual y trabajar con ella
         private IWMPMedia media;
 
@@ -68,62 +70,8 @@ namespace EsplaiMusic
         public Reproductor()
         {
             InitializeComponent();
-            // Parte comprobar si existe el archivo que necesitamos, si no existe, la crea y guarda la raiz de directorio
-            if (!File.Exists(destPath))
-            {
-                using (var fbd = new FolderBrowserDialog())
-                {
-                    fbd.Description = "Select your folder";
-                    DialogResult result = fbd.ShowDialog();
 
-                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                    {
-                        raizDic = fbd.SelectedPath;
-                    }
-                }
-                try
-                {
-                    TextWriter tw = new StreamWriter(destPath, false);
-                    tw.WriteLine(raizDic);
-                    tw.Close();
-                }
-                catch (Exception f)
-                {
-                    System.Diagnostics.Debug.Write(f);
-                }
-            }
-            // Si ya está creado el archivo, leemos y cogemos la ruta
-            else if (File.Exists(destPath))
-            {
-                try
-                {
-                    if (File.ReadAllLines(destPath)[0].Equals(""))
-                    {
-                        PlayList pl = scaner.selectFirstPlaylist();
-                        raizDic = "C:\\" + pl.getName();
-                        try
-                        {
-                            TextWriter tw = new StreamWriter(destPath, false);
-                            tw.WriteLine(raizDic);
-                            tw.Close();
-                        }
-                        catch (Exception f)
-                        {
-                            System.Diagnostics.Debug.Write(f);
-                        }
-                    }
-                    else
-                    {
-                        raizDic = File.ReadAllLines(destPath)[0];
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                    MessageBox.Show("ERROR\nYou should select the folder at first!");
-                }
-
-            }
+            firstSelectFolder();
 
             //scaner.deletePlaylistCancionDesactiva();
             scaner.scanFiles(raizDic);
@@ -185,11 +133,7 @@ namespace EsplaiMusic
            ##     Eventos     ##
            ##################### */
 
-        //// Evento click del boton para buscar las canciones con el explorador de archivos
-        //private void browse_Click(object sender, EventArgs e)
-        //{
-        //    addMusic();
-        //}
+        
 
         // Evento click del boton stop
         private void stop_Click(object sender, EventArgs e)
@@ -454,35 +398,86 @@ namespace EsplaiMusic
            ##     Métodos     ##
            ##################### */
 
-        /* Método para abrir el explorador de archivos y seleccionar 
-        las canciones que queremos agregar a la lista de reproducción */
-        //private void addMusic()
-        //{
-        //    listareproduccion.Items.Clear();
-        //    listaReproduccionActual.Clear();
-        //    if (opf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-        //    {
-        //        foreach (string file in opf.FileNames)
-        //        {
-        //            /* Le decimos que por cada cancion elegida la guarde en el objeto media 
-        //               y luego la añada a la lista de reproduccion */
-        //            media = wmp.newMedia(file);
+        /* Método para que el usuario seleccione por primera vez la carpeta de donde quiere cargar su música.
+       Si el archivo no existe pedirá la carpeta. Si el archivo existe o la ruta no existe, la pedirá también.
+       En todos los casos pedirá la carpeta hasta que seleccione una (evitando la ejecución con el botón de cancelar) */
+        private void firstSelectFolder()
+        {
+            // Si el archivo no existe, lo crea y guarda la raiz de directorio
+            if (!File.Exists(destPath))
+            {
+                fbd.Description = "Select your folder";
+                DialogResult result = fbd.ShowDialog();
 
-        //            playlist.appendItem(media);
-        //            // Lista del formulario para mostrar los nombres de las canciones elegidas
-        //            listareproduccion.Items.Add(media.name);
-        //        }
-        //    }
-        //    // Asociamos la lista de reproducción al objeto que reproduce la musica
-        //    wmp.currentPlaylist = playlist;
-        //    selectSongOfList();
-        //    wmp.controls.stop();
+                while (result == DialogResult.Cancel)
+                {
+                    MessageBox.Show("You need select a folder!", "IMPORTANT!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    result = fbd.ShowDialog();
+                }
 
-        //    if (listareproduccion.Items.Count > 0)
-        //    {
-        //        listareproduccion.SetSelected(0, true);
-        //    }                        
-        //}
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    raizDic = fbd.SelectedPath;
+                }
+
+                try
+                {
+                    TextWriter tw = new StreamWriter(destPath, false);
+                    tw.WriteLine(raizDic);
+                    tw.Close();
+                }
+                catch (Exception f)
+                {
+                    System.Diagnostics.Debug.Write(f);
+                }
+            }
+
+            // Si ya está creado el archivo, leemos y cogemos la ruta
+            else if (File.Exists(destPath))
+            {
+                try
+                {
+                    int lineas = File.ReadAllLines(destPath).Count();
+
+                    if (lineas == 0 || !Directory.Exists(File.ReadAllLines(destPath)[0]))
+                    {
+                        fbd.Description = "Select your folder";
+                        DialogResult result = fbd.ShowDialog();
+
+                        while (result == DialogResult.Cancel)
+                        {
+                            MessageBox.Show("You need select a folder!", "IMPORTANT!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                            result = fbd.ShowDialog();
+                        }
+
+                        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                        {
+                            raizDic = fbd.SelectedPath;
+                        }
+
+                        try
+                        {
+                            TextWriter tw = new StreamWriter(destPath, false);
+                            tw.WriteLine(raizDic);
+                            tw.Close();
+                        }
+                        catch (Exception f)
+                        {
+                            System.Diagnostics.Debug.Write(f);
+                        }
+                    }
+                    else
+                    {
+                        raizDic = File.ReadAllLines(destPath)[0];
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    MessageBox.Show("ERROR\nYou should select the folder at first!");
+                }
+            }
+        }
 
         // Método para reproducir la música
         private void playMusic()
@@ -1297,6 +1292,7 @@ namespace EsplaiMusic
             }
         }
 
+        // Recarga las listas para obtener las listas de la nueva ruta cambiada por el usuario
         private void nuevaListaDeReproducciónToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormSetPath formsetpath = new FormSetPath();
@@ -1306,10 +1302,16 @@ namespace EsplaiMusic
             {
                 ListOfPlayLists.Clear();
                 ListboxPlaylist.Items.Clear();
+
                 ListboxTemaPlaylist.Items.Clear();
-                listareproduccion.Items.Clear();
+                listaTemp.Clear();
+
+                //listareproduccion.Items.Clear();
+                                
                 string ultWord = formsetpath.RaizDic.Substring(formsetpath.RaizDic.LastIndexOf("\\") + 1);
                 ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord, formsetpath.RaizDic);
+                List<PlayList> favoritas = new List<PlayList>();
+                //favoritas = scaner.selectPlaylist("Favoritos");
 
                 foreach (PlayList list in ListOfPlayLists)
                 {
