@@ -715,6 +715,43 @@ namespace EsplaiMusic
             return ListOfPlayLists;
         }
 
+        // Método para añadir la lista de favoritos en la lista de listas
+        public void chargeFavorites()
+        {
+            int id;
+            string nombre;
+            PlayList favoritos = new PlayList();
+
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "SELECT ID, nombre FROM playlists WHERE nombre = 'Favoritos';";
+                    SqlCommand comando = new SqlCommand(query, conn);
+                    SqlDataReader myReader = comando.ExecuteReader();
+
+                    while (myReader.Read())
+                    {
+                        id = (Convert.ToInt32(myReader["ID"]));
+                        nombre = Convert.ToString(myReader["nombre"]);
+
+                        favoritos.setID(id);
+                        favoritos.setName(nombre);
+                        ListOfPlayLists.Add(favoritos);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+        }
+
         // Cambia el valor Favorita de la canción indicada a partir del valor pasado por parámetro
         public void updateFavoritaValue(int idCancion, bool favorita)
         {

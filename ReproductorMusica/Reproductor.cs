@@ -933,45 +933,10 @@ namespace EsplaiMusic
            añadir el nombre de cada lista en el listbox de las listas de reproducción */
         private void addPlayLists()
         {
-            if (!File.Exists(destPath) || File.ReadLines(destPath).Equals(""))
-            {
-                MessageBox.Show("ERROR\nYou should select the folder at first!");
-                ListOfPlayLists = scaner.chargeListOfPlayLists();
-            }
-            // Si ya está creado el archivo, leemos y cogemos la ruta
-            else if (File.Exists(destPath))
-            {
-                try
-                {
-                    if (File.ReadAllLines(destPath)[0].Equals(""))
-                    {
-                        PlayList pl = scaner.selectFirstPlaylist();
-                        raizDic = "C:\\" + pl.getName();
-                        try
-                        {
-                            TextWriter tw = new StreamWriter(destPath, false);
-                            tw.WriteLine(raizDic);
-                            tw.Close();
-                        }
-                        catch (Exception f)
-                        {
-                            System.Diagnostics.Debug.Write(f);
-                        }
-                    }
-                    else
-                    {
-                        raizDic = File.ReadAllLines(destPath)[0];
-                    }
-                    string ultWord = raizDic.Substring(raizDic.LastIndexOf("\\") + 1);
-                    ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord, raizDic);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                    MessageBox.Show("ERROR\nYou should select the folder at first!");
-                }
+            string dirName = raizDic.Substring(raizDic.LastIndexOf("\\") + 1);
 
-            }
+            ListOfPlayLists = scaner.chargeListOfPlayLists(dirName, raizDic);
+            scaner.chargeFavorites();
 
             foreach (PlayList list in ListOfPlayLists)
             {
@@ -1258,14 +1223,14 @@ namespace EsplaiMusic
 
             PlayList favoritos = new PlayList("Favoritos");
 
-            foreach (PlayList list in ListOfPlayLists)
+            /*foreach (PlayList list in ListOfPlayLists)
             {
                 if (list.getName().Equals("Favoritos"))
                 {
                     ListOfPlayLists[list.getID() - 1].getPlayListSongs().Add(song);
                     break;
                 }
-            }
+            }*/
         }
 
         /* Método para verificar si la canción está en favoritos. Si lo está mostrará el label 
@@ -1305,13 +1270,11 @@ namespace EsplaiMusic
 
                 ListboxTemaPlaylist.Items.Clear();
                 listaTemp.Clear();
-
-                //listareproduccion.Items.Clear();
                                 
                 string ultWord = formsetpath.RaizDic.Substring(formsetpath.RaizDic.LastIndexOf("\\") + 1);
                 ListOfPlayLists = scaner.chargeListOfPlayLists(ultWord, formsetpath.RaizDic);
-                List<PlayList> favoritas = new List<PlayList>();
-                //favoritas = scaner.selectPlaylist("Favoritos");
+
+                scaner.chargeFavorites();
 
                 foreach (PlayList list in ListOfPlayLists)
                 {
