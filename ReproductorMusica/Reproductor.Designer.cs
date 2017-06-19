@@ -69,7 +69,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevaListaDeReproducciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sobreNosotrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllSongs = new System.Windows.Forms.PictureBox();
             this.deshacerCambios = new System.Windows.Forms.PictureBox();
@@ -584,7 +583,6 @@
             // 
             this.opcionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevaListaDeReproducciónToolStripMenuItem,
-            this.sobreNosotrosToolStripMenuItem,
             this.salirToolStripMenuItem1});
             this.opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
             this.opcionesToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
@@ -593,20 +591,14 @@
             // nuevaListaDeReproducciónToolStripMenuItem
             // 
             this.nuevaListaDeReproducciónToolStripMenuItem.Name = "nuevaListaDeReproducciónToolStripMenuItem";
-            this.nuevaListaDeReproducciónToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.nuevaListaDeReproducciónToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.nuevaListaDeReproducciónToolStripMenuItem.Text = "Select Folder";
             this.nuevaListaDeReproducciónToolStripMenuItem.Click += new System.EventHandler(this.nuevaListaDeReproducciónToolStripMenuItem_Click);
-            // 
-            // sobreNosotrosToolStripMenuItem
-            // 
-            this.sobreNosotrosToolStripMenuItem.Name = "sobreNosotrosToolStripMenuItem";
-            this.sobreNosotrosToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.sobreNosotrosToolStripMenuItem.Text = "Sobre Nosotros";
             // 
             // salirToolStripMenuItem1
             // 
             this.salirToolStripMenuItem1.Name = "salirToolStripMenuItem1";
-            this.salirToolStripMenuItem1.Size = new System.Drawing.Size(155, 22);
+            this.salirToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.salirToolStripMenuItem1.Text = "Salir";
             this.salirToolStripMenuItem1.Click += new System.EventHandler(this.salirToolStripMenuItem1_Click);
             // 
@@ -827,7 +819,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem opcionesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevaListaDeReproducciónToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sobreNosotrosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem1;
         private System.Windows.Forms.PictureBox favouriteButton;
         private System.Windows.Forms.PictureBox addAllSongs;

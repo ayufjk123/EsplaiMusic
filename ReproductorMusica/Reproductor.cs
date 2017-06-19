@@ -32,6 +32,7 @@ namespace EsplaiMusic
         // Objeto utilizado para buscar y seleccionar la musica a través del explorador de windows
         private OpenFileDialog opf = new OpenFileDialog();
 
+        // Objeto utilizado para buscar y seleccionar una carpeta a través del explorador de windows
         private FolderBrowserDialog fbd = new FolderBrowserDialog();
 
         // Objeto media utilizado para referirse a la cancion actual y trabajar con ella
@@ -113,6 +114,7 @@ namespace EsplaiMusic
             toolTip(this.delSongListReprod, "Remove Song");
             toolTip(this.createPlayList, "Create new Playist");
             toolTip(this.savePlayList, "Save Changes");
+            toolTip(this.deletePlaylist, "Delete PlayList");
 
             // Coloca el label movil a la derecha del todo y le pone 1 milisegundo de intervalo a su timer
             labelMovil.Left = this.ClientSize.Width;
@@ -305,7 +307,10 @@ namespace EsplaiMusic
         // Evento que selecciona la lista de reproducción y muestra sus canciones en la 2ª lista
         private void ListboxPlaylist_MouseClick(object sender, MouseEventArgs e)
         {
-            showSongsSelectedPlayList();
+            if (ListboxPlaylist.Items.Count > 0)
+            {
+                showSongsSelectedPlayList();
+            }
         }
 
         // Evento que ejecuta el método que elimina la canción de favoritos
@@ -383,13 +388,22 @@ namespace EsplaiMusic
         // Evento que controla cuando el usuario selecciona una canción de la lista de reproducción con un solo click
         private void listareproduccion_MouseClick(object sender, MouseEventArgs e)
         {
-            checkFavouriteButton();
+            if (listareproduccion.Items.Count > 0)
+            {
+                checkFavouriteButton();
+            }
         }
 
         // Evento para salir del programa desde el menú
         private void salirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        // Evento para eliminar una lista
+        private void deletePlaylist_Click(object sender, EventArgs e)
+        {
+            deletePlayList();
         }
 
         /* #####################
@@ -1303,7 +1317,8 @@ namespace EsplaiMusic
             }
         }
 
-        private void deletePlaylist_Click(object sender, EventArgs e)
+        // Método para eliminar una lista
+        private void deletePlayList()
         {
             int index = ListboxPlaylist.SelectedIndex;
             string listName = ListboxPlaylist.SelectedItem.ToString();
