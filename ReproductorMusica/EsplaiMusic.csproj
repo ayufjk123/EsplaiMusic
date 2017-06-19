@@ -64,7 +64,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
-      <HintPath>packages\Tag Lib Sharp\taglib-sharp.dll</HintPath>
+      <HintPath>packages\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="TransControl_src">
       <HintPath>..\..\..\..\Downloads\TransControl_src\TransControl_src.dll</HintPath>

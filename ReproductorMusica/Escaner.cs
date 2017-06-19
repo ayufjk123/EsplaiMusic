@@ -345,18 +345,17 @@ namespace EsplaiMusic
         }
 
         //
-        public void deletePlaylist(int id, string nombre)
+        public void deletePlaylist(int id)
         {
             conn = dbConnect.openConnection();
             if (conn != null)
             {
                 try
                 {
-                    query = "DELETE FROM playlist WHERE nombre = ";
+                    query = "DELETE FROM playlists WHERE ID = @id;";
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@id", id);
-                    comando.Parameters.AddWithValue("@nombre", nombre);
 
                     comando.ExecuteNonQuery();
                 }
@@ -517,7 +516,7 @@ namespace EsplaiMusic
         }
 
         // Actualiza el nombre de la canción y su codigo checksum
-        public void deletePlaylistCancion(int playlist_id, int cancion_id)
+        public void deletePlaylistCancion(int playlist_id/*, int cancion_id*/)
         {
             conn = dbConnect.openConnection();
 
@@ -525,12 +524,12 @@ namespace EsplaiMusic
             {
                 try
                 {
-                    query = "DELETE FROM playlist_cancion WHERE playlist_id = @playlist_id AND cancion_id = @cancion_id;";
+                    query = "DELETE FROM playlist_cancion WHERE playlist_id = @playlist_id";
 
                     SqlCommand comando = new SqlCommand(query, conn);
 
                     comando.Parameters.AddWithValue("@playlist_id", playlist_id);
-                    comando.Parameters.AddWithValue("@cancion_id", cancion_id);
+                    //comando.Parameters.AddWithValue("@cancion_id", cancion_id);
 
                     comando.ExecuteNonQuery();
                 }

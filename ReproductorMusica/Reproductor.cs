@@ -240,7 +240,7 @@ namespace EsplaiMusic
                     // contador = 0, reset de la barra a 0 y max value = segundos
                     resetProgress();
                     // selecciona la siguiente cancion
-                    selectSongOfList();
+                    //selectSongOfList();
                     // actualiza la duracion total
                     updateDurationLabel();
                     // resetea a 00:00 el label del progreso. el otro label está comentado
@@ -487,12 +487,11 @@ namespace EsplaiMusic
                 wmp.controls.play();
                 this.play.Visible = false;
                 this.pause.Visible = true;
-                //updateDurationLabel();
-
-                selectSongOfList();
+                //updateDurationLabel();                
 
                 string Title, Artist, Album, Year;
                 int index = listareproduccion.SelectedIndex;
+                selectSongOfList(index);
 
                 string pathSong = listaReproduccionActual[index].getPath();
 
@@ -569,7 +568,11 @@ namespace EsplaiMusic
                 }
                 wmp.controls.next();
                 updateDurationLabel();
-                selectSongOfList();
+
+                int index = listareproduccion.SelectedIndex;
+                index += 1;
+                
+                selectSongOfList(index);
                 resetProgress();
                 progress();
                 labelMovil.Left = this.ClientSize.Width;
@@ -593,7 +596,11 @@ namespace EsplaiMusic
                 }
                 wmp.controls.previous();
                 updateDurationLabel();
-                selectSongOfList();
+
+                int index = listareproduccion.SelectedIndex;
+                index -= 1;
+
+                selectSongOfList(index);
                 resetProgress();
                 progress();
                 labelMovil.Left = this.ClientSize.Width;
@@ -688,22 +695,26 @@ namespace EsplaiMusic
         // Método para devolver el valor del label de la duracion total de la cancion a su valor por defecto
         private void resetLabels()
         {
-            //label1.Text = "00:00";
             this.playedTimeLabel.Text = "00:00";
         }
 
         // Método para seleccionar la cancion actual en la lista ListBox (método por revisar)
-        private void selectSongOfList()
+        private void selectSongOfList(int index)
         {
-
             if (listareproduccion.SelectedItem != null)
             {
-                int index = listareproduccion.FindString(wmp.currentMedia.name);
 
-                if (index != System.Windows.Forms.ListBox.NoMatches)
+                if (index == (listareproduccion.Items.Count))
                 {
-                    listareproduccion.SetSelected(index, true);
+                    index = 0;
                 }
+
+                if (index == -1)
+                {
+                    index = listareproduccion.Items.Count - 1;
+                }
+
+                listareproduccion.SetSelected(index, true);
             }
         }
 
@@ -1172,7 +1183,7 @@ namespace EsplaiMusic
                 listaNueva.setID(idNuevaLista);
 
                 ListOfPlayLists.Add(listaNueva);
-                ListboxPlaylist.Items.Add(listaNueva);
+                ListboxPlaylist.Items.Add(listaNueva.getName());
             }
         }
 
@@ -1294,20 +1305,17 @@ namespace EsplaiMusic
 
         private void deletePlaylist_Click(object sender, EventArgs e)
         {
-        //    int index = ListboxPlaylist.SelectedIndex;
-        //    string listName = ListboxPlaylist.SelectedItem.ToString();
+            int index = ListboxPlaylist.SelectedIndex;
+            string listName = ListboxPlaylist.SelectedItem.ToString();
 
-        //    PlayList listaDelete = new PlayList();
-        //    listaDelete = ListOfPlayLists[index];
-        //    ListOfPlayLists.RemoveAt(index);
-        //    int aa = listaDelete.getID();
+            PlayList listaDelete = new PlayList();
+            listaDelete = ListOfPlayLists[index];
+            ListOfPlayLists.RemoveAt(index);
+            ListboxPlaylist.Items.RemoveAt(index);
 
-        //    foreach (Song song1 in listaDelete.getPlayListSongs())
-        //    {
-        //        scaner.deletePlaylistCancion(listaDelete.getID(), song1.getID());
-        //    }
+            scaner.deletePlaylistCancion(listaDelete.getID());
 
-        //    scaner.deletePlaylist(listaDelete.getID(), listName);
+            scaner.deletePlaylist(listaDelete.getID());
         }
     }
 }
