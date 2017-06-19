@@ -40,7 +40,7 @@ namespace EsplaiMusic
         // Objeto etiqueta que sirve para establecer la etiqueta de cada controlador del reproductor
         private System.Windows.Forms.ToolTip tooltip1 = new System.Windows.Forms.ToolTip();
 
-        // flag para activar o no la repetición de la canción (aún por implementar método alternativo)
+        // flag para activar o no la repetición de la canción
         private bool repetir = false;
 
         // Cuenta la cantidad de veces que cambia de estado la canción. Se usa junto a la variable repetir
@@ -61,7 +61,7 @@ namespace EsplaiMusic
         // String for saveRootDirectoryName
         static string fileName = "raizDic.txt";
 
-        // String para raizDirectorio
+        // String para raizDirectorio que contiene la carpeta seleccionada por el usuario para cargar su música
         string raizDic = "";
 
         // String para path of file which save the root of directory for project
@@ -131,9 +131,7 @@ namespace EsplaiMusic
 
         /* #####################
            ##     Eventos     ##
-           ##################### */
-
-        
+           ##################### */        
 
         // Evento click del boton stop
         private void stop_Click(object sender, EventArgs e)
@@ -937,6 +935,7 @@ namespace EsplaiMusic
 
             ListOfPlayLists = scaner.chargeListOfPlayLists(dirName, raizDic);
             scaner.chargeFavorites();
+            scaner.chargeListOfPlayLists();
 
             foreach (PlayList list in ListOfPlayLists)
             {
@@ -1038,11 +1037,17 @@ namespace EsplaiMusic
                 if (listbox.Items.Count == 1)
                 {
                     listbox.SetSelected(0, true);
-                }
-                else
+                } else if (index == listbox.Items.Count)
+                {
+                    listbox.SetSelected(index - 1, true);
+                } else
                 {
                     listbox.SetSelected(index, true);
                 }
+                /*else
+                {
+                    listbox.SetSelected(index, true);
+                }*/
             }
         }
 
@@ -1162,8 +1167,12 @@ namespace EsplaiMusic
                 PlayList listaNueva = new PlayList();
                 listaNueva.setName(newListName);
                 listaNueva.setPlayListSongs(listaReproduccionActual);
+
+                int idNuevaLista = scaner.selectIDPlaylist(newListName);
+                listaNueva.setID(idNuevaLista);
+
                 ListOfPlayLists.Add(listaNueva);
-                ListboxPlaylist.Items.Add(listaNueva.getName());
+                ListboxPlaylist.Items.Add(listaNueva);
             }
         }
 
@@ -1178,6 +1187,7 @@ namespace EsplaiMusic
             // Purgamos la lista y la dejamos sin canciones
             scaner.deletePlayListRelations(idList);
             ListOfPlayLists[indexLista].getPlayListSongs().Clear();
+            ListboxTemaPlaylist.Items.Clear();
 
             // Quitamos todas las canciones de favoritos si es el caso
             if (listName.Equals("Favoritos"))
@@ -1221,16 +1231,14 @@ namespace EsplaiMusic
             scaner.insertPlaylistCancion(idFavoritos, song.getID());
             scaner.updateFavoritaValue(song.getID(), true);
 
-            PlayList favoritos = new PlayList("Favoritos");
-
-            /*foreach (PlayList list in ListOfPlayLists)
+            foreach (PlayList list in ListOfPlayLists)
             {
                 if (list.getName().Equals("Favoritos"))
                 {
-                    ListOfPlayLists[list.getID() - 1].getPlayListSongs().Add(song);
+                    list.getPlayListSongs().Add(song);
                     break;
                 }
-            }*/
+            }
         }
 
         /* Método para verificar si la canción está en favoritos. Si lo está mostrará el label 
@@ -1282,6 +1290,24 @@ namespace EsplaiMusic
                     list.fillPlayListsWithSongs();
                 }
             }
+        }
+
+        private void deletePlaylist_Click(object sender, EventArgs e)
+        {
+        //    int index = ListboxPlaylist.SelectedIndex;
+        //    string listName = ListboxPlaylist.SelectedItem.ToString();
+
+        //    PlayList listaDelete = new PlayList();
+        //    listaDelete = ListOfPlayLists[index];
+        //    ListOfPlayLists.RemoveAt(index);
+        //    int aa = listaDelete.getID();
+
+        //    foreach (Song song1 in listaDelete.getPlayListSongs())
+        //    {
+        //        scaner.deletePlaylistCancion(listaDelete.getID(), song1.getID());
+        //    }
+
+        //    scaner.deletePlaylist(listaDelete.getID(), listName);
         }
     }
 }

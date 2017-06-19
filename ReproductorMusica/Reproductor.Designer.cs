@@ -79,6 +79,7 @@
             this.labelCanciones = new System.Windows.Forms.Label();
             this.labelReproductor = new System.Windows.Forms.Label();
             this.labelGuardado = new System.Windows.Forms.Label();
+            this.deletePlaylist = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.norepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stop)).BeginInit();
@@ -103,6 +104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.deshacerCambios)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.savePlayList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.createPlayList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deletePlaylist)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -706,6 +708,19 @@
             this.labelGuardado.Text = "Changes Saved";
             this.labelGuardado.Visible = false;
             // 
+            // deletePlaylist
+            // 
+            this.deletePlaylist.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.deletePlaylist.BackColor = System.Drawing.Color.Transparent;
+            this.deletePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.deletePlaylist.Image = ((System.Drawing.Image)(resources.GetObject("deletePlaylist.Image")));
+            this.deletePlaylist.Location = new System.Drawing.Point(235, 35);
+            this.deletePlaylist.Name = "deletePlaylist";
+            this.deletePlaylist.Size = new System.Drawing.Size(28, 28);
+            this.deletePlaylist.TabIndex = 45;
+            this.deletePlaylist.TabStop = false;
+            this.deletePlaylist.Click += new System.EventHandler(this.deletePlaylist_Click);
+            // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -714,6 +729,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(838, 480);
+            this.Controls.Add(this.deletePlaylist);
             this.Controls.Add(this.labelGuardado);
             this.Controls.Add(this.labelReproductor);
             this.Controls.Add(this.labelCanciones);
@@ -767,6 +783,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.deshacerCambios)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.savePlayList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.createPlayList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.deletePlaylist)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -822,6 +839,7 @@
         private System.Windows.Forms.Label labelCanciones;
         private System.Windows.Forms.Label labelReproductor;
         private System.Windows.Forms.Label labelGuardado;
+        private System.Windows.Forms.PictureBox deletePlaylist;
     }
 }
 

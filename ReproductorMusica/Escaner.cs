@@ -344,6 +344,33 @@ namespace EsplaiMusic
             }
         }
 
+        //
+        public void deletePlaylist(int id, string nombre)
+        {
+            conn = dbConnect.openConnection();
+            if (conn != null)
+            {
+                try
+                {
+                    query = "DELETE FROM playlist WHERE nombre = ";
+                    SqlCommand comando = new SqlCommand(query, conn);
+
+                    comando.Parameters.AddWithValue("@id", id);
+                    comando.Parameters.AddWithValue("@nombre", nombre);
+
+                    comando.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    dbConnect.closeConnection();
+                }
+            }
+        }
+
         // Cuenta la cantidad de relaciones que hay entre una lista y una cancion. Si hay una ya no la vovleremos a insertar
         public int selectPlaylistCancion(int idPlaylist, int idCancion)
         {
@@ -623,6 +650,8 @@ namespace EsplaiMusic
                     SqlCommand comando = new SqlCommand(query, conn);
                     SqlDataReader myReader = comando.ExecuteReader();
 
+                    ListOfPlayLists.Clear();
+
                     while (myReader.Read())
                     {
                         PlayList playList1 = new PlayList();
@@ -632,6 +661,7 @@ namespace EsplaiMusic
 
                         playList1.setID(id);
                         playList1.setName(nombre);
+
                         ListOfPlayLists.Add(playList1);
                     }
                 }
